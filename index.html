@@ -1,531 +1,1171 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Portafolio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 48px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Header */
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .avatar {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2.5rem;
-            color: white;
-            font-weight: 700;
-        }
-        
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-        }
-        
-        .tagline {
-            color: #6b7280;
-            font-size: 1.1rem;
-        }
-        
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #f3f4f6;
-            border-radius: 10px;
-            color: #374151;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        
-        .link-btn:hover {
-            background: #e5e7eb;
-            transform: translateY(-1px);
-        }
-        
-        .link-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        
-        .link-btn.primary:hover {
-            box-shadow: 0 8px 20px -5px rgba(102, 126, 234, 0.5);
-        }
-        
-        /* Sections */
-        section {
-            margin-bottom: 40px;
-        }
-        
-        section:last-child {
-            margin-bottom: 0;
-        }
-        
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .section-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #111827;
-        }
-        
-        /* Cards Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
-        
-        .card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 24px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card:hover {
-            border-color: #667eea;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px -10px rgba(102, 126, 234, 0.3);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-        
-        .card-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .card-type {
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 9999px;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .card-desc {
-            color: #6b7280;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            flex: 1;
-        }
-        
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #e5e7eb;
-        }
-        
-        .card-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        
-        .tech-tag {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            background: #e5e7eb;
-            border-radius: 6px;
-            color: #374151;
-            font-weight: 500;
-        }
-        
-        .card-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #667eea;
-            font-weight: 600;
-            font-size: 0.875rem;
-            text-decoration: none;
-        }
-        
-        .card-link:hover {
-            text-decoration: underline;
-        }
-        
-        /* Type colors */
-        .type-juego { background: #fef3c7; color: #92400e; }
-        .type-programa { background: #dbeafe; color: #1e40af; }
-        .type-proyecto { background: #fce7f3; color: #9d174d; }
-        .type-otro { background: #e5e7eb; color: #374151; }
-        
-        .icon-juego { background: #fef3c7; }
-        .icon-programa { background: #dbeafe; }
-        .icon-proyecto { background: #fce7f3; }
-        .icon-otro { background: #e5e7eb; }
-        
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #9ca3af;
-        }
-        
-        .empty-state svg {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 12px;
-            opacity: 0.5;
-        }
-        
-        .btn-add {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 16px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px -5px rgba(102, 126, 234, 0.5);
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding-top: 32px;
-            border-top: 1px solid #e5e7eb;
-            color: #9ca3af;
-            font-size: 0.875rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaCompuDelAxel // Tech Hub Personal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #03060a;
+    --bg-2: #060c14;
+    --bg-3: #0a1320;
+    --fg: #d4f4e8;
+    --fg-dim: #8aa39a;
+    --muted: #4a5d57;
+    --accent: #00ff9d;
+    --accent-cyan: #00e5ff;
+    --accent-pink: #ff2e88;
+    --accent-amber: #ffb627;
+    --border: rgba(0, 255, 157, 0.18);
+    --border-dim: rgba(0, 255, 157, 0.08);
+    --card: rgba(10, 19, 32, 0.7);
+    --glass: rgba(6, 12, 20, 0.85);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 70% 50% at 20% 0%, rgba(0, 255, 157, 0.10), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 90% 20%, rgba(0, 229, 255, 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255, 46, 136, 0.05), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  .font-display { font-family: 'Syne', sans-serif; letter-spacing: -0.02em; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 255, 157, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 157, 0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0, 255, 157, 0.015) 2px, rgba(0, 255, 157, 0.015) 3px);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  main, nav, footer { position: relative; z-index: 3; }
+
+  .hud-corners { position: relative; }
+  .hud-corners > .c {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: var(--accent);
+    border-style: solid;
+    pointer-events: none;
+  }
+  .hud-corners > .c1 { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  .hud-corners > .c2 { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+  .hud-corners > .c3 { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+  .hud-corners > .c4 { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+  .card {
+    background: var(--card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-dim);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--border);
+    transform: translateY(-3px);
+  }
+
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--border);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    padding: 0.7rem 1.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: var(--accent-cyan);
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--border);
+    padding: 0.7rem 1.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    cursor: pointer;
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    background: rgba(0, 255, 157, 0.06);
+    color: var(--accent);
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--border);
+    background: rgba(0, 255, 157, 0.04);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .section-tag::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+    animation: blink-dot 2s infinite;
+  }
+
+  @keyframes blink-dot { 0%, 70%, 100% { opacity: 1; } 35% { opacity: 0.3; } }
+
+  .chip {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border-dim);
+    font-size: 0.78rem;
+    color: var(--fg-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .chip:hover { color: var(--fg); border-color: var(--border); background: rgba(0, 255, 157, 0.04); }
+  .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+
+  .input {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-dim);
+    color: var(--fg);
+    padding: 0.7rem 1rem;
+    width: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 20px rgba(0, 255, 157, 0.15); background: rgba(0, 0, 0, 0.7); }
+  .input::placeholder { color: var(--muted); }
+
+  .dropzone {
+    border: 1px dashed var(--border);
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .dropzone:hover, .dropzone.drag { border-color: var(--accent); background: rgba(0, 255, 157, 0.04); }
+
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes glitch-1 { 0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); } 20% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); } 40% { clip-path: inset(50% 0 20% 0); transform: translate(2px, -1px); } 60% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 2px); } 80% { clip-path: inset(70% 0 5% 0); transform: translate(1px, -2px); } }
+  @keyframes glitch-2 { 0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); } 25% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); } 50% { clip-path: inset(15% 0 65% 0); transform: translate(-2px, 1px); } 75% { clip-path: inset(40% 0 40% 0); transform: translate(1px, 2px); } }
+  @keyframes pulse-bar { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  @keyframes data-flow { 0% { transform: translateY(-100%); opacity: 0; } 10%, 90% { opacity: 1; } 100% { transform: translateY(100%); opacity: 0; } }
+  @keyframes flash-alert { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.5); border-color: var(--accent); } 100% { box-shadow: 0 0 0 20px rgba(0, 255, 157, 0); border-color: var(--border-dim); } }
+  @keyframes bounce-stat { 0%, 100% { transform: scale(1); color: var(--accent); } 50% { transform: scale(1.3); color: var(--accent-cyan); } }
+
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .cursor-blink::after { content: '▊'; animation: blink 1s infinite; color: var(--accent); margin-left: 4px; }
+
+  .glitch { position: relative; display: inline-block; }
+  .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; }
+  .glitch::before { color: var(--accent-cyan); animation: glitch-1 3s infinite linear alternate-reverse; opacity: 0.7; }
+  .glitch::after { color: var(--accent-pink); animation: glitch-2 2.5s infinite linear alternate-reverse; opacity: 0.7; }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .gradient-text { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-cyan) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .terminal { background: linear-gradient(180deg, rgba(10, 19, 32, 0.95), rgba(6, 12, 20, 0.98)); border: 1px solid var(--border); position: relative; overflow: hidden; }
+  .terminal-header { background: rgba(0, 0, 0, 0.4); padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--fg-dim); }
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-scanline { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.4; animation: scan-line 4s linear infinite; pointer-events: none; }
+  @keyframes scan-line { 0% { top: 0; } 100% { top: 100%; } }
+
+  .nav-link { color: var(--fg-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.2s; position: relative; padding: 0.3rem 0; }
+  .nav-link:hover { color: var(--accent); }
+  .nav-link::before { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+  .nav-link:hover::before { width: 100%; }
+  .nav-link.active { color: var(--accent); }
+  .nav-link.active::before { width: 100%; }
+
+  .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 0.4rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--fg-dim); z-index: 30; display: flex; justify-content: space-between; align-items: center; overflow: hidden; }
+
+  .audio-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+  .audio-bars span { display: block; width: 2px; background: var(--accent); transform-origin: bottom; animation: pulse-bar 1s ease-in-out infinite; }
+  .audio-bars span:nth-child(1) { height: 40%; animation-delay: 0s; }
+  .audio-bars span:nth-child(2) { height: 80%; animation-delay: 0.15s; }
+  .audio-bars span:nth-child(3) { height: 60%; animation-delay: 0.3s; }
+  .audio-bars span:nth-child(4) { height: 100%; animation-delay: 0.45s; }
+  .audio-bars span:nth-child(5) { height: 50%; animation-delay: 0.6s; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-2); }
+  ::-webkit-scrollbar-thumb { background: rgba(0, 255, 157, 0.2); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 157, 0.4); }
+
+  .toast { position: fixed; bottom: 3rem; right: 2rem; z-index: 100; padding: 0.9rem 1.3rem; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--accent); color: var(--fg); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 20px 40px -10px rgba(0, 255, 157, 0.3); clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); }
+  .toast.show { transform: translateY(0); }
+
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .modal-backdrop.show { opacity: 1; pointer-events: auto; }
+
+  .lightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .lightbox.show { opacity: 1; pointer-events: auto; }
+
+  #heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  #snakeCanvas { background: #03060a; border: 1px solid var(--border); image-rendering: pixelated; }
+
+  .hex-bg { background-image: url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32z' fill='none' stroke='%2300ff9d' stroke-opacity='0.06' stroke-width='1'/%3E%3C/svg%3E"); }
+
+  .data-stream { position: absolute; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--accent), transparent); opacity: 0.3; overflow: hidden; }
+  .data-stream::before { content: ''; position: absolute; top: 0; left: -1px; right: -1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--accent), transparent); animation: data-flow 4s linear infinite; }
+
+  .link-card { position: relative; overflow: hidden; }
+  .link-card .arrow { transition: transform 0.3s; }
+  .link-card:hover .arrow { transform: translate(4px, -4px); color: var(--accent); }
+
+  .ticker-wrap { overflow: hidden; white-space: nowrap; }
+  .ticker { display: inline-block; animation: ticker 40s linear infinite; }
+
+  .flash-alert { animation: flash-alert 1s ease-out; }
+  .bounce-stat { animation: bounce-stat 0.6s ease-in-out; }
+
+  kbd { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border); padding: 0.2rem 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 2px; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4); }
+
+  @media (max-width: 768px) { .hero-title { font-size: 2.5rem !important; } .status-bar { font-size: 0.6rem; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="avatar" id="avatar">👤</div>
-            <h1 id="nombre">Mi Portafolio</h1>
-            <p class="tagline" id="tagline">Proyectos, juegos y programas que he creado</p>
-            <div class="links">
-                <a href="#" class="link-btn primary" id="link-github">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.46-1.334-5.466-6.002l-.467-.637c-.666-.907-1.641-1.114-2.476-.248-.835.866-1.105 2.107-.692 2.604.413.497 1.028.83 1.752.696.08-.54.31-.907.564-1.115C7.28 8.28 5.548 7.13 5.548 4.928c0-1.186.906-2.15 2.407-2.15.682 0 1.316.294 1.77.77.175-.157.36-.308.556-.447.195-.14.42-.27.655-.27.235 0 .46.13.655.27.196.139.381.29.556.447.454-.476 1.088-.77 1.77-.77 1.5 0 2.407.964 2.407 2.15 0 2.207-1.723 3.35-3.826 3.793.3.237.565.708.565 1.428v2.09c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-                    GitHub
-                </a>
-                <a href="#" class="link-btn" id="link-youtube">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12 9.545 15.568z"/></svg>
-                    YouTube
-                </a>
-                <a href="#" class="link-btn" id="link-discord">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 .077.077 0 0 0-.032.027.073.073 0 0 0-.047.01c-.318-.573-.74-1.288-1.252-1.94a.077.077 0 0 0-.084-.028 13.595 13.595 0 0 0-1.665-.339.077.077 0 0 0-.042.012.07.07 0 0 0-.032.017c-.542.208-1.223.663-1.483 1.178a.07.07 0 0 0 .023.103 12.31 12.31 0 0 0-.237 2.746c0 .342.042.744.114 1.058-.74.36-1.346.894-1.866 1.49a.074.074 0 0 0-.016.099c.353 1.44 1.383 2.77 2.78 3.793a.068.068 0 0 0 .054-.003 13.223 13.223 0 0 0 .196-.215.066.066 0 0 0 .008-.09c-.36-.536-.753-1.32-.885-1.77a.068.068 0 0 0-.046-.03c-.333-.18-.61-.24-.89-.24a.072.072 0 0 0-.06.033c-.368.276-.957.75-1.297 1.353a.07.07 0 0 0 .008.102c.99 1.955 3.095 4.045 5.956 4.487a.077.077 0 0 0 .055-.025.07.07 0 0 0 .015-.039c.32-.803 1.12-1.653 1.56-2.224a.077.077 0 0 0-.02-.106 10.2 10.2 0 0 1-.42-1.27.072.072 0 0 1 .032-.078c.234-.38.597-.843 1.148-1.045a.068.068 0 0 1 .064-.007c.113.02.224.043.335.063.596.11 1.213.17 1.81.17.615 0 1.21-.06 1.81-.17a1.787 1.787 0 0 0 .398-.171.075.075 0 0 1 .084.026c.53.24 1.164.606 1.71 1.067a.073.073 0 0 1-.008.12 12.64 12.64 0 0 1-1.208 3.395.072.072 0 0 0 .01.11c2.278.54 4.73.707 6.924.164a.074.074 0 0 0 .066-.062 1.76 1.76 0 0 0 .018-.127c-.053-.208-.12-.5-.185-.778a.07.07 0 0 1 .01-.083c.203-.728.604-1.536 1.028-2.265a.074.074 0 0 0-.018-.097 18.03 18.03 0 0 0-4.097-5.605.07.07 0 0 0-.043-.027c-.36-.117-.754-.194-1.106-.233a.07.07 0 0 0-.063-.004 13.17 13.17 0 0 1-1.335.174.07.07 0 0 1-.073-.077c-.035-.463-.104-1.134-.146-1.475a.066.066 0 0 1 .03-.07c.48-.283.98-.686 1.39-1.14a.07.07 0 0 1 .087-.003 17.96 17.96 0 0 1 5.037 1.386.065.065 0 0 1 .035.075c-.114.49-.368 1.02-.755 1.403a.07.07 0 0 1-.111.013 15.29 15.29 0 0 1-4.405-.846.07.07 0 0 0-.107.008.072.072 0 0 0-.01.103c.112.315.322.784.54 1.12a.068.068 0 0 0 .07.03c.202-.05.352-.21.555-.33a.07.07 0 0 0 .007-.107 6.6 6.6 0 0 0-.12-1.422.073.073 0 0 1 .048-.08c.726-.89 1.517-1.626 2.177-2.532a.064.064 0 0 1 .057-.024c.147-.01.294-.017.44-.017.07 0 .14.004.21.01a17.47 17.47 0 0 1 4.045 1.126.06.06 0 0 1 .042.057c.073.347.043.736-.103 1.026a.06.06 0 0 0 .005.083 20.92 20.92 0 0 1-1.765 6.107.06.06 0 0 0 .005.08 18.5 18.5 0 0 0 4.072 1.48c.17 0 .34-.01.508-.026a.06.06 0 0 0 .036-.07c-.124-.482-.31-.92-.55-1.36a.058.058 0 0 1 .01-.063 14.41 14.41 0 0 0 3.497-4.897.07.07 0 0 0-.03-.1c-.297-.61-.754-1.28-1.19-1.79a.065.065 0 0 0-.057-.028 18.17 18.17 0 0 0-5.635-1.72.063.063 0 0 0-.055.023.07.07 0 0 0-.02.054c-.104.294-.236.693-.288.916a.067.067 0 0 0 .013.08 2.97 2.97 0 0 1 .709 1.453.06.06 0 0 0 .076.037 1.45 1.45 0 0 0 .13-.02.06.06 0 0 0 .014-.075c-.097-.38-.225-.788-.28-1.065a.06.06 0 0 1 .01-.072c.07-.41.208-.948.29-1.244a.067.067 0 0 0-.008-.08 24.14 24.14 0 0 0-1.55-3.978.06.06 0 0 1 .006-.09c.55-.37 1.195-.64 1.78-.855a.065.065 0 0 1 .077.01c.29.102.61.247.82.46a.063.063 0 0 0 .05.04c.354.247.79.45 1.11.634a.058.058 0 0 0 .06-.01c.17-.123.33-.286.45-.45a.063.063 0 0 0 .006-.083 3.62 3.62 0 0 0-.28-1.143.06.06 0 0 1 .02-.076c.23-.37.56-.76.85-1.023a.057.057 0 0 1 .06-.01c.155.06.32.12.44.19a.057.057 0 0 0 .05-.01c.35-.198.72-.447 1.03-.68a.056.056 0 0 1 .057-.007c.16.035.31.08.45.117a.06.06 0 0 0 .054-.038 2.95 2.95 0 0 0 .24-1.005.06.06 0 0 1 .03-.073 1.3 1.3 0 0 1 .07-.03c.36 0 .81.05 1.08.19a.06.06 0 0 0 .06.003.056.056 0 0 0 .03-.055c-.147-.55-.49-1.12-.89-1.53a.057.057 0 0 1 0-.07c.4-.36.87-.66 1.3-.85a.056.056 0 0 1 .057.003c.21.097.43.21.6.33a.057.057 0 0 0 .054-.01c.22-.14.44-.29.6-.44a.056.056 0 0 1 .057-.007c.22.03.43.08.63.12a.055.055 0 0 0 .048-.03 3.5 3.5 0 0 0 .28-.84.057.057 0 0 1 .02-.07c.14-.4.37-.8.5-.1a.054.054 0 0 1 .045.028c.33.198.7.42 1.07.56a.053.053 0 0 0 .048.01.05.05 0 0 0 .02-.045c-.14-.52-.48-1.06-.86-1.45a.054.054 0 0 1 0-.063c.36-.34.77-.6.1-.1a.05.05 0 0 1 .048-.003c.17.07.34.15.5.22a.05.05 0 0 0 .044-.01c.18-.1.36-.21.51-.31a.05.05 0 0 1 .047-.007c.18.03.35.08.52.12a.05.05 0 0 0 .04-.023 2.6 2.6 0 0 0 .23-.76.05.05 0 0 1 .02-.062c.1-.28.24-.58.3-.75a.047.047 0 0 1 .04-.015c.13.02.25.06.37.08a.048.048 0 0 0 .037-.02 1.8 1.8 0 0 0 .13-.5.05.05 0 0 1 .01-.054c.05-.18.1-.37.13-.5a.045.045 0 0 1 .034-.012c.1.01.2.03.29.04a.045.045 0 0 0 .036-.014.98.98 0 0 0 .08-.3.045.045 0 0 1 .01-.04c.02-.07.05-.15.07-.2a.04.04 0 0 1 .03-.02c.09.007.18.02.26.03a.04.04 0 0 0 .032-.01.64.64 0 0 0 .05-.2.04.04 0 0 1 .008-.032c.01-.03.03-.06.04-.08a.035.035 0 0 1 .025-.01c.04.003.08.01.12.015a.035.035 0 0 0 .028-.008.34.34 0 0 0 .03-.1.035.035 0 0 1 .005-.028c.005-.015.01-.03.015-.04a.03.03 0 0 1 .015-.012c.02 0 .04.003.05.005a.027.027 0 0 0 .02-.005.15.15 0 0 0 .02-.054.03.03 0 0 1 .003-.017c0-.007.005-.015.01-.02a.022.022 0 0 1 .012-.005c.01 0 .02 0 .03.003a.02.02 0 0 0 .015-.003.08.08 0 0 0 .01-.025.03.03 0 0 1 .002-.01c0-.003 0-.007.003-.01a.017.017 0 0 1 .008-.003c.003 0 .007 0 .01.002a.015.015 0 0 0 .01-.002.04.04 0 0 0 .005-.01.02.02 0 0 1 .002-.005 0 0 0 0 0 0 0-.003.007.007 0 0 1 .002-.002.007.007 0 0 0 .003-.002.02.02 0 0 0 .003-.005.01.01 0 0 1 0-.002.007.007 0 0 0 .002-.002.007.007 0 0 1 0-.002 0 0 0 0 0 0 0 0-.002.005.005 0 0 0 0-.002.005.005 0 0 1 0-.002 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/></svg>
-                    Discord
-                </a>
-            </div>
-        </header>
-        
-        <!-- Juegos -->
-        <section id="juegos">
-            <div class="section-header">
-                <div class="section-icon icon-juego">🎮</div>
-                <h2 class="section-title">Juegos</h2>
-            </div>
-            <div class="grid" id="grid-juegos">
-                <div class="empty-state">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                    <p>No hay juegos aún</p>
-                    <button class="btn-add" onclick="agregarItem('juegos')">+ Agregar juego</button>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Programas -->
-        <section id="programas">
-            <div class="section-header">
-                <div class="section-icon icon-programa">💻</div>
-                <h2 class="section-title">Programas</h2>
-            </div>
-            <div class="grid" id="grid-programas">
-                <div class="empty-state">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                    </svg>
-                    <p>No hay programas aún</p>
-                    <button class="btn-add" onclick="agregarItem('programas')">+ Agregar programa</button>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Proyectos -->
-        <section id="proyectos">
-            <div class="section-header">
-                <div class="section-icon icon-proyecto">🚀</div>
-                <h2 class="section-title">Proyectos</h2>
-            </div>
-            <div class="grid" id="grid-proyectos">
-                <div class="empty-state">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                    </svg>
-                    <p>No hay proyectos aún</p>
-                    <button class="btn-add" onclick="agregarItem('proyectos')">+ Agregar proyecto</button>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Footer -->
-        <footer>
-            <p>Hecho con ❤️ — <span id="anio"></span></p>
-        </footer>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="glass fixed top-0 left-0 right-0 z-40 border-b" style="border-color: var(--border-dim)">
+  <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-2.5 group">
+      <div class="relative w-9 h-9 flex items-center justify-center font-display font-bold text-base" style="background: linear-gradient(135deg, var(--accent), var(--accent-cyan)); color: var(--bg); clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));">A</div>
+      <div class="flex flex-col leading-none">
+        <span class="font-mono font-bold text-sm tracking-wider">LaCompuDelAxel<span style="color: var(--accent)">.</span>SYS</span>
+        <span class="font-mono text-[10px]" style="color: var(--muted)">v2.4.1 // stable</span>
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center gap-7">
+      <a href="#proyectos" class="nav-link">[01] Proyectos</a>
+      <a href="#galeria" class="nav-link">[02] Galería</a>
+      <a href="#archivos" class="nav-link">[03] Archivos</a>
+      <a href="#links" class="nav-link">[04] Enlaces</a>
+      <a href="#juego" class="nav-link">[05] Juego</a>
+      <a href="#redes" class="nav-link">[06] Redes</a>
     </div>
 
-    <script>
-        // Año actual
-        document.getElementById('anio').textContent = new Date().getFullYear();
-        
-        // Datos guardados en localStorage
-        const STORAGE_KEY = 'mi-portafolio-data';
-        
-        function cargarDatos() {
-            const data = localStorage.getItem(STORAGE_KEY);
-            return data ? JSON.parse(data) : {
-                nombre: 'Mi Portafolio',
-                tagline: 'Proyectos, juegos y programas que he creado',
-                avatar: '👤',
-                links: { github: '#', youtube: '#', discord: '#' },
-                juegos: [],
-                programas: [],
-                proyectos: []
-            };
-        }
-        
-        function guardarDatos(data) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        }
-        
-        function render() {
-            const data = cargarDatos();
-            
-            // Header
-            document.getElementById('nombre').textContent = data.nombre;
-            document.getElementById('tagline').textContent = data.tagline;
-            document.getElementById('avatar').textContent = data.avatar;
-            document.getElementById('link-github').href = data.links.github || '#';
-            document.getElementById('link-youtube').href = data.links.youtube || '#';
-            document.getElementById('link-discord').href = data.links.discord || '#';
-            
-            // Render grids
-            renderGrid('juegos', data.juegos, 'icon-juego', 'type-juego');
-            renderGrid('programas', data.programas, 'icon-programa', 'type-programa');
-            renderGrid('proyectos', data.proyectos, 'icon-proyecto', 'type-proyecto');
-        }
-        
-        function renderGrid(tipo, items, iconClass, typeClass) {
-            const grid = document.getElementById(`grid-${tipo}`);
-            if (!items.length) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            ${tipo === 'juegos' ? '<path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>' : 
-                             tipo === 'programas' ? '<path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>' : 
-                             '<path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>'}
-                        </svg>
-                        <p>No hay ${tipo} aún</p>
-                        <button class="btn-add" onclick="agregarItem('${tipo}')">+ Agregar ${tipo.slice(0, -1)}</button>
-                    </div>
-                `;
-                return;
-            }
-            
-            grid.innerHTML = items.map(item => `
-                <a href="${item.url || '#'}" class="card" ${item.url ? 'target="_blank" rel="noopener"' : ''}>
-                    <div class="card-header">
-                        <div class="card-icon ${iconClass}">${item.icono || '📦'}</div>
-                        <div class="card-info">
-                            <div class="card-title">${item.titulo}</div>
-                            <span class="card-type ${typeClass}">${item.tipo || tipo.slice(0, -1)}</span>
-                        </div>
-                    </div>
-                    <p class="card-desc">${item.descripcion || 'Sin descripción'}</p>
-                    <div class="card-footer">
-                        <div class="card-tech">
-                            ${(item.tecnologias || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
-                        </div>
-                        ${item.url ? `<span class="card-link">Ver proyecto →</span>` : ''}
-                    </div>
-                </a>
-            `).join('');
-        }
-        
-        // Agregar item - abre prompt simple
-        function agregarItem(tipo) {
-            const data = cargarDatos();
-            const titulo = prompt(`Título del ${tipo.slice(0, -1)}:`);
-            if (!titulo) return;
-            
-            const descripcion = prompt(`Descripción breve:`) || '';
-            const url = prompt(`Link (GitHub, itch.io, web, etc.):`) || '';
-            const icono = prompt(`Emoji/icono (ej: 🎮, 💻, 🚀):`) || (tipo === 'juegos' ? '🎮' : tipo === 'programas' ? '💻' : '🚀');
-            const techs = prompt(`Tecnologías (separadas por coma, ej: Python, Pygame):`) || '';
-            
-            const nuevo = {
-                titulo,
-                descripcion,
-                url,
-                icono,
-                tipo: tipo.slice(0, -1),
-                tecnologias: techs.split(',').map(t => t.trim()).filter(t => t)
-            };
-            
-            data[tipo].push(nuevo);
-            guardarDatos(data);
-            render();
-        }
-        
-        // Editar info del header
-        document.getElementById('nombre').addEventListener('click', () => {
-            const data = cargarDatos();
-            const nuevo = prompt('Tu nombre:', data.nombre);
-            if (nuevo) { data.nombre = nuevo; guardarDatos(data); render(); }
-        });
-        
-        document.getElementById('tagline').addEventListener('click', () => {
-            const data = cargarDatos();
-            const nuevo = prompt('Tu tagline:', data.tagline);
-            if (nuevo) { data.tagline = nuevo; guardarDatos(data); render(); }
-        });
-        
-        document.getElementById('avatar').addEventListener('click', () => {
-            const data = cargarDatos();
-            const nuevo = prompt('Emoji avatar:', data.avatar);
-            if (nuevo) { data.avatar = nuevo; guardarDatos(data); render(); }
-        });
-        
-        // Click en links para editarlos
-        ['github', 'youtube', 'discord'].forEach(key => {
-            document.getElementById(`link-${key}`).addEventListener('click', (e) => {
-                e.preventDefault();
-                const data = cargarDatos();
-                const nuevo = prompt(`${key.charAt(0).toUpperCase() + key.slice(1)} URL:`, data.links[key]);
-                if (nuevo) { data.links[key] = nuevo; guardarDatos(data); render(); }
-            });
-        });
-        
-        // Inicializar
-        render();
-        
-        // Atajo: Ctrl+Click en card para editar
-        document.addEventListener('click', (e) => {
-            if (e.ctrlKey && e.target.closest('.card')) {
-                e.preventDefault();
-                alert('Para editar, borra el item en localStorage y vuelve a agregarlo.\nPróxima versión: editar inline.');
-            }
-        });
-    </script>
+    <div class="flex items-center gap-3">
+      <button id="musicToggle" class="btn-ghost flex items-center gap-2" title="Música relajante">
+        <i id="musicIcon" class="fas fa-music text-xs"></i>
+        <span class="hidden sm:inline" id="musicText">AMBIENT</span>
+      </button>
+      <button onclick="openModal()" class="btn-primary flex items-center gap-2">
+        <i class="fas fa-plus text-xs"></i>
+        <span class="hidden sm:inline">SUBIR</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+  <canvas id="heroCanvas"></canvas>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--bg)] z-10 pointer-events-none"></div>
+
+  <div class="data-stream" style="left: 5%; animation-delay: 0s;"></div>
+  <div class="data-stream" style="left: 15%; animation-delay: 1s;"></div>
+  <div class="data-stream" style="right: 8%; animation-delay: 2s;"></div>
+  <div class="data-stream" style="right: 20%; animation-delay: 0.5s;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 py-16 relative z-20 w-full">
+    <div class="grid lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-7">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="section-tag"><span>INIT_OK // SYSTEM_READY</span></div>
+          <span class="font-mono text-[10px]" style="color: var(--muted)">UPTIME: 99.97%</span>
+        </div>
+
+        <h1 class="hero-title font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight mb-6">
+          <span class="block" style="color: var(--fg-dim); font-size: 0.5em; font-weight: 400; letter-spacing: 0.1em;">// DEVELOPER_PORTFOLIO</span>
+          <span class="block">Bienvenido a</span>
+          <span class="block gradient-text glitch" data-text="LaCompuDelAxel">LaCompuDelAxel</span>
+          <span class="block">hub tech<span class="cursor-blink"></span></span>
+        </h1>
+
+        <p class="text-base md:text-lg max-w-xl mb-8 font-mono" style="color: var(--fg-dim)">
+          <span style="color: var(--accent)">&gt;</span> Espacio personal con proyectos, fotos, archivos y recursos. Todo centralizado, todo actualizado, todo en un solo lugar.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mb-12">
+          <a href="#proyectos" class="btn-primary flex items-center gap-2"><i class="fas fa-terminal text-xs"></i> Ver proyectos</a>
+          <a href="#juego" class="btn-ghost flex items-center gap-2"><i class="fas fa-gamepad text-xs"></i> Jugar</a>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 max-w-lg">
+          <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.3);">
+            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+            <div class="font-display text-3xl font-bold gradient-text" id="stat-projects">00</div>
+            <div class="font-mono text-[10px] mt-1" style="color: var(--muted)">[PROYECTOS]</div>
+          </div>
+          <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.3);">
+            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+            <div class="font-display text-3xl font-bold" style="color: var(--accent-cyan)" id="stat-photos">00</div>
+            <div class="font-mono text-[10px] mt-1" style="color: var(--muted)">[FOTOS]</div>
+          </div>
+          <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.3);">
+            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+            <div class="font-display text-3xl font-bold" style="color: var(--accent-pink)" id="stat-files">00</div>
+            <div class="font-mono text-[10px] mt-1" style="color: var(--muted)">[ARCHIVOS]</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 hidden lg:block">
+        <div class="terminal animate-float">
+          <div class="terminal-header">
+            <div class="terminal-dot" style="background: #ff5f57"></div>
+            <div class="terminal-dot" style="background: #febc2e"></div>
+            <div class="terminal-dot" style="background: #28c840"></div>
+            <span class="ml-2">~/lacompu_del_axel/developer.profile</span>
+            <span class="ml-auto" style="color: var(--accent)">● REC</span>
+          </div>
+          <div class="terminal-scanline"></div>
+          <pre class="p-5 font-mono text-xs leading-relaxed overflow-x-auto"><span style="color: var(--muted)">// profile.config</span>
+<span style="color: var(--accent-pink)">[USER]</span>
+<span style="color: var(--accent)">name</span>      = <span style="color: var(--accent-amber)">"Axel"</span>
+<span style="color: var(--accent)">role</span>      = <span style="color: var(--accent-amber)">"Full Stack Developer"</span>
+<span style="color: var(--accent)">status</span>    = <span style="color: var(--accent-amber)">"available"</span>
+
+<span style="color: var(--accent-pink)">[STACK]</span>
+<span style="color: var(--accent-cyan)">frontend</span> = [<span style="color: var(--accent-amber)">"JS"</span>, <span style="color: var(--accent-amber)">"React"</span>, <span style="color: var(--accent-amber)">"CSS"</span>]
+<span style="color: var(--accent-cyan)">backend</span>  = [<span style="color: var(--accent-amber)">"Node"</span>, <span style="color: var(--accent-amber)">"Python"</span>]
+<span style="color: var(--accent-cyan)">tools</span>    = [<span style="color: var(--accent-amber)">"Git"</span>, <span style="color: var(--accent-amber)">"Docker"</span>]
+<span style="color: var(--accent-cyan)">learning</span> = <span style="color: var(--accent-amber)">"Rust"</span>
+
+<span style="color: var(--accent-pink)">[MISSION]</span>
+<span style="color: var(--accent)">objective</span> = <span style="color: var(--accent-amber)">"build_stuff_that_matters"</span>
+<span style="color: var(--accent)">loop</span>      = <span style="color: var(--accent-amber)">"while(true) { create(); }"</span>
+
+<span style="color: var(--muted)">// EOF — system ready ▊</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
+    <span class="font-mono text-[10px]" style="color: var(--muted)">[SCROLL_DOWN]</span>
+    <div class="w-px h-10" style="background: linear-gradient(to bottom, var(--accent), transparent);"></div>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="border-y py-3 ticker-wrap" style="border-color: var(--border-dim); background: rgba(0, 0, 0, 0.3);">
+  <div class="ticker font-mono text-xs" style="color: var(--fg-dim)">
+    <span class="mx-6"><span style="color: var(--accent)">●</span> SYSTEM_OPERATIONAL</span>
+    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASSING</span>
+    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> ZERO_BUGS_FOUND</span>
+    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> COFFEE_LEVEL: 87%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS_TODAY: 23</span>
+    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> LINES_OF_CODE: 142,857</span>
+    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> DEPLOYMENTS: 1,337</span>
+    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> UPTIME: 99.97%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> SYSTEM_OPERATIONAL</span>
+    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASSING</span>
+    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> ZERO_BUGS_FOUND</span>
+    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> COFFEE_LEVEL: 87%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS_TODAY: 23</span>
+    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> LINES_OF_CODE: 142,857</span>
+    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> DEPLOYMENTS: 1,337</span>
+    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> UPTIME: 99.97%</span>
+  </div>
+</div>
+
+<!-- ============ PROYECTOS ============ -->
+<section id="proyectos" class="py-24 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+      <div>
+        <div class="section-tag mb-4"><span>SECTION_01 // PROJECTS.LOG</span></div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
+          <span style="color: var(--fg-dim)">./</span>Cosas que he<br><span class="gradient-text">construido</span>
+        </h2>
+      </div>
+      <button onclick="openModal('proyecto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-plus text-xs"></i> NEW_PROJECT</button>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-10 reveal" id="projectFilters">
+      <button class="chip active" data-filter="all">[ALL]</button>
+      <button class="chip" data-filter="web">[WEB]</button>
+      <button class="chip" data-filter="app">[APP]</button>
+      <button class="chip" data-filter="ia">[AI]</button>
+      <button class="chip" data-filter="hardware">[HW]</button>
+      <button class="chip" data-filter="otro">[OTHER]</button>
+    </div>
+
+    <div id="projectsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <div id="projectsEmpty" class="hidden text-center py-20">
+      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> ls proyectos/<br><span style="color: var(--muted)">empty — no projects found</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERÍA ============ -->
+<section id="galeria" class="py-24 px-6 relative hex-bg">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+      <div>
+        <div class="section-tag mb-4"><span>SECTION_02 // MEDIA.VAULT</span></div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
+          <span style="color: var(--fg-dim)">./</span>Momentos<br><span class="gradient-text">capturados</span>
+        </h2>
+      </div>
+      <button onclick="openModal('foto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-upload text-xs"></i> UPLOAD_PHOTO</button>
+    </div>
+
+    <div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+    <div id="galleryEmpty" class="hidden text-center py-20">
+      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> ls media/<br><span style="color: var(--muted)">empty — no media found</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARCHIVOS ============ -->
+<section id="archivos" class="py-24 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+      <div>
+        <div class="section-tag mb-4"><span>SECTION_03 // FILE.SYSTEM</span></div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
+          <span style="color: var(--fg-dim)">./</span>Recursos<br><span class="gradient-text">descargables</span>
+        </h2>
+      </div>
+      <button onclick="openModal('archivo')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-file-arrow-up text-xs"></i> UPLOAD_FILE</button>
+    </div>
+
+    <div class="terminal mb-4 reveal">
+      <div class="terminal-header">
+        <div class="terminal-dot" style="background: #ff5f57"></div>
+        <div class="terminal-dot" style="background: #febc2e"></div>
+        <div class="terminal-dot" style="background: #28c840"></div>
+        <span class="ml-2">~/lacompu_del_axel/files — ls -la</span>
+      </div>
+      <div class="p-4 font-mono text-xs grid grid-cols-12 gap-2" style="color: var(--muted); border-bottom: 1px solid var(--border-dim)">
+        <span class="col-span-1">PERMS</span><span class="col-span-5">NAME</span><span class="col-span-2">SIZE</span><span class="col-span-3">DATE</span><span class="col-span-1 text-right">ACTION</span>
+      </div>
+    </div>
+
+    <div id="filesList" class="space-y-1"></div>
+    <div id="filesEmpty" class="hidden text-center py-12">
+      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> ls files/<br><span style="color: var(--muted)">empty — no files found</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LINKS ============ -->
+<section id="links" class="py-24 px-6 hex-bg">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+      <div>
+        <div class="section-tag mb-4"><span>SECTION_04 // BOOKMARKS.DB</span></div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
+          <span style="color: var(--fg-dim)">./</span>Recursos<br><span class="gradient-text">favoritos</span>
+        </h2>
+      </div>
+      <button onclick="openModal('link')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-link text-xs"></i> ADD_LINK</button>
+    </div>
+
+    <div id="linksGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div id="linksEmpty" class="hidden text-center py-20">
+      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> cat bookmarks.json<br><span style="color: var(--muted)">empty — no links found</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JUEGO ============ -->
+<section id="juego" class="py-24 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <div class="section-tag mb-4 inline-flex"><span>SECTION_05 // GAME.MODULE</span></div>
+      <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">
+        <span style="color: var(--fg-dim)">./</span>Toma un <span class="gradient-text">descanso</span>
+      </h2>
+      <p class="max-w-xl mx-auto font-mono text-sm" style="color: var(--fg-dim)"><span style="color: var(--accent)">&gt;</span> Has llegado lejos. Ejecuta SNAKE.EXE y desconecta un rato.</p>
+    </div>
+
+    <div class="card reveal">
+      <div class="grid lg:grid-cols-3 gap-6 p-6 md:p-8 items-start">
+        <div class="lg:col-span-2 flex justify-center">
+          <div class="relative">
+            <canvas id="snakeCanvas" width="400" height="400" class="max-w-full"></canvas>
+            <div id="snakeOverlay" class="absolute inset-0 flex flex-col items-center justify-center" style="background: rgba(3, 6, 10, 0.92); backdrop-filter: blur(4px);">
+              <div class="font-mono text-xs mb-2" style="color: var(--accent)">[READY_TO_RUN]</div>
+              <i class="fas fa-gamepad text-5xl mb-4" style="color: var(--accent)"></i>
+              <h3 class="font-display font-bold text-3xl mb-1 glitch" data-text="SNAKE">SNAKE</h3>
+              <p class="font-mono text-xs mb-5" style="color: var(--muted)">v1.0 — classic mode</p>
+              <button id="snakeStart" class="btn-primary">▶ EXECUTE</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.4);">
+            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">[SCORE]</div>
+            <div class="font-display text-4xl font-bold gradient-text" id="snakeScore">00</div>
+          </div>
+          <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.4);">
+            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">[HIGH_SCORE]</div>
+            <div class="font-display text-4xl font-bold" style="color: var(--accent-pink)" id="snakeBest">00</div>
+          </div>
+          <div class="card p-4">
+            <div class="font-mono text-[10px] mb-3" style="color: var(--muted)">[CONTROLS]</div>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="flex items-center gap-2"><kbd>↑↓←→</kbd><span style="color: var(--fg-dim)">Move</span></div>
+              <div class="flex items-center gap-2"><kbd>WASD</kbd><span style="color: var(--fg-dim)">Move (alt)</span></div>
+              <div class="flex items-center gap-2"><kbd>P</kbd><span style="color: var(--fg-dim)">Pause</span></div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 lg:hidden">
+            <div></div>
+            <button id="btnUp" class="btn-ghost py-3"><i class="fas fa-chevron-up"></i></button>
+            <div></div>
+            <button id="btnLeft" class="btn-ghost py-3"><i class="fas fa-chevron-left"></i></button>
+            <button id="btnDown" class="btn-ghost py-3"><i class="fas fa-chevron-down"></i></button>
+            <button id="btnRight" class="btn-ghost py-3"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REDES ============ -->
+<section id="redes" class="py-24 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <div class="section-tag mb-4 inline-flex"><span>SECTION_06 // NETWORK.LINKS</span></div>
+      <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">
+        <span style="color: var(--fg-dim)">./</span>Conecta <span class="gradient-text">conmigo</span>
+      </h2>
+      <p class="max-w-xl mx-auto font-mono text-sm" style="color: var(--fg-dim)"><span style="color: var(--accent)">&gt;</span> Estableciendo conexión... ready.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 reveal">
+      <a href="https://github.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+        <i class="fab fa-github text-3xl" style="color: var(--fg)"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">GITHUB</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel</span>
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+        <i class="fab fa-x-twitter text-3xl" style="color: var(--fg)"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">TWITTER</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel</span>
+      </a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+        <i class="fab fa-linkedin text-3xl" style="color: #0a66c2"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">LINKEDIN</span><span class="font-mono text-[9px]" style="color: var(--muted)">/in/axel</span>
+      </a>
+      <a href="https://youtube.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+        <i class="fab fa-youtube text-3xl" style="color: #ff0000"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">YOUTUBE</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel</span>
+      </a>
+      <a href="https://discord.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+        <i class="fab fa-discord text-3xl" style="color: #5865f2"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">DISCORD</span><span class="font-mono text-[9px]" style="color: var(--muted)">axel#0001</span>
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+        <i class="fab fa-instagram text-3xl" style="color: #e1306c"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">INSTAGRAM</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel.dev</span>
+      </a>
+    </div>
+
+    <div class="mt-10 card p-8 md:p-10 reveal text-center relative hud-corners">
+      <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+      <div class="font-mono text-xs mb-3" style="color: var(--accent)">[OPEN_CHANNEL]</div>
+      <h3 class="font-display font-bold text-2xl md:text-3xl mb-3">¿Tienes un proyecto en mente?</h3>
+      <p class="mb-6 font-mono text-sm" style="color: var(--fg-dim)">&gt; Envíame un signal y lo hablamos.</p>
+      <a href="mailto:hola@lacompu_del_axel.dev" class="btn-primary inline-flex items-center gap-2"><i class="fas fa-paper-plane text-xs"></i> hola@lacompu_del_axel.dev</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t py-8 px-6" style="border-color: var(--border-dim); background: rgba(0,0,0,0.4);">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2.5">
+      <div class="w-7 h-7 flex items-center justify-center font-display font-bold text-xs" style="background: linear-gradient(135deg, var(--accent), var(--accent-cyan)); color: var(--bg); clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px));">A</div>
+      <span class="font-mono text-xs" style="color: var(--fg-dim)">LaCompuDelAxel.SYS // v2.4.1</span>
+    </div>
+    <p class="font-mono text-[10px]" style="color: var(--muted)">© 2025 — BUILT_WITH <span style="color: var(--accent-pink)">♥</span> AND <span style="color: var(--accent-amber)">COFFEE</span></p>
+    <a href="#hero" class="font-mono text-[10px] hover:text-[var(--accent)] transition" style="color: var(--fg-dim)">[↑ TOP]</a>
+  </div>
+</footer>
+
+<!-- ============ STATUS BAR ============ -->
+<div class="status-bar">
+  <div class="flex items-center gap-4">
+    <span><span style="color: var(--accent)">●</span> BRANCH: main</span>
+    <span class="hidden sm:inline"><span style="color: var(--accent-cyan)">●</span> UTF-8</span>
+    <span class="hidden md:inline"><span style="color: var(--accent-pink)">●</span> LF</span>
+  </div>
+  <div class="flex items-center gap-4">
+    <span class="hidden sm:inline" id="clock">--:--:--</span>
+    <span><span style="color: var(--accent)">●</span> MEM: <span id="memUsage">42</span>%</span>
+    <span class="hidden md:inline"><span style="color: var(--accent-cyan)">●</span> CPU: 12%</span>
+  </div>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div id="modal" class="modal-backdrop">
+  <div class="absolute inset-0" onclick="closeModal()"></div>
+  <div class="relative glass max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div class="sticky top-0 glass border-b px-6 py-4 flex items-center justify-between z-10" style="border-color: var(--border)">
+      <div class="flex items-center gap-3">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span></div>
+        <h3 class="font-mono font-bold text-sm uppercase tracking-wider">// UPLOAD_MODULE</h3>
+      </div>
+      <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center hover:bg-white/5 font-mono text-sm" style="color: var(--fg-dim)">[X]</button>
+    </div>
+
+    <div class="p-6">
+      <div class="flex gap-2 mb-6 flex-wrap">
+        <button class="chip modal-tab active" data-tab="proyecto">PROJECT</button>
+        <button class="chip modal-tab" data-tab="foto">PHOTO</button>
+        <button class="chip modal-tab" data-tab="archivo">FILE</button>
+        <button class="chip modal-tab" data-tab="link">LINK</button>
+      </div>
+
+      <form id="form-proyecto" class="modal-form space-y-4">
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// project_name *</label><input type="text" class="input" name="nombre" required placeholder="Ej: NeuralDesk AI"></div>
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// description *</label><textarea class="input" name="descripcion" rows="3" required placeholder="¿Qué hace tu proyecto?"></textarea></div>
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// category</label><select class="input" name="categoria"><option value="web">WEB</option><option value="app">APP</option><option value="ia">AI</option><option value="hardware">HARDWARE</option><option value="otro">OTHER</option></select></div>
+          <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// url (optional)</label><input type="url" class="input" name="enlace" placeholder="https://..."></div>
+        </div>
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// thumbnail_url</label><input type="url" class="input" name="imagen" placeholder="https://..."><p class="text-[10px] mt-1 font-mono" style="color: var(--muted)">&gt; Si está vacío, se genera una imagen aleatoria</p></div>
+        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-plus text-xs"></i> COMMIT_PROJECT</button>
+      </form>
+
+      <form id="form-foto" class="modal-form space-y-4 hidden">
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// select_image *</label>
+          <div class="dropzone" id="photoDropzone"><input type="file" id="photoInput" accept="image/*" class="hidden"><i class="fas fa-image text-3xl mb-2" style="color: var(--accent)"></i><p class="font-mono text-sm">DROP IMAGE HERE OR <span style="color: var(--accent)">[CLICK]</span></p><p class="text-[10px] mt-1 font-mono" style="color: var(--muted)">JPG, PNG, GIF, WEBP — MAX 2MB</p></div>
+          <div id="photoPreview" class="hidden mt-3 overflow-hidden" style="border: 1px solid var(--border)"><img id="photoPreviewImg" class="w-full max-h-48 object-cover"></div>
+        </div>
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// title (optional)</label><input type="text" class="input" name="titulo" placeholder="Ej: Setup de trabajo"></div>
+        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-upload text-xs"></i> UPLOAD_PHOTO</button>
+      </form>
+
+      <form id="form-archivo" class="modal-form space-y-4 hidden">
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// select_file *</label>
+          <div class="dropzone" id="fileDropzone"><input type="file" id="fileInput" class="hidden"><i class="fas fa-file-arrow-up text-3xl mb-2" style="color: var(--accent)"></i><p class="font-mono text-sm">DROP FILE HERE OR <span style="color: var(--accent)">[CLICK]</span></p><p class="text-[10px] mt-1 font-mono" style="color: var(--muted)">ANY TYPE — MAX 5MB</p></div>
+          <div id="fileInfo" class="hidden mt-3 p-3" style="background: rgba(0,255,157,0.04); border: 1px solid var(--border);"><div class="flex items-center gap-3"><i id="fileIcon" class="fas fa-file text-2xl" style="color: var(--accent)"></i><div class="flex-1 min-w-0"><div id="fileName" class="font-mono text-xs truncate"></div><div id="fileSize" class="font-mono text-[10px]" style="color: var(--muted)"></div></div></div></div>
+        </div>
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// description (optional)</label><input type="text" class="input" name="descripcion" placeholder="Ej: Manual de usuario v2"></div>
+        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-file-arrow-up text-xs"></i> UPLOAD_FILE</button>
+      </form>
+
+      <form id="form-link" class="modal-form space-y-4 hidden">
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// title *</label><input type="text" class="input" name="titulo" required placeholder="Ej: MDN Web Docs"></div>
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// url *</label><input type="url" class="input" name="url" required placeholder="https://..."></div>
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// description (optional)</label><input type="text" class="input" name="descripcion" placeholder="¿Para qué es útil?"></div>
+        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// category</label><select class="input" name="categoria"><option value="docs">DOCUMENTATION</option><option value="tool">TOOL</option><option value="tutorial">TUTORIAL</option><option value="inspiracion">INSPIRATION</option><option value="otro">OTHER</option></select></div>
+        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-link text-xs"></i> ADD_LINK</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LIGHTBOX ============ -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <button class="absolute top-6 right-6 w-12 h-12 glass flex items-center justify-center text-xl font-mono" onclick="closeLightbox()">[X]</button>
+  <img id="lightboxImg" class="max-w-full max-h-full">
+  <p id="lightboxCaption" class="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs" style="color: var(--fg-dim)"></p>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="toast"><i class="fas fa-check-circle" style="color: var(--accent)"></i><span id="toastMsg">OK</span></div>
+
+<script>
+/* ============================================
+   ESTADO Y PERSISTENCIA
+============================================ */
+const STORE_KEY = 'lacompu_del_axel_hub_v1';
+let state = { proyectos: [], fotos: [], archivos: [], links: [] };
+
+const seedData = {
+  proyectos: [
+    { id: 'p1', nombre: 'NeuralDesk', descripcion: 'Asistente de escritorio con IA local que organiza tareas y responde preguntas sin enviar datos a la nube.', categoria: 'ia', enlace: '#', imagen: 'https://picsum.photos/seed/neuraldesk/600/400.jpg', fecha: Date.now() - 86400000 * 5 },
+    { id: 'p2', nombre: 'PixelForge', descripcion: 'Editor de pixel art colaborativo en tiempo real con soporte para animaciones y exportación a múltiples formatos.', categoria: 'web', enlace: '#', imagen: 'https://picsum.photos/seed/pixelforge/600/400.jpg', fecha: Date.now() - 86400000 * 12 },
+    { id: 'p3', nombre: 'EcoSensor IoT', descripcion: 'Red de sensores ambientales ESP32 que miden calidad del aire, temperatura y humedad con dashboard en tiempo real.', categoria: 'hardware', enlace: '#', imagen: 'https://picsum.photos/seed/ecosensor/600/400.jpg', fecha: Date.now() - 86400000 * 20 }
+  ],
+  fotos: [
+    { id: 'f1', src: 'https://picsum.photos/seed/photo1/800/800.jpg', titulo: 'Setup de trabajo', fecha: Date.now() - 86400000 * 2 },
+    { id: 'f2', src: 'https://picsum.photos/seed/photo2/800/800.jpg', titulo: 'Conferencia tech', fecha: Date.now() - 86400000 * 7 }
+  ],
+  archivos: [
+    { id: 'a1', nombre: 'guia-desarrollo.pdf', size: 245678, type: 'application/pdf', descripcion: 'Guía completa de buenas prácticas', fecha: Date.now() - 86400000 * 3, dataUrl: null },
+    { id: 'a2', nombre: 'config-vscode.json', size: 4521, type: 'application/json', descripcion: 'Mi configuración de VS Code', fecha: Date.now() - 86400000 * 8, dataUrl: null }
+  ],
+  links: [
+    { id: 'l1', titulo: 'MDN Web Docs', url: 'https://developer.mozilla.org', descripcion: 'La mejor referencia web', categoria: 'docs', fecha: Date.now() - 86400000 * 1 },
+    { id: 'l2', titulo: 'GitHub', url: 'https://github.com', descripcion: 'Donde vive mi código', categoria: 'tool', fecha: Date.now() - 86400000 * 2 }
+  ]
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORE_KEY);
+    if (saved) {
+      state = { ...state, ...JSON.parse(saved) };
+      if (state.proyectos.length === 0 && state.fotos.length === 0 && state.archivos.length === 0 && state.links.length === 0) {
+        state = JSON.parse(JSON.stringify(seedData));
+      }
+    } else {
+      state = JSON.parse(JSON.stringify(seedData));
+    }
+  } catch (e) { state = JSON.parse(JSON.stringify(seedData)); }
+}
+function saveState() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { showToast('ERROR: storage full', 'error'); } }
+
+/* ============================================
+   TOAST
+============================================ */
+let toastTimer;
+function showToast(msg, type = 'success') {
+  const toast = document.getElementById('toast');
+  const msgEl = document.getElementById('toastMsg');
+  const icon = toast.querySelector('i');
+  msgEl.textContent = msg;
+  if (type === 'error') { icon.className = 'fas fa-exclamation-circle'; icon.style.color = 'var(--accent-pink)'; toast.style.borderColor = 'var(--accent-pink)'; }
+  else { icon.className = 'fas fa-check-circle'; icon.style.color = 'var(--accent)'; toast.style.borderColor = 'var(--accent)'; }
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+/* ============================================
+   RENDER Y SISTEMA DE DETECCIÓN (FEEDBACK VISUAL)
+============================================ */
+let currentFilter = 'all';
+
+function triggerDetection(gridId, statId) {
+  const grid = document.getElementById(gridId);
+  const stat = document.getElementById(statId);
+  if (grid) {
+    grid.classList.remove('flash-alert');
+    void grid.offsetWidth; // Reflow para reiniciar la animación
+    grid.classList.add('flash-alert');
+  }
+  if (stat) {
+    stat.classList.remove('bounce-stat');
+    void stat.offsetWidth;
+    stat.classList.add('bounce-stat');
+  }
+}
+
+function renderProjects() {
+  const grid = document.getElementById('projectsGrid');
+  const empty = document.getElementById('projectsEmpty');
+  const filtered = currentFilter === 'all' ? state.proyectos : state.proyectos.filter(p => p.categoria === currentFilter);
+  if (filtered.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  const catColors = { web: '#00ff9d', app: '#00e5ff', ia: '#ffb627', hardware: '#ff2e88', otro: '#8aa39a' };
+  const catLabels = { web: 'WEB', app: 'APP', ia: 'AI', hardware: 'HW', otro: 'OTHER' };
+
+  grid.innerHTML = filtered.map((p, i) => `
+    <article class="card group relative overflow-hidden">
+      <div class="relative aspect-video overflow-hidden">
+        <img src="${p.imagen}" alt="${escapeHtml(p.nombre)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="absolute top-3 left-3 px-2 py-0.5 font-mono text-[10px] font-bold" style="background: ${catColors[p.categoria]}; color: var(--bg); clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));">[${catLabels[p.categoria]}]</div>
+        <div class="absolute top-3 right-3 font-mono text-[10px]" style="color: var(--accent)">#${String(i+1).padStart(3,'0')}</div>
+        ${p.enlace && p.enlace !== '#' ? `<a href="${escapeHtml(p.enlace)}" target="_blank" rel="noopener" class="absolute bottom-3 right-3 w-9 h-9 glass flex items-center justify-center hover:bg-white/10 transition"><i class="fas fa-external-link-alt text-xs"></i></a>` : ''}
+      </div>
+      <div class="p-5 relative">
+        <h3 class="font-display font-bold text-xl mb-2">${escapeHtml(p.nombre)}</h3>
+        <p class="text-sm mb-4 font-mono" style="color: var(--fg-dim)">${escapeHtml(p.descripcion)}</p>
+        <div class="flex items-center justify-between font-mono text-[10px]" style="color: var(--muted)">
+          <span><i class="far fa-clock mr-1"></i> ${formatDate(p.fecha)}</span>
+          <button onclick="deleteItem('proyectos', '${p.id}')" class="hover:text-[var(--accent-pink)] transition" style="color: var(--fg-dim)">[DELETE]</button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function renderGallery() {
+  const grid = document.getElementById('galleryGrid');
+  const empty = document.getElementById('galleryEmpty');
+  if (state.fotos.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  grid.innerHTML = state.fotos.map((f, i) => `
+    <div class="relative aspect-square overflow-hidden card group cursor-pointer" onclick="openLightbox('${f.id}')">
+      <img src="${f.src}" alt="${escapeHtml(f.titulo || '')}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
+        <div class="font-mono text-xs font-semibold" style="color: var(--accent)">&gt; ${escapeHtml(f.titulo || 'Sin título')}</div>
+        <div class="font-mono text-[10px]" style="color: var(--fg-dim)">${formatDate(f.fecha)}</div>
+      </div>
+      <div class="absolute top-2 left-2 font-mono text-[10px] px-1.5 py-0.5" style="background: rgba(0,0,0,0.7); color: var(--accent);">#${String(i+1).padStart(3,'0')}</div>
+      <button onclick="event.stopPropagation(); deleteItem('fotos', '${f.id}')" class="absolute top-2 right-2 w-7 h-7 glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 font-mono text-[10px]">[X]</button>
+    </div>
+  `).join('');
+}
+
+function renderFiles() {
+  const list = document.getElementById('filesList');
+  const empty = document.getElementById('filesEmpty');
+  if (state.archivos.length === 0) { list.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  list.innerHTML = state.archivos.map(a => `
+    <div class="grid grid-cols-12 gap-2 p-3 font-mono text-xs items-center" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-dim);">
+      <span class="col-span-1" style="color: var(--accent)">-rw-r--r--</span>
+      <span class="col-span-5 flex items-center gap-2 min-w-0"><i class="${getFileIcon(a.type, a.nombre)}" style="color: var(--accent)"></i><span class="truncate">${escapeHtml(a.nombre)}</span></span>
+      <span class="col-span-2" style="color: var(--fg-dim)">${formatSize(a.size)}</span>
+      <span class="col-span-3" style="color: var(--fg-dim)">${formatDate(a.fecha)}</span>
+      <span class="col-span-1 flex justify-end gap-1">
+        ${a.dataUrl ? `<button onclick="downloadFile('${a.id}')" class="hover:text-[var(--accent)] transition px-1" title="Download"><i class="fas fa-download"></i></button>` : `<span style="color: var(--muted)" title="Sample">[SAMPLE]</span>`}
+        <button onclick="deleteItem('archivos', '${a.id}')" class="hover:text-[var(--accent-pink)] transition px-1" title="Delete"><i class="fas fa-trash"></i></button>
+      </span>
+    </div>
+  `).join('');
+}
+
+function renderLinks() {
+  const grid = document.getElementById('linksGrid');
+  const empty = document.getElementById('linksEmpty');
+  if (state.links.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  const catIcons = { docs: 'fa-book', tool: 'fa-wrench', tutorial: 'fa-graduation-cap', inspiracion: 'fa-lightbulb', otro: 'fa-link' };
+  const catLabels = { docs: 'DOCS', tool: 'TOOL', tutorial: 'TUTORIAL', inspiracion: 'INSPIRATION', otro: 'LINK' };
+
+  grid.innerHTML = state.links.map(l => {
+    let domain = ''; try { domain = new URL(l.url).hostname.replace('www.', ''); } catch(e) {}
+    return `
+      <a href="${escapeHtml(l.url)}" target="_blank" rel="noopener" class="link-card card p-5 group flex flex-col relative">
+        <div class="flex items-start justify-between mb-3">
+          <div class="w-9 h-9 flex items-center justify-center" style="background: rgba(0,255,157,0.08); color: var(--accent); border: 1px solid var(--border);"><i class="fas ${catIcons[l.categoria] || 'fa-link'} text-sm"></i></div>
+          <i class="fas fa-arrow-up-right-from-square arrow text-xs" style="color: var(--muted)"></i>
+        </div>
+        <h3 class="font-display font-bold text-base mb-1">${escapeHtml(l.titulo)}</h3>
+        ${l.descripcion ? `<p class="text-xs mb-3 font-mono" style="color: var(--fg-dim)">${escapeHtml(l.descripcion)}</p>` : ''}
+        <div class="mt-auto pt-2 flex items-center justify-between">
+          <span class="font-mono text-[10px]" style="color: var(--muted)">${domain}</span>
+          <span class="font-mono text-[9px] px-1.5 py-0.5" style="background: rgba(0,255,157,0.08); color: var(--accent); border: 1px solid var(--border);">[${catLabels[l.categoria]}]</span>
+        </div>
+        <button onclick="event.preventDefault(); event.stopPropagation(); deleteItem('links', '${l.id}')" class="absolute top-2 right-2 w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 flex items-center justify-center font-mono text-[10px]">[X]</button>
+      </a>
+    `;
+  }).join('');
+}
+
+function escapeHtml(str) { if (str == null) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+function formatDate(ts) { if (!ts) return ''; const diff = Date.now() - ts; const days = Math.floor(diff / 86400000); if (days === 0) return 'today'; if (days === 1) return '1d ago'; if (days < 7) return `${days}d ago`; if (days < 30) return `${Math.floor(days/7)}w ago`; return new Date(ts).toLocaleDateString('en-EN', { day: 'numeric', month: 'short' }); }
+function formatSize(bytes) { if (bytes < 1024) return bytes + 'B'; if (bytes < 1048576) return (bytes / 1024).toFixed(1) + 'K'; return (bytes / 1048576).toFixed(1) + 'M'; }
+function getFileIcon(type, name) { const ext = name.split('.').pop().toLowerCase(); if (type.startsWith('image/')) return 'fas fa-image'; if (type.startsWith('video/')) return 'fas fa-video'; if (type.startsWith('audio/')) return 'fas fa-music'; if (type === 'application/pdf' || ext === 'pdf') return 'fas fa-file-pdf'; if (['zip','rar','7z','tar','gz'].includes(ext)) return 'fas fa-file-zipper'; if (['js','ts','jsx','tsx','py','java','cpp','c','go','rs','php'].includes(ext)) return 'fas fa-file-code'; if (['json','xml','yaml','yml','toml'].includes(ext)) return 'fas fa-file-code'; if (['doc','docx','txt','md'].includes(ext)) return 'fas fa-file-lines'; if (['xls','xlsx','csv'].includes(ext)) return 'fas fa-file-excel'; if (['ppt','pptx'].includes(ext)) return 'fas fa-file-powerpoint'; return 'fas fa-file'; }
+
+function deleteItem(type, id) {
+  state[type] = state[type].filter(item => item.id !== id);
+  saveState(); renderAll(); showToast('DELETED');
+}
+function downloadFile(id) {
+  const file = state.archivos.find(a => a.id === id);
+  if (!file || !file.dataUrl) return;
+  const a = document.createElement('a'); a.href = file.dataUrl; a.download = file.nombre; a.click();
+}
+function updateStats() {
+  document.getElementById('stat-projects').textContent = String(state.proyectos.length).padStart(2,'0');
+  document.getElementById('stat-photos').textContent = String(state.fotos.length).padStart(2,'0');
+  document.getElementById('stat-files').textContent = String(state.archivos.length).padStart(2,'0');
+}
+function renderAll() { renderProjects(); renderGallery(); renderFiles(); renderLinks(); updateStats(); }
+
+/* ============================================
+   MODAL
+============================================ */
+function openModal(tab = 'proyecto') { document.getElementById('modal').classList.add('show'); document.body.style.overflow = 'hidden'; switchTab(tab); }
+function closeModal() { document.getElementById('modal').classList.remove('show'); document.body.style.overflow = ''; document.querySelectorAll('.modal-form').forEach(f => f.reset()); document.getElementById('photoPreview').classList.add('hidden'); document.getElementById('fileInfo').classList.add('hidden'); pendingPhoto = null; pendingFile = null; }
+function switchTab(tab) { document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab)); document.querySelectorAll('.modal-form').forEach(f => f.classList.add('hidden')); document.getElementById('form-' + tab).classList.remove('hidden'); }
+
+/* ============================================
+   FORMULARIOS Y DETECCIÓN AL SUBIR
+============================================ */
+let pendingPhoto = null; let pendingFile = null;
+
+document.getElementById('form-proyecto').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  state.proyectos.unshift({ id: 'p' + Date.now(), nombre: fd.get('nombre'), descripcion: fd.get('descripcion'), categoria: fd.get('categoria'), enlace: fd.get('enlace') || '#', imagen: fd.get('imagen') || `https://picsum.photos/seed/${Date.now()}/600/400.jpg`, fecha: Date.now() });
+  saveState(); renderAll(); closeModal(); showToast('PROJECT_ADDED'); triggerDetection('projectsGrid', 'stat-projects');
+});
+
+const photoDropzone = document.getElementById('photoDropzone'); const photoInput = document.getElementById('photoInput');
+photoDropzone.addEventListener('click', () => photoInput.click());
+photoDropzone.addEventListener('dragover', e => { e.preventDefault(); photoDropzone.classList.add('drag'); });
+photoDropzone.addEventListener('dragleave', () => photoDropzone.classList.remove('drag'));
+photoDropzone.addEventListener('drop', e => { e.preventDefault(); photoDropzone.classList.remove('drag'); if (e.dataTransfer.files[0]) handlePhotoFile(e.dataTransfer.files[0]); });
+photoInput.addEventListener('change', e => { if (e.target.files[0]) handlePhotoFile(e.target.files[0]); });
+
+function handlePhotoFile(file) {
+  if (!file.type.startsWith('image/')) { showToast('ERROR: not an image', 'error'); return; }
+  if (file.size > 2 * 1024 * 1024) { showToast('ERROR: max 2MB', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => { pendingPhoto = e.target.result; document.getElementById('photoPreviewImg').src = e.target.result; document.getElementById('photoPreview').classList.remove('hidden'); };
+  reader.readAsDataURL(file);
+}
+document.getElementById('form-foto').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!pendingPhoto) { showToast('ERROR: no image', 'error'); return; }
+  const fd = new FormData(e.target);
+  state.fotos.unshift({ id: 'f' + Date.now(), src: pendingPhoto, titulo: fd.get('titulo') || 'Sin título', fecha: Date.now() });
+  saveState(); renderAll(); closeModal(); showToast('PHOTO_UPLOADED'); triggerDetection('galleryGrid', 'stat-photos');
+});
+
+const fileDropzone = document.getElementById('fileDropzone'); const fileInput = document.getElementById('fileInput');
+fileDropzone.addEventListener('click', () => fileInput.click());
+fileDropzone.addEventListener('dragover', e => { e.preventDefault(); fileDropzone.classList.add('drag'); });
+fileDropzone.addEventListener('dragleave', () => fileDropzone.classList.remove('drag'));
+fileDropzone.addEventListener('drop', e => { e.preventDefault(); fileDropzone.classList.remove('drag'); if (e.dataTransfer.files[0]) handleFileSelect(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFileSelect(e.target.files[0]); });
+
+function handleFileSelect(file) {
+  if (file.size > 5 * 1024 * 1024) { showToast('ERROR: max 5MB', 'error'); return; }
+  pendingFile = file;
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = formatSize(file.size);
+  document.getElementById('fileIcon').className = getFileIcon(file.type, file.name) + ' text-2xl';
+  document.getElementById('fileInfo').classList.remove('hidden');
+}
+document.getElementById('form-archivo').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!pendingFile) { showToast('ERROR: no file', 'error'); return; }
+  const fd = new FormData(e.target);
+  const reader = new FileReader();
+  reader.onload = ev => {
+    state.archivos.unshift({ id: 'a' + Date.now(), nombre: pendingFile.name, size: pendingFile.size, type: pendingFile.type, descripcion: fd.get('descripcion') || '', fecha: Date.now(), dataUrl: ev.target.result });
+    saveState(); renderAll(); closeModal(); showToast('FILE_UPLOADED'); triggerDetection('filesList', 'stat-files');
+  };
+  reader.readAsDataURL(pendingFile);
+});
+
+document.getElementById('form-link').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  state.links.unshift({ id: 'l' + Date.now(), titulo: fd.get('titulo'), url: fd.get('url'), descripcion: fd.get('descripcion') || '', categoria: fd.get('categoria'), fecha: Date.now() });
+  saveState(); renderAll(); closeModal(); showToast('LINK_ADDED'); triggerDetection('linksGrid', 'stat-projects'); // No hay stat de links, usamos projects
+});
+
+/* ============================================
+   LIGHTBOX
+============================================ */
+function openLightbox(id) { const foto = state.fotos.find(f => f.id === id); if (!foto) return; document.getElementById('lightboxImg').src = foto.src; document.getElementById('lightboxCaption').textContent = '> ' + (foto.titulo || ''); document.getElementById('lightbox').classList.add('show'); document.body.style.overflow = 'hidden'; }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); document.body.style.overflow = ''; }
+
+/* ============================================
+   FILTROS Y UI
+============================================ */
+document.getElementById('projectFilters').addEventListener('click', e => {
+  if (e.target.classList.contains('chip')) {
+    document.querySelectorAll('#projectFilters .chip').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFilter = e.target.dataset.filter;
+    renderProjects();
+  }
+});
+document.querySelectorAll('.modal-tab').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (document.getElementById('modal').classList.contains('show')) closeModal(); if (document.getElementById('lightbox').classList.contains('show')) closeLightbox(); } });
+
+/* ============================================
+   HERO CANVAS
+============================================ */
+const heroCanvas = document.getElementById('heroCanvas'); const heroCtx = heroCanvas.getContext('2d');
+let nodes = []; let mouse = { x: null, y: null };
+function resizeHero() { heroCanvas.width = heroCanvas.offsetWidth; heroCanvas.height = heroCanvas.offsetHeight; }
+class Node {
+  constructor() { this.x = Math.random() * heroCanvas.width; this.y = Math.random() * heroCanvas.height; this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3; this.size = Math.random() * 1.5 + 0.5; this.pulse = Math.random() * Math.PI * 2; this.type = Math.random() > 0.7 ? 'square' : 'dot'; }
+  update() { this.x += this.vx; this.y += this.vy; this.pulse += 0.03; if (this.x < 0 || this.x > heroCanvas.width) this.vx *= -1; if (this.y < 0 || this.y > heroCanvas.height) this.vy *= -1; }
+  draw() { const opacity = 0.4 + Math.sin(this.pulse) * 0.3; heroCtx.fillStyle = `rgba(0, 255, 157, ${opacity})`; if (this.type === 'square') { const s = Math.max(2, this.size * 2); heroCtx.fillRect(this.x - s/2, this.y - s/2, s, s); } else { heroCtx.beginPath(); heroCtx.arc(this.x, this.y, Math.max(0.5, this.size), 0, Math.PI * 2); heroCtx.fill(); } heroCtx.fillStyle = `rgba(0, 255, 157, ${opacity * 0.2})`; heroCtx.beginPath(); heroCtx.arc(this.x, this.y, Math.max(1, this.size * 3), 0, Math.PI * 2); heroCtx.fill(); }
+}
+function initNodes() { nodes = []; const count = Math.min(70, Math.floor((heroCanvas.width * heroCanvas.height) / 22000)); for (let i = 0; i < count; i++) nodes.push(new Node()); }
+function connectNodes() {
+  const maxDist = 140;
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x; const dy = nodes[i].y - nodes[j].y; const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < maxDist) { const opacity = (1 - dist / maxDist) * 0.2; heroCtx.strokeStyle = `rgba(0, 255, 157, ${opacity})`; heroCtx.lineWidth = 0.5; heroCtx.beginPath(); heroCtx.moveTo(nodes[i].x, nodes[i].y); heroCtx.lineTo(nodes[j].x, nodes[j].y); heroCtx.stroke(); }
+    }
+    if (mouse.x !== null) { const dx = nodes[i].x - mouse.x; const dy = nodes[i].y - mouse.y; const dist = Math.sqrt(dx * dx + dy * dy); if (dist < 180) { const opacity = (1 - dist / 180) * 0.5; heroCtx.strokeStyle = `rgba(0, 229, 255, ${opacity})`; heroCtx.lineWidth = 1; heroCtx.beginPath(); heroCtx.moveTo(nodes[i].x, nodes[i].y); heroCtx.lineTo(mouse.x, mouse.y); heroCtx.stroke(); } }
+  }
+}
+function animateHero() { heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height); nodes.forEach(n => { n.update(); n.draw(); }); connectNodes(); requestAnimationFrame(animateHero); }
+heroCanvas.addEventListener('mousemove', e => { const rect = heroCanvas.getBoundingClientRect(); mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; });
+heroCanvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+window.addEventListener('resize', () => { resizeHero(); initNodes(); });
+
+/* ============================================
+   SNAKE GAME
+============================================ */
+class SnakeGame {
+  constructor() {
+    this.canvas = document.getElementById('snakeCanvas'); this.ctx = this.canvas.getContext('2d');
+    this.gridSize = 20; this.tileCount = this.canvas.width / this.gridSize;
+    this.bestScore = parseInt(localStorage.getItem('axel_snake_best') || '0');
+    document.getElementById('snakeBest').textContent = String(this.bestScore).padStart(2,'0');
+    this.reset(); this.running = false; this.paused = false;
+    document.addEventListener('keydown', e => this.handleKey(e));
+    document.getElementById('snakeStart').addEventListener('click', () => this.start());
+    document.getElementById('btnUp').addEventListener('click', () => this.setDirection(0, -1));
+    document.getElementById('btnDown').addEventListener('click', () => this.setDirection(0, 1));
+    document.getElementById('btnLeft').addEventListener('click', () => this.setDirection(-1, 0));
+    document.getElementById('btnRight').addEventListener('click', () => this.setDirection(1, 0));
+    this.draw();
+  }
+  reset() { this.snake = [{ x: 10, y: 10 }]; this.velocity = { x: 0, y: 0 }; this.food = this.spawnFood(); this.score = 0; document.getElementById('snakeScore').textContent = '00'; }
+  spawnFood() { let food; do { food = { x: Math.floor(Math.random() * this.tileCount), y: Math.floor(Math.random() * this.tileCount) }; } while (this.snake.some(s => s.x === food.x && s.y === food.y)); return food; }
+  setDirection(x, y) { if (this.velocity.x === -x && x !== 0) return; if (this.velocity.y === -y && y !== 0) return; this.velocity = { x, y }; }
+  handleKey(e) {
+    if (!this.running) return; const key = e.key.toLowerCase();
+    if (key === 'p') { this.paused = !this.paused; return; }
+    if (key === 'arrowup' || key === 'w') { e.preventDefault(); this.setDirection(0, -1); }
+    else if (key === 'arrowdown' || key === 's') { e.preventDefault(); this.setDirection(0, 1); }
+    else if (key === 'arrowleft' || key === 'a') { e.preventDefault(); this.setDirection(-1, 0); }
+    else if (key === 'arrowright' || key === 'd') { e.preventDefault(); this.setDirection(1, 0); }
+  }
+  start() { document.getElementById('snakeOverlay').style.display = 'none'; this.reset(); this.running = true; this.paused = false; this.lastUpdate = 0; this.speed = 130; requestAnimationFrame(t => this.loop(t)); }
+  loop(timestamp) { if (!this.running) return; if (!this.paused && timestamp - this.lastUpdate > this.speed) { this.lastUpdate = timestamp; this.update(); } this.draw(); requestAnimationFrame(t => this.loop(t)); }
+  update() {
+    if (this.velocity.x === 0 && this.velocity.y === 0) return;
+    const head = { x: this.snake[0].x + this.velocity.x, y: this.snake[0].y + this.velocity.y };
+    if (head.x < 0 || head.x >= this.tileCount || head.y < 0 || head.y >= this.tileCount) { this.gameOver(); return; }
+    if (this.snake.some(s => s.x === head.x && s.y === head.y)) { this.gameOver(); return; }
+    this.snake.unshift(head);
+    if (head.x === this.food.x && head.y === this.food.y) { this.score += 10; document.getElementById('snakeScore').textContent = String(this.score).padStart(2,'0'); this.food = this.spawnFood(); if (this.score % 50 === 0 && this.speed > 60) this.speed -= 10; } else { this.snake.pop(); }
+  }
+  draw() {
+    this.ctx.fillStyle = '#03060a'; this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.strokeStyle = 'rgba(0, 255, 157, 0.05)'; this.ctx.lineWidth = 0.5;
+    for (let i = 0; i <= this.tileCount; i++) { this.ctx.beginPath(); this.ctx.moveTo(i * this.gridSize, 0); this.ctx.lineTo(i * this.gridSize, this.canvas.height); this.ctx.stroke(); this.ctx.beginPath(); this.ctx.moveTo(0, i * this.gridSize); this.ctx.lineTo(this.canvas.width, i * this.gridSize); this.ctx.stroke(); }
+    const fx = this.food.x * this.gridSize + this.gridSize / 2; const fy = this.food.y * this.gridSize + this.gridSize / 2;
+    this.ctx.fillStyle = '#ff2e88'; this.ctx.shadowColor = '#ff2e88'; this.ctx.shadowBlur = 15; this.ctx.beginPath(); this.ctx.arc(fx, fy, Math.max(0.5, this.gridSize / 2 - 2), 0, Math.PI * 2); this.ctx.fill(); this.ctx.shadowBlur = 0;
+    this.snake.forEach((seg, i) => { const isHead = i === 0; const opacity = 1 - (i / this.snake.length) * 0.5; this.ctx.fillStyle = isHead ? '#00ff9d' : `rgba(0, 255, 157, ${opacity})`; if (isHead) { this.ctx.shadowColor = '#00ff9d'; this.ctx.shadowBlur = 12; } const padding = isHead ? 1 : 2; this.ctx.fillRect(seg.x * this.gridSize + padding, seg.y * this.gridSize + padding, this.gridSize - padding * 2, this.gridSize - padding * 2); this.ctx.shadowBlur = 0; });
+    if (this.paused) { this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height); this.ctx.fillStyle = '#00ff9d'; this.ctx.font = 'bold 24px JetBrains Mono, monospace'; this.ctx.textAlign = 'center'; this.ctx.fillText('[PAUSED]', this.canvas.width / 2, this.canvas.height / 2); }
+  }
+  gameOver() {
+    this.running = false;
+    if (this.score > this.bestScore) { this.bestScore = this.score; localStorage.setItem('axel_snake_best', this.bestScore); document.getElementById('snakeBest').textContent = String(this.bestScore).padStart(2,'0'); }
+    const overlay = document.getElementById('snakeOverlay'); overlay.style.display = 'flex';
+    overlay.innerHTML = `<div class="font-mono text-xs mb-2" style="color: var(--accent-pink)">[PROCESS_TERMINATED]</div><i class="fas fa-skull text-5xl mb-4" style="color: var(--accent-pink)"></i><h3 class="font-display font-bold text-2xl mb-2 glitch" data-text="GAME OVER">GAME OVER</h3><p class="font-mono text-xs mb-1" style="color: var(--fg-dim)">SCORE: <span style="color: var(--accent)">${String(this.score).padStart(2,'0')}</span></p><p class="font-mono text-xs mb-5" style="color: var(--fg-dim)">BEST: <span style="color: var(--accent-pink)">${String(this.bestScore).padStart(2,'0')}</span></p><button id="snakeStart" class="btn-primary">▶ RETRY</button>`;
+    document.getElementById('snakeStart').addEventListener('click', () => this.start());
+  }
+}
+
+/* ============================================
+   SCROLL REVEAL & UI
+============================================ */
+const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function updateClock() { const now = new Date(); const h = String(now.getHours()).padStart(2, '0'); const m = String(now.getMinutes()).padStart(2, '0'); const s = String(now.getSeconds()).padStart(2, '0'); const clockEl = document.getElementById('clock'); if (clockEl) clockEl.textContent = `${h}:${m}:${s}`; const memEl = document.getElementById('memUsage'); if (memEl) memEl.textContent = Math.floor(40 + Math.random() * 15); }
+setInterval(updateClock, 1000); updateClock();
+
+const sections = document.querySelectorAll('section[id]'); const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => { let current = ''; sections.forEach(section => { const top = section.offsetTop - 100; if (window.scrollY >= top) current = section.getAttribute('id'); }); navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === '#' + current) link.classList.add('active'); }); });
+
+/* ============================================
+   MÚSICA RELAJANTE (WEB AUDIO API - NO COPYRIGHT)
+============================================ */
+let audioCtx, ambientNodes = [], audioEnabled = false;
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const masterGain = audioCtx.createGain(); masterGain.gain.value = 0; masterGain.connect(audioCtx.destination);
+  const filter = audioCtx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 500; filter.Q.value = 1; filter.connect(masterGain);
+  const lfo = audioCtx.createOscillator(); const lfoGain = audioCtx.createGain(); lfo.frequency.value = 0.1; lfoGain.gain.value = 200; lfo.connect(lfoGain); lfoGain.connect(filter.frequency); lfo.start();
+  const freqs = [110, 164.81, 220, 329.63]; // A2, E3, A3, E4 (Acorde de La Mayor)
+  freqs.forEach((freq, i) => {
+    const osc = audioCtx.createOscillator(); osc.type = i % 2 === 0 ? 'sine' : 'triangle'; osc.frequency.value = freq;
+    const oscGain = audioCtx.createGain(); oscGain.gain.value = 0.15; osc.connect(oscGain); oscGain.connect(filter); osc.start();
+    ambientNodes.push({ osc, oscGain });
+  });
+  ambientNodes.masterGain = masterGain;
+}
+document.getElementById('musicToggle').addEventListener('click', () => {
+  if (!audioCtx) initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  audioEnabled = !audioEnabled;
+  const targetGain = audioEnabled ? 0.5 : 0.0;
+  ambientNodes.masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+  ambientNodes.masterGain.gain.setValueAtTime(ambientNodes.masterGain.gain.value, audioCtx.currentTime);
+  ambientNodes.masterGain.gain.linearRampToValueAtTime(targetGain, audioCtx.currentTime + 1.5);
+  document.getElementById('musicIcon').className = audioEnabled ? 'fas fa-pause text-xs' : 'fas fa-music text-xs';
+  showToast(audioEnabled ? 'AMBIENT_MUSIC: ON' : 'AMBIENT_MUSIC: OFF');
+});
+
+/* ============================================
+   INIT
+============================================ */
+loadState(); renderAll(); resizeHero(); initNodes(); animateHero(); new SnakeGame();
+</script>
 </body>
 </html>
