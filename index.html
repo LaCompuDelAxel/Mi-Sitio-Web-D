@@ -20,7 +20,7 @@
     --accent-cyan: #00e5ff;
     --accent-pink: #ff2e88;
     --accent-amber: #ffb627;
-    --border: rgba(0, 255, 157, 0.25);
+    --border: rgba(0, 255, 157, 0.3);
     --border-dim: rgba(0, 255, 157, 0.1);
     --card: rgba(10, 19, 32, 0.8);
     --glass: rgba(6, 12, 20, 0.9);
@@ -35,7 +35,6 @@
     font-family: 'Space Grotesk', sans-serif;
     margin: 0;
     overflow-x: hidden;
-    /* Optimizado: gradientes más simples */
     background-image:
       radial-gradient(ellipse 60% 40% at 20% 0%, rgba(0, 255, 157, 0.08), transparent 60%),
       radial-gradient(ellipse 50% 40% at 90% 20%, rgba(0, 229, 255, 0.06), transparent 60%);
@@ -44,7 +43,6 @@
   .font-display { font-family: 'Syne', sans-serif; letter-spacing: -0.02em; }
   .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-  /* Grid pattern simplified */
   body::before {
     content: '';
     position: fixed;
@@ -59,29 +57,33 @@
 
   main, nav, footer { position: relative; z-index: 3; }
 
+  /* HUD Corners */
   .hud-corners { position: relative; }
   .hud-corners > .c {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-color: var(--accent);
     border-style: solid;
     pointer-events: none;
+    transition: all 0.3s;
   }
   .hud-corners > .c1 { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
   .hud-corners > .c2 { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
   .hud-corners > .c3 { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
   .hud-corners > .c4 { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+  .card:hover .hud-corners > .c { width: 18px; height: 18px; border-color: var(--accent-cyan); }
 
   .card {
     background: var(--card);
     border: 1px solid var(--border-dim);
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
     position: relative;
   }
   .card:hover {
     border-color: var(--border);
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px -10px rgba(0, 255, 157, 0.1);
   }
 
   .glass {
@@ -178,14 +180,13 @@
   }
   .dropzone:hover, .dropzone.drag { border-color: var(--accent); }
 
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
   @keyframes pulse-bar { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
   @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   @keyframes flash-alert { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.5); border-color: var(--accent); } 100% { box-shadow: 0 0 0 20px rgba(0, 255, 157, 0); border-color: var(--border-dim); } }
   @keyframes bounce-stat { 0%, 100% { transform: scale(1); color: var(--accent); } 50% { transform: scale(1.3); color: var(--accent-cyan); } }
+  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 157, 0.1); } 50% { box-shadow: 0 0 20px rgba(0, 255, 157, 0.3); } }
 
-  .animate-float { animation: float 6s ease-in-out infinite; }
   .cursor-blink::after { content: '▊'; animation: blink 1s infinite; color: var(--accent); margin-left: 4px; }
 
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -239,6 +240,13 @@
   .bounce-stat { animation: bounce-stat 0.6s ease-in-out; }
 
   kbd { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border); padding: 0.2rem 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; }
+
+  /* Asegurar que el texto no se corte raro */
+  .hero-title { font-size: clamp(2.5rem, 7vw, 5.5rem); line-height: 0.95; word-break: keep-all; }
+  .clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  
+  .empty-state { border: 1px dashed var(--border-dim); padding: 3rem; text-align: center; }
 </style>
 </head>
 <body>
@@ -249,7 +257,7 @@
       <div class="relative w-9 h-9 flex items-center justify-center font-display font-bold text-base" style="background: linear-gradient(135deg, var(--accent), var(--accent-cyan)); color: var(--bg); clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));">A</div>
       <div class="flex flex-col leading-none">
         <span class="font-mono font-bold text-sm tracking-wider">LaCompuDelAxel<span style="color: var(--accent)">.</span>SYS</span>
-        <span class="font-mono text-[10px]" style="color: var(--muted)">v2.4.1 // stable</span>
+        <span class="font-mono text-[10px]" style="color: var(--muted)">v3.0 // online</span>
       </div>
     </a>
     <div class="hidden md:flex items-center gap-7">
@@ -284,12 +292,14 @@
         <div class="flex items-center gap-3 mb-6">
           <div class="section-tag"><span>SISTEMA INICIADO</span></div>
         </div>
-        <h1 class="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight mb-6">
-          <span class="block" style="color: var(--fg-dim); font-size: 0.5em; font-weight: 400;">// PORTAFOLIO TECNOLÓGICO</span>
+        
+        <h1 class="font-display font-extrabold tracking-tight mb-6 hero-title">
+          <span class="block" style="color: var(--fg-dim); font-size: 0.4em; font-weight: 400; letter-spacing: 0.1em;">// PORTAFOLIO TECNOLÓGICO</span>
           <span class="block">Bienvenido a</span>
           <span class="block gradient-text">LaCompuDelAxel</span>
           <span class="block">hub tech<span class="cursor-blink"></span></span>
         </h1>
+
         <p class="text-base md:text-lg max-w-xl mb-8" style="color: var(--fg-dim)">
           Espacio personal con proyectos, fotos, archivos y recursos. Todo centralizado, todo actualizado, todo en un solo lugar.
         </p>
@@ -300,23 +310,23 @@
         <div class="grid grid-cols-3 gap-4 max-w-lg">
           <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.3);">
             <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-display text-3xl font-bold gradient-text" id="stat-projects">00</div>
+            <div class="font-display text-4xl font-bold gradient-text" id="stat-projects">00</div>
             <div class="font-mono text-[10px] mt-1" style="color: var(--muted)">[PROYECTOS]</div>
           </div>
           <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.3);">
             <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-display text-3xl font-bold" style="color: var(--accent-cyan)" id="stat-photos">00</div>
+            <div class="font-display text-4xl font-bold" style="color: var(--accent-cyan)" id="stat-photos">00</div>
             <div class="font-mono text-[10px] mt-1" style="color: var(--muted)">[FOTOS]</div>
           </div>
           <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.3);">
             <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-display text-3xl font-bold" style="color: var(--accent-pink)" id="stat-files">00</div>
+            <div class="font-display text-4xl font-bold" style="color: var(--accent-pink)" id="stat-files">00</div>
             <div class="font-mono text-[10px] mt-1" style="color: var(--muted)">[ARCHIVOS]</div>
           </div>
         </div>
       </div>
       <div class="lg:col-span-5 hidden lg:block">
-        <div class="terminal animate-float">
+        <div class="terminal" style="animation: glow-pulse 4s infinite;">
           <div class="terminal-header">
             <div class="terminal-dot" style="background: #ff5f57"></div>
             <div class="terminal-dot" style="background: #febc2e"></div>
@@ -345,12 +355,10 @@
     <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASANDO</span>
     <span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span>
     <span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
-    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS: 23</span>
     <span class="mx-6"><span style="color: var(--accent)">●</span> SISTEMA_OPERATIVO</span>
     <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASANDO</span>
     <span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span>
     <span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
-    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS: 23</span>
   </div>
 </div>
 
@@ -359,11 +367,9 @@
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
       <div>
         <div class="section-tag mb-4"><span>01 // PROYECTOS</span></div>
-        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
-          Cosas que he <span class="gradient-text">construido</span>
-        </h2>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">Cosas que he <span class="gradient-text">construido</span></h2>
       </div>
-      <button onclick="openModal('proyecto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-plus text-xs"></i> NUEVO</button>
+      <button onclick="openModal('proyecto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-plus text-xs"></i> NUEVO PROYECTO</button>
     </div>
     <div class="flex flex-wrap gap-2 mb-10 reveal" id="projectFilters">
       <button class="chip active" data-filter="all">TODOS</button>
@@ -372,6 +378,10 @@
       <button class="chip" data-filter="ia">IA</button>
     </div>
     <div id="projectsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <div id="projectsEmpty" class="empty-state hidden">
+      <i class="fas fa-folder-open text-3xl mb-2" style="color: var(--muted)"></i>
+      <p class="font-mono text-sm" style="color: var(--muted)">NO HAY PROYECTOS. ¡SUBE EL PRIMERO!</p>
+    </div>
   </div>
 </section>
 
@@ -385,6 +395,10 @@
       <button onclick="openModal('foto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-upload text-xs"></i> SUBIR FOTO</button>
     </div>
     <div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+    <div id="galleryEmpty" class="empty-state hidden">
+      <i class="fas fa-image text-3xl mb-2" style="color: var(--muted)"></i>
+      <p class="font-mono text-sm" style="color: var(--muted)">NO HAY FOTOS. ¡SUBE LA PRIMERA!</p>
+    </div>
   </div>
 </section>
 
@@ -398,6 +412,10 @@
       <button onclick="openModal('archivo')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-file-arrow-up text-xs"></i> SUBIR ARCHIVO</button>
     </div>
     <div id="filesList" class="space-y-2"></div>
+    <div id="filesEmpty" class="empty-state hidden">
+      <i class="fas fa-file text-3xl mb-2" style="color: var(--muted)"></i>
+      <p class="font-mono text-sm" style="color: var(--muted)">NO HAY ARCHIVOS. ¡SUBE EL PRIMERO!</p>
+    </div>
   </div>
 </section>
 
@@ -408,9 +426,13 @@
         <div class="section-tag mb-4"><span>04 // ENLACES</span></div>
         <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">Recursos <span class="gradient-text">favoritos</span></h2>
       </div>
-      <button onclick="openModal('link')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-link text-xs"></i> AÑADIR</button>
+      <button onclick="openModal('link')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-link text-xs"></i> AÑADIR ENLACE</button>
     </div>
     <div id="linksGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div id="linksEmpty" class="empty-state hidden">
+      <i class="fas fa-link text-3xl mb-2" style="color: var(--muted)"></i>
+      <p class="font-mono text-sm" style="color: var(--muted)">NO HAY ENLACES. ¡AÑADE EL PRIMERO!</p>
+    </div>
   </div>
 </section>
 
@@ -420,35 +442,27 @@
       <div class="section-tag mb-4 inline-flex"><span>05 // JUEGO</span></div>
       <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">Toma un <span class="gradient-text">descanso</span></h2>
     </div>
-    <div class="card reveal">
-      <div class="grid lg:grid-cols-3 gap-6 p-6 md:p-8 items-start">
-        <div class="lg:col-span-2 flex justify-center">
-          <div class="relative">
-            <canvas id="snakeCanvas" width="400" height="400" class="max-w-full"></canvas>
-            <div id="snakeOverlay" class="absolute inset-0 flex flex-col items-center justify-center" style="background: rgba(3, 6, 10, 0.92);">
-              <i class="fas fa-gamepad text-5xl mb-4" style="color: var(--accent)"></i>
-              <h3 class="font-display font-bold text-3xl mb-1">SNAKE</h3>
-              <button id="snakeStart" class="btn-primary mt-4">▶ JUGAR</button>
-            </div>
+    <div class="card reveal p-6 md:p-8">
+      <div class="flex justify-center mb-6">
+        <div class="relative">
+          <canvas id="snakeCanvas" width="400" height="400" class="max-w-full"></canvas>
+          <div id="snakeOverlay" class="absolute inset-0 flex flex-col items-center justify-center" style="background: rgba(3, 6, 10, 0.92);">
+            <i class="fas fa-gamepad text-5xl mb-4" style="color: var(--accent)"></i>
+            <h3 class="font-display font-bold text-3xl mb-1">SNAKE</h3>
+            <button id="snakeStart" class="btn-primary mt-4">▶ JUGAR</button>
           </div>
         </div>
-        <div class="space-y-3">
-          <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.4);">
-            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">PUNTAJE</div>
-            <div class="font-display text-4xl font-bold gradient-text" id="snakeScore">00</div>
-          </div>
-          <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.4);">
-            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">RÉCORD</div>
-            <div class="font-display text-4xl font-bold" style="color: var(--accent-pink)" id="snakeBest">00</div>
-          </div>
-          <div class="card p-4">
-            <div class="font-mono text-[10px] mb-3" style="color: var(--muted)">CONTROLES</div>
-            <div class="space-y-2 text-xs font-mono">
-              <div class="flex items-center gap-2"><kbd>↑↓←→</kbd><span style="color: var(--fg-dim)">Mover</span></div>
-            </div>
-          </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto">
+        <div class="hud-corners p-3 text-center" style="background: rgba(0, 0, 0, 0.4);">
+          <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+          <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">PUNTAJE</div>
+          <div class="font-display text-3xl font-bold gradient-text" id="snakeScore">00</div>
+        </div>
+        <div class="hud-corners p-3 text-center" style="background: rgba(0, 0, 0, 0.4);">
+          <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+          <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">RÉCORD</div>
+          <div class="font-display text-3xl font-bold" style="color: var(--accent-pink)" id="snakeBest">00</div>
         </div>
       </div>
     </div>
@@ -462,19 +476,19 @@
       <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">Conecta <span class="gradient-text">conmigo</span></h2>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 reveal">
-      <a href="https://github.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
+      <a href="https://github.com" target="_blank" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
         <i class="fab fa-github text-3xl"></i><span class="font-mono text-[10px]">GITHUB</span>
       </a>
-      <a href="https://twitter.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
+      <a href="https://twitter.com" target="_blank" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
         <i class="fab fa-x-twitter text-3xl"></i><span class="font-mono text-[10px]">TWITTER</span>
       </a>
-      <a href="https://youtube.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
+      <a href="https://youtube.com" target="_blank" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
         <i class="fab fa-youtube text-3xl" style="color: #ff0000"></i><span class="font-mono text-[10px]">YOUTUBE</span>
       </a>
-      <a href="https://discord.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
+      <a href="https://discord.com" target="_blank" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
         <i class="fab fa-discord text-3xl" style="color: #5865f2"></i><span class="font-mono text-[10px]">DISCORD</span>
       </a>
@@ -485,19 +499,15 @@
 
 <footer class="border-t py-8 px-6" style="border-color: var(--border-dim); background: rgba(0,0,0,0.4);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-    <span class="font-mono text-xs" style="color: var(--fg-dim)">LaCompuDelAxel.SYS // v2.4.1</span>
+    <span class="font-mono text-xs" style="color: var(--fg-dim)">LaCompuDelAxel.SYS // v3.0</span>
     <p class="font-mono text-[10px]" style="color: var(--muted)">© 2025 — HECHO CON ♥</p>
     <a href="#hero" class="font-mono text-[10px] hover:text-[var(--accent)]" style="color: var(--fg-dim)">[↑ TOP]</a>
   </div>
 </footer>
 
 <div class="status-bar">
-  <div class="flex items-center gap-4">
-    <span><span style="color: var(--accent)">●</span> RAM: 42%</span>
-  </div>
-  <div class="flex items-center gap-4">
-    <span id="clock">--:--:--</span>
-  </div>
+  <div class="flex items-center gap-4"><span><span style="color: var(--accent)">●</span> RAM: 42%</span></div>
+  <div class="flex items-center gap-4"><span id="clock">--:--:--</span></div>
 </div>
 
 <div id="modal" class="modal-backdrop">
@@ -553,20 +563,35 @@
 <div id="toast" class="toast"><i class="fas fa-check-circle" style="color: var(--accent)"></i><span id="toastMsg">OK</span></div>
 
 <script>
-const STORE_KEY = 'lacompu_del_axel_v2';
+/* ============================================
+   ESTADO Y PERSISTENCIA (Inicia en 0)
+============================================ */
+const STORE_KEY = 'lacompu_del_axel_v3';
 let state = { proyectos: [], fotos: [], archivos: [], links: [] };
 
-// Datos de ejemplo
-state = {
-  proyectos: [
-    { id: 'p1', nombre: 'NeuralDesk', descripcion: 'Asistente con IA local.', categoria: 'ia', enlace: '#', imagen: 'https://picsum.photos/seed/neuraldesk/600/400.jpg', fecha: Date.now() },
-    { id: 'p2', nombre: 'PixelForge', descripcion: 'Editor de pixel art.', categoria: 'web', enlace: '#', imagen: 'https://picsum.photos/seed/pixelforge/600/400.jpg', fecha: Date.now() }
-  ],
-  fotos: [{ id: 'f1', src: 'https://picsum.photos/seed/photo1/800/800.jpg', titulo: 'Setup', fecha: Date.now() }],
-  archivos: [{ id: 'a1', nombre: 'config.json', size: 4521, type: 'application/json', fecha: Date.now(), dataUrl: null }],
-  links: [{ id: 'l1', titulo: 'GitHub', url: 'https://github.com', categoria: 'tool', fecha: Date.now() }]
-};
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORE_KEY);
+    if (saved) {
+      state = JSON.parse(saved);
+      // Asegurar que existen los arrays
+      if(!state.proyectos) state.proyectos = [];
+      if(!state.fotos) state.fotos = [];
+      if(!state.archivos) state.archivos = [];
+      if(!state.links) state.links = [];
+    } else {
+      // Si no hay nada guardado, inicia completamente vacío
+      state = { proyectos: [], fotos: [], archivos: [], links: [] };
+    }
+  } catch (e) {
+    state = { proyectos: [], fotos: [], archivos: [], links: [] };
+  }
+}
+function saveState() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
 
+/* ============================================
+   TOAST
+============================================ */
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -576,6 +601,9 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
+/* ============================================
+   SISTEMA DE DETECCIÓN
+============================================ */
 let currentFilter = 'all';
 function triggerDetection(gridId, statId) {
   const g = document.getElementById(gridId), s = document.getElementById(statId);
@@ -583,19 +611,34 @@ function triggerDetection(gridId, statId) {
   if(s) { s.classList.remove('bounce-stat'); void s.offsetWidth; s.classList.add('bounce-stat'); }
 }
 
+/* ============================================
+   RENDERIZADO
+============================================ */
+function escapeHtml(str) { if (str == null) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
 function renderProjects() {
   const grid = document.getElementById('projectsGrid');
+  const empty = document.getElementById('projectsEmpty');
   const f = currentFilter === 'all' ? state.proyectos : state.proyectos.filter(p => p.categoria === currentFilter);
+  
+  if (f.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
   grid.innerHTML = f.map(p => `
-    <article class="card overflow-hidden">
+    <article class="card overflow-hidden hud-corners">
+      <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
       <div class="relative aspect-video overflow-hidden">
-        <img src="${p.imagen}" class="w-full h-full object-cover" loading="lazy">
+        <img src="${escapeHtml(p.imagen)}" class="w-full h-full object-cover" loading="lazy">
         <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
-        <div class="absolute top-3 left-3 px-2 py-0.5 font-mono text-[10px]" style="background: var(--accent); color: var(--bg);">[${p.categoria.toUpperCase()}]</div>
+        <div class="absolute top-3 left-3 px-2 py-0.5 font-mono text-[10px]" style="background: var(--accent); color: var(--bg);">[${escapeHtml(p.categoria.toUpperCase())}]</div>
       </div>
       <div class="p-5">
-        <h3 class="font-display font-bold text-xl mb-2">${p.nombre}</h3>
-        <p class="text-sm mb-4 font-mono" style="color: var(--fg-dim)">${p.descripcion}</p>
+        <h3 class="font-display font-bold text-xl mb-2 clamp-2">${escapeHtml(p.nombre)}</h3>
+        <p class="text-sm mb-4 font-mono clamp-3" style="color: var(--fg-dim)">${escapeHtml(p.descripcion)}</p>
         <button onclick="deleteItem('proyectos', '${p.id}')" class="font-mono text-[10px] hover:text-red-400" style="color: var(--fg-dim)">[ELIMINAR]</button>
       </div>
     </article>
@@ -603,34 +646,46 @@ function renderProjects() {
 }
 
 function renderGallery() {
-  document.getElementById('galleryGrid').innerHTML = state.fotos.map(f => `
+  const grid = document.getElementById('galleryGrid');
+  const empty = document.getElementById('galleryEmpty');
+  if (state.fotos.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  grid.innerHTML = state.fotos.map(f => `
     <div class="relative aspect-square overflow-hidden card cursor-pointer" onclick="openLightbox('${f.id}')">
-      <img src="${f.src}" class="w-full h-full object-cover" loading="lazy">
+      <img src="${escapeHtml(f.src)}" class="w-full h-full object-cover" loading="lazy">
     </div>
   `).join('');
 }
 
 function renderFiles() {
-  document.getElementById('filesList').innerHTML = state.archivos.map(a => `
+  const list = document.getElementById('filesList');
+  const empty = document.getElementById('filesEmpty');
+  if (state.archivos.length === 0) { list.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  list.innerHTML = state.archivos.map(a => `
     <div class="card p-3 flex items-center gap-3">
       <i class="fas fa-file-code" style="color: var(--accent)"></i>
-      <span class="flex-1 font-mono text-xs truncate">${a.nombre}</span>
+      <span class="flex-1 font-mono text-xs truncate">${escapeHtml(a.nombre)}</span>
       <button onclick="deleteItem('archivos', '${a.id}')" class="font-mono text-[10px] hover:text-red-400">[X]</button>
     </div>
   `).join('');
 }
 
 function renderLinks() {
-  document.getElementById('linksGrid').innerHTML = state.links.map(l => `
-    <a href="${l.url}" target="_blank" class="link-card card p-5 flex flex-col">
-      <h3 class="font-display font-bold text-base mb-1">${l.titulo}</h3>
-      <span class="font-mono text-[10px]" style="color: var(--muted)">${l.url}</span>
+  const grid = document.getElementById('linksGrid');
+  const empty = document.getElementById('linksEmpty');
+  if (state.links.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  grid.innerHTML = state.links.map(l => `
+    <a href="${escapeHtml(l.url)}" target="_blank" class="link-card card p-5 flex flex-col hud-corners">
+      <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+      <h3 class="font-display font-bold text-base mb-1 clamp-2">${escapeHtml(l.titulo)}</h3>
+      <span class="font-mono text-[10px] truncate" style="color: var(--muted)">${escapeHtml(l.url)}</span>
     </a>
   `).join('');
 }
 
 function deleteItem(type, id) { state[type] = state[type].filter(i => i.id !== id); saveState(); renderAll(); showToast('ELIMINADO'); }
-function saveState() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
 function updateStats() {
   document.getElementById('stat-projects').textContent = String(state.proyectos.length).padStart(2,'0');
   document.getElementById('stat-photos').textContent = String(state.fotos.length).padStart(2,'0');
@@ -638,8 +693,11 @@ function updateStats() {
 }
 function renderAll() { renderProjects(); renderGallery(); renderFiles(); renderLinks(); updateStats(); }
 
+/* ============================================
+   MODAL Y FORMULARIOS
+============================================ */
 function openModal(tab='proyecto') { document.getElementById('modal').classList.add('show'); switchTab(tab); }
-function closeModal() { document.getElementById('modal').classList.remove('show'); }
+function closeModal() { document.getElementById('modal').classList.remove('show'); document.querySelectorAll('.modal-form').forEach(f => f.reset()); document.getElementById('photoPreview').classList.add('hidden'); pendingPhoto=null; pendingFile=null; }
 function switchTab(tab) {
   document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
   document.querySelectorAll('.modal-form').forEach(f => f.classList.add('hidden'));
@@ -647,19 +705,23 @@ function switchTab(tab) {
 }
 
 let pendingPhoto=null, pendingFile=null;
+
 document.getElementById('form-proyecto').addEventListener('submit', e => {
   e.preventDefault();
   const fd = new FormData(e.target);
   state.proyectos.unshift({ id:'p'+Date.now(), nombre:fd.get('nombre'), descripcion:fd.get('descripcion'), categoria:fd.get('categoria'), enlace:fd.get('enlace')||'#', imagen:`https://picsum.photos/seed/${Date.now()}/600/400.jpg`, fecha:Date.now() });
   saveState(); renderAll(); closeModal(); showToast('PROYECTO AÑADIDO'); triggerDetection('projectsGrid','stat-projects');
 });
+
 document.getElementById('photoDropzone').addEventListener('click', () => document.getElementById('photoInput').click());
 document.getElementById('photoInput').addEventListener('change', e => { if(e.target.files[0]) { const r=new FileReader(); r.onload=ev=>{pendingPhoto=ev.target.result; document.getElementById('photoPreviewImg').src=ev.target.result; document.getElementById('photoPreview').classList.remove('hidden');}; r.readAsDataURL(e.target.files[0]); }});
 document.getElementById('form-foto').addEventListener('submit', e => { e.preventDefault(); if(!pendingPhoto){showToast('ERROR: NO FOTO');return;} state.fotos.unshift({id:'f'+Date.now(), src:pendingPhoto, titulo:'', fecha:Date.now()}); saveState(); renderAll(); closeModal(); showToast('FOTO SUBIDA'); triggerDetection('galleryGrid','stat-photos'); });
+
 document.getElementById('fileDropzone').addEventListener('click', () => document.getElementById('fileInput').click());
 document.getElementById('fileInput').addEventListener('change', e => { if(e.target.files[0]) pendingFile=e.target.files[0]; });
 document.getElementById('form-archivo').addEventListener('submit', e => { e.preventDefault(); if(!pendingFile){showToast('ERROR: NO FILE');return;} const r=new FileReader(); r.onload=ev=>{ state.archivos.unshift({id:'a'+Date.now(), nombre:pendingFile.name, size:pendingFile.size, type:pendingFile.type, fecha:Date.now(), dataUrl:ev.target.result}); saveState(); renderAll(); closeModal(); showToast('ARCHIVO SUBIDO'); triggerDetection('filesList','stat-files'); }; r.readAsDataURL(pendingFile); });
-document.getElementById('form-link').addEventListener('submit', e => { e.preventDefault(); const fd=new FormData(e.target); state.links.unshift({id:'l'+Date.now(), titulo:fd.get('titulo'), url:fd.get('url'), categoria:'tool', fecha:Date.now()}); saveState(); renderAll(); closeModal(); showToast('ENLACE AÑADIDO'); });
+
+document.getElementById('form-link').addEventListener('submit', e => { e.preventDefault(); const fd=new FormData(e.target); state.links.unshift({id:'l'+Date.now(), titulo:fd.get('titulo'), url:fd.get('url'), categoria:'tool', fecha:Date.now()}); saveState(); renderAll(); closeModal(); showToast('ENLACE AÑADIDO'); triggerDetection('linksGrid','stat-projects'); });
 
 function openLightbox(id) { const f=state.fotos.find(x=>x.id===id); if(!f)return; document.getElementById('lightboxImg').src=f.src; document.getElementById('lightbox').classList.add('show'); }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); }
@@ -667,17 +729,21 @@ function closeLightbox() { document.getElementById('lightbox').classList.remove(
 document.getElementById('projectFilters').addEventListener('click', e => { if(e.target.classList.contains('chip')){ document.querySelectorAll('#projectFilters .chip').forEach(c=>c.classList.remove('active')); e.target.classList.add('active'); currentFilter=e.target.dataset.filter; renderProjects(); }});
 document.querySelectorAll('.modal-tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
 
-// CANVAS OPTIMIZADO
+/* ============================================
+   CANVAS OPTIMIZADO
+============================================ */
 const heroCanvas = document.getElementById('heroCanvas'); const ctx = heroCanvas.getContext('2d');
-let nodes = [], mouse = {x:null,y:null};
+let nodes = [];
 function resizeHero() { heroCanvas.width = heroCanvas.offsetWidth; heroCanvas.height = heroCanvas.offsetHeight; }
 class Node { constructor(){ this.x=Math.random()*heroCanvas.width; this.y=Math.random()*heroCanvas.height; this.vx=(Math.random()-0.5)*0.2; this.vy=(Math.random()-0.5)*0.2; this.size=Math.random()*1.5+0.5; } update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>heroCanvas.width)this.vx*=-1; if(this.y<0||this.y>heroCanvas.height)this.vy*=-1; } draw(){ ctx.fillStyle='rgba(0,255,157,0.5)'; ctx.beginPath(); ctx.arc(this.x,this.y,Math.max(0.5,this.size),0,Math.PI*2); ctx.fill(); } }
-function initNodes() { nodes = []; const count = 30; /* Muy optimizado */ for(let i=0;i<count;i++) nodes.push(new Node()); }
+function initNodes() { nodes = []; const count = 30; for(let i=0;i<count;i++) nodes.push(new Node()); }
 function connectNodes() { const maxDist=100; for(let i=0;i<nodes.length;i++){ for(let j=i+1;j<nodes.length;j++){ const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy); if(d<maxDist){ ctx.strokeStyle=`rgba(0,255,157,${(1-d/maxDist)*0.15})`; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke(); } } } }
 function animateHero() { ctx.clearRect(0,0,heroCanvas.width,heroCanvas.height); nodes.forEach(n=>{n.update();n.draw();}); connectNodes(); requestAnimationFrame(animateHero); }
 window.addEventListener('resize', () => { resizeHero(); initNodes(); });
 
-// SNAKE OPTIMIZADO
+/* ============================================
+   SNAKE GAME
+============================================ */
 class SnakeGame {
   constructor() {
     this.canvas = document.getElementById('snakeCanvas'); this.ctx = this.canvas.getContext('2d');
@@ -704,6 +770,7 @@ class SnakeGame {
   gameOver() { this.running = false; document.getElementById('snakeOverlay').style.display = 'flex'; document.getElementById('snakeScore').textContent = '00'; }
 }
 document.addEventListener('keydown', e => {
+  if(!game) return;
   const k = e.key.toLowerCase();
   if(k==='arrowup'||k==='w') game.vel = {x:0,y:-1};
   else if(k==='arrowdown'||k==='s') game.vel = {x:0,y:1};
@@ -711,7 +778,9 @@ document.addEventListener('keydown', e => {
   else if(k==='arrowright'||k==='d') game.vel = {x:1,y:0};
 });
 
-// AUDIO
+/* ============================================
+   AUDIO
+============================================ */
 let audioCtx, masterGain, audioEnabled = false;
 function initAudio() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -731,12 +800,20 @@ document.getElementById('musicToggle').addEventListener('click', () => {
   document.getElementById('musicIcon').className = audioEnabled ? 'fas fa-pause text-xs' : 'fas fa-music text-xs';
 });
 
-// RELOJ
+/* ============================================
+   RELOJ Y SCROLL
+============================================ */
 function updateClock() { const n=new Date(); document.getElementById('clock').textContent = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`; }
 setInterval(updateClock, 1000); updateClock();
 
-// INIT
+const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ============================================
+   INIT
+============================================ */
 let game;
+loadState(); // Carga lo guardado O inicia vacío
 resizeHero(); initNodes(); animateHero(); renderAll(); game = new SnakeGame();
 </script>
 </body>
