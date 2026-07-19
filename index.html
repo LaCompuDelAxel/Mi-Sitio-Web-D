@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LaCompuDelAxel // Tech Hub Personal</title>
+<title>LaCompuDelAxel // Tech Hub</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,18 +13,17 @@
   :root {
     --bg: #03060a;
     --bg-2: #060c14;
-    --bg-3: #0a1320;
-    --fg: #d4f4e8;
-    --fg-dim: #8aa39a;
-    --muted: #4a5d57;
+    --fg: #e8fff5;
+    --fg-dim: #a0b8b0;
+    --muted: #5a6d67;
     --accent: #00ff9d;
     --accent-cyan: #00e5ff;
     --accent-pink: #ff2e88;
     --accent-amber: #ffb627;
-    --border: rgba(0, 255, 157, 0.18);
-    --border-dim: rgba(0, 255, 157, 0.08);
-    --card: rgba(10, 19, 32, 0.7);
-    --glass: rgba(6, 12, 20, 0.85);
+    --border: rgba(0, 255, 157, 0.25);
+    --border-dim: rgba(0, 255, 157, 0.1);
+    --card: rgba(10, 19, 32, 0.8);
+    --glass: rgba(6, 12, 20, 0.9);
   }
 
   * { box-sizing: border-box; }
@@ -36,35 +35,26 @@
     font-family: 'Space Grotesk', sans-serif;
     margin: 0;
     overflow-x: hidden;
+    /* Optimizado: gradientes más simples */
     background-image:
-      radial-gradient(ellipse 70% 50% at 20% 0%, rgba(0, 255, 157, 0.10), transparent 60%),
-      radial-gradient(ellipse 50% 40% at 90% 20%, rgba(0, 229, 255, 0.08), transparent 60%),
-      radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255, 46, 136, 0.05), transparent 60%);
-    background-attachment: fixed;
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(0, 255, 157, 0.08), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 90% 20%, rgba(0, 229, 255, 0.06), transparent 60%);
   }
 
   .font-display { font-family: 'Syne', sans-serif; letter-spacing: -0.02em; }
   .font-mono { font-family: 'JetBrains Mono', monospace; }
 
+  /* Grid pattern simplified */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0, 255, 157, 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 255, 157, 0.025) 1px, transparent 1px);
+      linear-gradient(rgba(0, 255, 157, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 157, 0.02) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 1;
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0, 255, 157, 0.015) 2px, rgba(0, 255, 157, 0.015) 3px);
-    pointer-events: none;
-    z-index: 2;
   }
 
   main, nav, footer { position: relative; z-index: 3; }
@@ -85,9 +75,8 @@
 
   .card {
     background: var(--card);
-    backdrop-filter: blur(12px);
     border: 1px solid var(--border-dim);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s ease;
     position: relative;
   }
   .card:hover {
@@ -97,7 +86,6 @@
 
   .glass {
     background: var(--glass);
-    backdrop-filter: blur(16px) saturate(160%);
     border: 1px solid var(--border);
   }
 
@@ -111,15 +99,11 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
     transition: all 0.2s;
-    position: relative;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
     border: none;
     cursor: pointer;
   }
-  .btn-primary:hover {
-    background: var(--accent-cyan);
-    box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
-  }
+  .btn-primary:hover { background: var(--accent-cyan); }
 
   .btn-ghost {
     background: transparent;
@@ -134,11 +118,7 @@
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
     cursor: pointer;
   }
-  .btn-ghost:hover {
-    border-color: var(--accent);
-    background: rgba(0, 255, 157, 0.06);
-    color: var(--accent);
-  }
+  .btn-ghost:hover { border-color: var(--accent); background: rgba(0, 255, 157, 0.06); color: var(--accent); }
 
   .section-tag {
     display: inline-flex;
@@ -160,10 +140,7 @@
     background: var(--accent);
     border-radius: 50%;
     box-shadow: 0 0 8px var(--accent);
-    animation: blink-dot 2s infinite;
   }
-
-  @keyframes blink-dot { 0%, 70%, 100% { opacity: 1; } 35% { opacity: 0.3; } }
 
   .chip {
     padding: 0.4rem 1rem;
@@ -177,7 +154,7 @@
     letter-spacing: 0.08em;
     background: rgba(0, 0, 0, 0.3);
   }
-  .chip:hover { color: var(--fg); border-color: var(--border); background: rgba(0, 255, 157, 0.04); }
+  .chip:hover { color: var(--fg); border-color: var(--border); }
   .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
 
   .input {
@@ -188,10 +165,8 @@
     width: 100%;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.9rem;
-    transition: all 0.2s;
   }
-  .input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 20px rgba(0, 255, 157, 0.15); background: rgba(0, 0, 0, 0.7); }
-  .input::placeholder { color: var(--muted); }
+  .input:focus { outline: none; border-color: var(--accent); }
 
   .dropzone {
     border: 1px dashed var(--border);
@@ -201,75 +176,57 @@
     cursor: pointer;
     background: rgba(0, 0, 0, 0.3);
   }
-  .dropzone:hover, .dropzone.drag { border-color: var(--accent); background: rgba(0, 255, 157, 0.04); }
+  .dropzone:hover, .dropzone.drag { border-color: var(--accent); }
 
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-  @keyframes glitch-1 { 0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); } 20% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); } 40% { clip-path: inset(50% 0 20% 0); transform: translate(2px, -1px); } 60% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 2px); } 80% { clip-path: inset(70% 0 5% 0); transform: translate(1px, -2px); } }
-  @keyframes glitch-2 { 0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); } 25% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); } 50% { clip-path: inset(15% 0 65% 0); transform: translate(-2px, 1px); } 75% { clip-path: inset(40% 0 40% 0); transform: translate(1px, 2px); } }
   @keyframes pulse-bar { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
   @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-  @keyframes data-flow { 0% { transform: translateY(-100%); opacity: 0; } 10%, 90% { opacity: 1; } 100% { transform: translateY(100%); opacity: 0; } }
   @keyframes flash-alert { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.5); border-color: var(--accent); } 100% { box-shadow: 0 0 0 20px rgba(0, 255, 157, 0); border-color: var(--border-dim); } }
   @keyframes bounce-stat { 0%, 100% { transform: scale(1); color: var(--accent); } 50% { transform: scale(1.3); color: var(--accent-cyan); } }
 
   .animate-float { animation: float 6s ease-in-out infinite; }
   .cursor-blink::after { content: '▊'; animation: blink 1s infinite; color: var(--accent); margin-left: 4px; }
 
-  .glitch { position: relative; display: inline-block; }
-  .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; }
-  .glitch::before { color: var(--accent-cyan); animation: glitch-1 3s infinite linear alternate-reverse; opacity: 0.7; }
-  .glitch::after { color: var(--accent-pink); animation: glitch-2 2.5s infinite linear alternate-reverse; opacity: 0.7; }
-
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   .gradient-text { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-cyan) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 
-  .terminal { background: linear-gradient(180deg, rgba(10, 19, 32, 0.95), rgba(6, 12, 20, 0.98)); border: 1px solid var(--border); position: relative; overflow: hidden; }
+  .terminal { background: rgba(10, 19, 32, 0.95); border: 1px solid var(--border); position: relative; overflow: hidden; }
   .terminal-header { background: rgba(0, 0, 0, 0.4); padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--fg-dim); }
   .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .terminal-scanline { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.4; animation: scan-line 4s linear infinite; pointer-events: none; }
-  @keyframes scan-line { 0% { top: 0; } 100% { top: 100%; } }
 
   .nav-link { color: var(--fg-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.2s; position: relative; padding: 0.3rem 0; }
   .nav-link:hover { color: var(--accent); }
   .nav-link::before { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
   .nav-link:hover::before { width: 100%; }
-  .nav-link.active { color: var(--accent); }
-  .nav-link.active::before { width: 100%; }
 
-  .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 0.4rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--fg-dim); z-index: 30; display: flex; justify-content: space-between; align-items: center; overflow: hidden; }
+  .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); border-top: 1px solid var(--border); padding: 0.4rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--fg-dim); z-index: 30; display: flex; justify-content: space-between; align-items: center; }
 
   .audio-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
   .audio-bars span { display: block; width: 2px; background: var(--accent); transform-origin: bottom; animation: pulse-bar 1s ease-in-out infinite; }
-  .audio-bars span:nth-child(1) { height: 40%; animation-delay: 0s; }
+  .audio-bars span:nth-child(1) { height: 40%; }
   .audio-bars span:nth-child(2) { height: 80%; animation-delay: 0.15s; }
   .audio-bars span:nth-child(3) { height: 60%; animation-delay: 0.3s; }
   .audio-bars span:nth-child(4) { height: 100%; animation-delay: 0.45s; }
   .audio-bars span:nth-child(5) { height: 50%; animation-delay: 0.6s; }
 
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg-2); }
   ::-webkit-scrollbar-thumb { background: rgba(0, 255, 157, 0.2); }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 157, 0.4); }
 
-  .toast { position: fixed; bottom: 3rem; right: 2rem; z-index: 100; padding: 0.9rem 1.3rem; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--accent); color: var(--fg); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 20px 40px -10px rgba(0, 255, 157, 0.3); clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); }
+  .toast { position: fixed; bottom: 3rem; right: 2rem; z-index: 100; padding: 0.9rem 1.3rem; background: var(--glass); border: 1px solid var(--accent); color: var(--fg); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; transform: translateY(150%); transition: transform 0.4s; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); }
   .toast.show { transform: translateY(0); }
 
-  .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .modal-backdrop.show { opacity: 1; pointer-events: auto; }
 
-  .lightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .lightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; }
   .lightbox.show { opacity: 1; pointer-events: auto; }
 
   #heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
-  #snakeCanvas { background: #03060a; border: 1px solid var(--border); image-rendering: pixelated; }
-
-  .hex-bg { background-image: url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32z' fill='none' stroke='%2300ff9d' stroke-opacity='0.06' stroke-width='1'/%3E%3C/svg%3E"); }
-
-  .data-stream { position: absolute; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--accent), transparent); opacity: 0.3; overflow: hidden; }
-  .data-stream::before { content: ''; position: absolute; top: 0; left: -1px; right: -1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--accent), transparent); animation: data-flow 4s linear infinite; }
+  #snakeCanvas { background: #03060a; border: 1px solid var(--border); }
 
   .link-card { position: relative; overflow: hidden; }
   .link-card .arrow { transition: transform 0.3s; }
@@ -281,25 +238,20 @@
   .flash-alert { animation: flash-alert 1s ease-out; }
   .bounce-stat { animation: bounce-stat 0.6s ease-in-out; }
 
-  kbd { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border); padding: 0.2rem 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 2px; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4); }
-
-  @media (max-width: 768px) { .hero-title { font-size: 2.5rem !important; } .status-bar { font-size: 0.6rem; } }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  kbd { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border); padding: 0.2rem 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; }
 </style>
 </head>
 <body>
 
-<!-- ============ NAVBAR ============ -->
 <nav class="glass fixed top-0 left-0 right-0 z-40 border-b" style="border-color: var(--border-dim)">
   <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
-    <a href="#hero" class="flex items-center gap-2.5 group">
+    <a href="#hero" class="flex items-center gap-2.5">
       <div class="relative w-9 h-9 flex items-center justify-center font-display font-bold text-base" style="background: linear-gradient(135deg, var(--accent), var(--accent-cyan)); color: var(--bg); clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));">A</div>
       <div class="flex flex-col leading-none">
         <span class="font-mono font-bold text-sm tracking-wider">LaCompuDelAxel<span style="color: var(--accent)">.</span>SYS</span>
         <span class="font-mono text-[10px]" style="color: var(--muted)">v2.4.1 // stable</span>
       </div>
     </a>
-
     <div class="hidden md:flex items-center gap-7">
       <a href="#proyectos" class="nav-link">[01] Proyectos</a>
       <a href="#galeria" class="nav-link">[02] Galería</a>
@@ -308,11 +260,10 @@
       <a href="#juego" class="nav-link">[05] Juego</a>
       <a href="#redes" class="nav-link">[06] Redes</a>
     </div>
-
     <div class="flex items-center gap-3">
-      <button id="musicToggle" class="btn-ghost flex items-center gap-2" title="Música relajante">
+      <button id="musicToggle" class="btn-ghost flex items-center gap-2">
         <i id="musicIcon" class="fas fa-music text-xs"></i>
-        <span class="hidden sm:inline" id="musicText">AMBIENT</span>
+        <span class="hidden sm:inline">MÚSICA</span>
       </button>
       <button onclick="openModal()" class="btn-primary flex items-center gap-2">
         <i class="fas fa-plus text-xs"></i>
@@ -323,41 +274,29 @@
 </nav>
 
 <main>
-
-<!-- ============ HERO ============ -->
 <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
   <canvas id="heroCanvas"></canvas>
-  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--bg)] z-10 pointer-events-none"></div>
-
-  <div class="data-stream" style="left: 5%; animation-delay: 0s;"></div>
-  <div class="data-stream" style="left: 15%; animation-delay: 1s;"></div>
-  <div class="data-stream" style="right: 8%; animation-delay: 2s;"></div>
-  <div class="data-stream" style="right: 20%; animation-delay: 0.5s;"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--bg)] z-10 pointer-events-none"></div>
 
   <div class="max-w-7xl mx-auto px-6 py-16 relative z-20 w-full">
     <div class="grid lg:grid-cols-12 gap-10 items-center">
       <div class="lg:col-span-7">
         <div class="flex items-center gap-3 mb-6">
-          <div class="section-tag"><span>INIT_OK // SYSTEM_READY</span></div>
-          <span class="font-mono text-[10px]" style="color: var(--muted)">UPTIME: 99.97%</span>
+          <div class="section-tag"><span>SISTEMA INICIADO</span></div>
         </div>
-
-        <h1 class="hero-title font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight mb-6">
-          <span class="block" style="color: var(--fg-dim); font-size: 0.5em; font-weight: 400; letter-spacing: 0.1em;">// DEVELOPER_PORTFOLIO</span>
+        <h1 class="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight mb-6">
+          <span class="block" style="color: var(--fg-dim); font-size: 0.5em; font-weight: 400;">// PORTAFOLIO TECNOLÓGICO</span>
           <span class="block">Bienvenido a</span>
-          <span class="block gradient-text glitch" data-text="LaCompuDelAxel">LaCompuDelAxel</span>
+          <span class="block gradient-text">LaCompuDelAxel</span>
           <span class="block">hub tech<span class="cursor-blink"></span></span>
         </h1>
-
-        <p class="text-base md:text-lg max-w-xl mb-8 font-mono" style="color: var(--fg-dim)">
-          <span style="color: var(--accent)">&gt;</span> Espacio personal con proyectos, fotos, archivos y recursos. Todo centralizado, todo actualizado, todo en un solo lugar.
+        <p class="text-base md:text-lg max-w-xl mb-8" style="color: var(--fg-dim)">
+          Espacio personal con proyectos, fotos, archivos y recursos. Todo centralizado, todo actualizado, todo en un solo lugar.
         </p>
-
         <div class="flex flex-wrap gap-3 mb-12">
           <a href="#proyectos" class="btn-primary flex items-center gap-2"><i class="fas fa-terminal text-xs"></i> Ver proyectos</a>
           <a href="#juego" class="btn-ghost flex items-center gap-2"><i class="fas fa-gamepad text-xs"></i> Jugar</a>
         </div>
-
         <div class="grid grid-cols-3 gap-4 max-w-lg">
           <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.3);">
             <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
@@ -376,220 +315,139 @@
           </div>
         </div>
       </div>
-
       <div class="lg:col-span-5 hidden lg:block">
         <div class="terminal animate-float">
           <div class="terminal-header">
             <div class="terminal-dot" style="background: #ff5f57"></div>
             <div class="terminal-dot" style="background: #febc2e"></div>
             <div class="terminal-dot" style="background: #28c840"></div>
-            <span class="ml-2">~/lacompu_del_axel/developer.profile</span>
-            <span class="ml-auto" style="color: var(--accent)">● REC</span>
+            <span class="ml-2">~/axel/developer.profile</span>
           </div>
-          <div class="terminal-scanline"></div>
           <pre class="p-5 font-mono text-xs leading-relaxed overflow-x-auto"><span style="color: var(--muted)">// profile.config</span>
 <span style="color: var(--accent-pink)">[USER]</span>
 <span style="color: var(--accent)">name</span>      = <span style="color: var(--accent-amber)">"Axel"</span>
-<span style="color: var(--accent)">role</span>      = <span style="color: var(--accent-amber)">"Full Stack Developer"</span>
-<span style="color: var(--accent)">status</span>    = <span style="color: var(--accent-amber)">"available"</span>
+<span style="color: var(--accent)">role</span>      = <span style="color: var(--accent-amber)">"Full Stack Dev"</span>
 
 <span style="color: var(--accent-pink)">[STACK]</span>
-<span style="color: var(--accent-cyan)">frontend</span> = [<span style="color: var(--accent-amber)">"JS"</span>, <span style="color: var(--accent-amber)">"React"</span>, <span style="color: var(--accent-amber)">"CSS"</span>]
+<span style="color: var(--accent-cyan)">frontend</span> = [<span style="color: var(--accent-amber)">"JS"</span>, <span style="color: var(--accent-amber)">"React"</span>]
 <span style="color: var(--accent-cyan)">backend</span>  = [<span style="color: var(--accent-amber)">"Node"</span>, <span style="color: var(--accent-amber)">"Python"</span>]
-<span style="color: var(--accent-cyan)">tools</span>    = [<span style="color: var(--accent-amber)">"Git"</span>, <span style="color: var(--accent-amber)">"Docker"</span>]
-<span style="color: var(--accent-cyan)">learning</span> = <span style="color: var(--accent-amber)">"Rust"</span>
 
-<span style="color: var(--accent-pink)">[MISSION]</span>
-<span style="color: var(--accent)">objective</span> = <span style="color: var(--accent-amber)">"build_stuff_that_matters"</span>
-<span style="color: var(--accent)">loop</span>      = <span style="color: var(--accent-amber)">"while(true) { create(); }"</span>
-
-<span style="color: var(--muted)">// EOF — system ready ▊</span></pre>
+<span style="color: var(--muted)">// EOF</span></pre>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
-    <span class="font-mono text-[10px]" style="color: var(--muted)">[SCROLL_DOWN]</span>
-    <div class="w-px h-10" style="background: linear-gradient(to bottom, var(--accent), transparent);"></div>
-  </div>
 </section>
 
-<!-- ============ TICKER ============ -->
 <div class="border-y py-3 ticker-wrap" style="border-color: var(--border-dim); background: rgba(0, 0, 0, 0.3);">
   <div class="ticker font-mono text-xs" style="color: var(--fg-dim)">
-    <span class="mx-6"><span style="color: var(--accent)">●</span> SYSTEM_OPERATIONAL</span>
-    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASSING</span>
-    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> ZERO_BUGS_FOUND</span>
-    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> COFFEE_LEVEL: 87%</span>
-    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS_TODAY: 23</span>
-    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> LINES_OF_CODE: 142,857</span>
-    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> DEPLOYMENTS: 1,337</span>
-    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> UPTIME: 99.97%</span>
-    <span class="mx-6"><span style="color: var(--accent)">●</span> SYSTEM_OPERATIONAL</span>
-    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASSING</span>
-    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> ZERO_BUGS_FOUND</span>
-    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> COFFEE_LEVEL: 87%</span>
-    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS_TODAY: 23</span>
-    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> LINES_OF_CODE: 142,857</span>
-    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> DEPLOYMENTS: 1,337</span>
-    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> UPTIME: 99.97%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> SISTEMA_OPERATIVO</span>
+    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASANDO</span>
+    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span>
+    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS: 23</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> SISTEMA_OPERATIVO</span>
+    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> BUILD_PASANDO</span>
+    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span>
+    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> COMMITS: 23</span>
   </div>
 </div>
 
-<!-- ============ PROYECTOS ============ -->
 <section id="proyectos" class="py-24 px-6">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
       <div>
-        <div class="section-tag mb-4"><span>SECTION_01 // PROJECTS.LOG</span></div>
+        <div class="section-tag mb-4"><span>01 // PROYECTOS</span></div>
         <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
-          <span style="color: var(--fg-dim)">./</span>Cosas que he<br><span class="gradient-text">construido</span>
+          Cosas que he <span class="gradient-text">construido</span>
         </h2>
       </div>
-      <button onclick="openModal('proyecto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-plus text-xs"></i> NEW_PROJECT</button>
+      <button onclick="openModal('proyecto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-plus text-xs"></i> NUEVO</button>
     </div>
-
     <div class="flex flex-wrap gap-2 mb-10 reveal" id="projectFilters">
-      <button class="chip active" data-filter="all">[ALL]</button>
-      <button class="chip" data-filter="web">[WEB]</button>
-      <button class="chip" data-filter="app">[APP]</button>
-      <button class="chip" data-filter="ia">[AI]</button>
-      <button class="chip" data-filter="hardware">[HW]</button>
-      <button class="chip" data-filter="otro">[OTHER]</button>
+      <button class="chip active" data-filter="all">TODOS</button>
+      <button class="chip" data-filter="web">WEB</button>
+      <button class="chip" data-filter="app">APP</button>
+      <button class="chip" data-filter="ia">IA</button>
     </div>
-
     <div id="projectsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    <div id="projectsEmpty" class="hidden text-center py-20">
-      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> ls proyectos/<br><span style="color: var(--muted)">empty — no projects found</span></div>
-    </div>
   </div>
 </section>
 
-<!-- ============ GALERÍA ============ -->
-<section id="galeria" class="py-24 px-6 relative hex-bg">
+<section id="galeria" class="py-24 px-6">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
       <div>
-        <div class="section-tag mb-4"><span>SECTION_02 // MEDIA.VAULT</span></div>
-        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
-          <span style="color: var(--fg-dim)">./</span>Momentos<br><span class="gradient-text">capturados</span>
-        </h2>
+        <div class="section-tag mb-4"><span>02 // GALERÍA</span></div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">Momentos <span class="gradient-text">capturados</span></h2>
       </div>
-      <button onclick="openModal('foto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-upload text-xs"></i> UPLOAD_PHOTO</button>
+      <button onclick="openModal('foto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-upload text-xs"></i> SUBIR FOTO</button>
     </div>
-
     <div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
-    <div id="galleryEmpty" class="hidden text-center py-20">
-      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> ls media/<br><span style="color: var(--muted)">empty — no media found</span></div>
-    </div>
   </div>
 </section>
 
-<!-- ============ ARCHIVOS ============ -->
 <section id="archivos" class="py-24 px-6">
   <div class="max-w-5xl mx-auto">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
       <div>
-        <div class="section-tag mb-4"><span>SECTION_03 // FILE.SYSTEM</span></div>
-        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
-          <span style="color: var(--fg-dim)">./</span>Recursos<br><span class="gradient-text">descargables</span>
-        </h2>
+        <div class="section-tag mb-4"><span>03 // ARCHIVOS</span></div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">Recursos <span class="gradient-text">descargables</span></h2>
       </div>
-      <button onclick="openModal('archivo')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-file-arrow-up text-xs"></i> UPLOAD_FILE</button>
+      <button onclick="openModal('archivo')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-file-arrow-up text-xs"></i> SUBIR ARCHIVO</button>
     </div>
-
-    <div class="terminal mb-4 reveal">
-      <div class="terminal-header">
-        <div class="terminal-dot" style="background: #ff5f57"></div>
-        <div class="terminal-dot" style="background: #febc2e"></div>
-        <div class="terminal-dot" style="background: #28c840"></div>
-        <span class="ml-2">~/lacompu_del_axel/files — ls -la</span>
-      </div>
-      <div class="p-4 font-mono text-xs grid grid-cols-12 gap-2" style="color: var(--muted); border-bottom: 1px solid var(--border-dim)">
-        <span class="col-span-1">PERMS</span><span class="col-span-5">NAME</span><span class="col-span-2">SIZE</span><span class="col-span-3">DATE</span><span class="col-span-1 text-right">ACTION</span>
-      </div>
-    </div>
-
-    <div id="filesList" class="space-y-1"></div>
-    <div id="filesEmpty" class="hidden text-center py-12">
-      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> ls files/<br><span style="color: var(--muted)">empty — no files found</span></div>
-    </div>
+    <div id="filesList" class="space-y-2"></div>
   </div>
 </section>
 
-<!-- ============ LINKS ============ -->
-<section id="links" class="py-24 px-6 hex-bg">
+<section id="links" class="py-24 px-6">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
       <div>
-        <div class="section-tag mb-4"><span>SECTION_04 // BOOKMARKS.DB</span></div>
-        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">
-          <span style="color: var(--fg-dim)">./</span>Recursos<br><span class="gradient-text">favoritos</span>
-        </h2>
+        <div class="section-tag mb-4"><span>04 // ENLACES</span></div>
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight">Recursos <span class="gradient-text">favoritos</span></h2>
       </div>
-      <button onclick="openModal('link')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-link text-xs"></i> ADD_LINK</button>
+      <button onclick="openModal('link')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-link text-xs"></i> AÑADIR</button>
     </div>
-
     <div id="linksGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-    <div id="linksEmpty" class="hidden text-center py-20">
-      <div class="font-mono text-sm" style="color: var(--muted)"><span style="color: var(--accent-pink)">$</span> cat bookmarks.json<br><span style="color: var(--muted)">empty — no links found</span></div>
-    </div>
   </div>
 </section>
 
-<!-- ============ JUEGO ============ -->
 <section id="juego" class="py-24 px-6">
   <div class="max-w-5xl mx-auto">
     <div class="text-center mb-12 reveal">
-      <div class="section-tag mb-4 inline-flex"><span>SECTION_05 // GAME.MODULE</span></div>
-      <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">
-        <span style="color: var(--fg-dim)">./</span>Toma un <span class="gradient-text">descanso</span>
-      </h2>
-      <p class="max-w-xl mx-auto font-mono text-sm" style="color: var(--fg-dim)"><span style="color: var(--accent)">&gt;</span> Has llegado lejos. Ejecuta SNAKE.EXE y desconecta un rato.</p>
+      <div class="section-tag mb-4 inline-flex"><span>05 // JUEGO</span></div>
+      <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">Toma un <span class="gradient-text">descanso</span></h2>
     </div>
-
     <div class="card reveal">
       <div class="grid lg:grid-cols-3 gap-6 p-6 md:p-8 items-start">
         <div class="lg:col-span-2 flex justify-center">
           <div class="relative">
             <canvas id="snakeCanvas" width="400" height="400" class="max-w-full"></canvas>
-            <div id="snakeOverlay" class="absolute inset-0 flex flex-col items-center justify-center" style="background: rgba(3, 6, 10, 0.92); backdrop-filter: blur(4px);">
-              <div class="font-mono text-xs mb-2" style="color: var(--accent)">[READY_TO_RUN]</div>
+            <div id="snakeOverlay" class="absolute inset-0 flex flex-col items-center justify-center" style="background: rgba(3, 6, 10, 0.92);">
               <i class="fas fa-gamepad text-5xl mb-4" style="color: var(--accent)"></i>
-              <h3 class="font-display font-bold text-3xl mb-1 glitch" data-text="SNAKE">SNAKE</h3>
-              <p class="font-mono text-xs mb-5" style="color: var(--muted)">v1.0 — classic mode</p>
-              <button id="snakeStart" class="btn-primary">▶ EXECUTE</button>
+              <h3 class="font-display font-bold text-3xl mb-1">SNAKE</h3>
+              <button id="snakeStart" class="btn-primary mt-4">▶ JUGAR</button>
             </div>
           </div>
         </div>
-
         <div class="space-y-3">
           <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.4);">
             <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">[SCORE]</div>
+            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">PUNTAJE</div>
             <div class="font-display text-4xl font-bold gradient-text" id="snakeScore">00</div>
           </div>
           <div class="hud-corners p-4" style="background: rgba(0, 0, 0, 0.4);">
             <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">[HIGH_SCORE]</div>
+            <div class="font-mono text-[10px] mb-1" style="color: var(--muted)">RÉCORD</div>
             <div class="font-display text-4xl font-bold" style="color: var(--accent-pink)" id="snakeBest">00</div>
           </div>
           <div class="card p-4">
-            <div class="font-mono text-[10px] mb-3" style="color: var(--muted)">[CONTROLS]</div>
+            <div class="font-mono text-[10px] mb-3" style="color: var(--muted)">CONTROLES</div>
             <div class="space-y-2 text-xs font-mono">
-              <div class="flex items-center gap-2"><kbd>↑↓←→</kbd><span style="color: var(--fg-dim)">Move</span></div>
-              <div class="flex items-center gap-2"><kbd>WASD</kbd><span style="color: var(--fg-dim)">Move (alt)</span></div>
-              <div class="flex items-center gap-2"><kbd>P</kbd><span style="color: var(--fg-dim)">Pause</span></div>
+              <div class="flex items-center gap-2"><kbd>↑↓←→</kbd><span style="color: var(--fg-dim)">Mover</span></div>
             </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 lg:hidden">
-            <div></div>
-            <button id="btnUp" class="btn-ghost py-3"><i class="fas fa-chevron-up"></i></button>
-            <div></div>
-            <button id="btnLeft" class="btn-ghost py-3"><i class="fas fa-chevron-left"></i></button>
-            <button id="btnDown" class="btn-ghost py-3"><i class="fas fa-chevron-down"></i></button>
-            <button id="btnRight" class="btn-ghost py-3"><i class="fas fa-chevron-right"></i></button>
           </div>
         </div>
       </div>
@@ -597,343 +455,182 @@
   </div>
 </section>
 
-<!-- ============ REDES ============ -->
 <section id="redes" class="py-24 px-6">
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-12 reveal">
-      <div class="section-tag mb-4 inline-flex"><span>SECTION_06 // NETWORK.LINKS</span></div>
-      <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">
-        <span style="color: var(--fg-dim)">./</span>Conecta <span class="gradient-text">conmigo</span>
-      </h2>
-      <p class="max-w-xl mx-auto font-mono text-sm" style="color: var(--fg-dim)"><span style="color: var(--accent)">&gt;</span> Estableciendo conexión... ready.</p>
+      <div class="section-tag mb-4 inline-flex"><span>06 // REDES</span></div>
+      <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">Conecta <span class="gradient-text">conmigo</span></h2>
     </div>
-
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 reveal">
-      <a href="https://github.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+      <a href="https://github.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-github text-3xl" style="color: var(--fg)"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">GITHUB</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel</span>
+        <i class="fab fa-github text-3xl"></i><span class="font-mono text-[10px]">GITHUB</span>
       </a>
-      <a href="https://twitter.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+      <a href="https://twitter.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-x-twitter text-3xl" style="color: var(--fg)"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">TWITTER</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel</span>
+        <i class="fab fa-x-twitter text-3xl"></i><span class="font-mono text-[10px]">TWITTER</span>
       </a>
-      <a href="https://linkedin.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+      <a href="https://youtube.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-linkedin text-3xl" style="color: #0a66c2"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">LINKEDIN</span><span class="font-mono text-[9px]" style="color: var(--muted)">/in/axel</span>
+        <i class="fab fa-youtube text-3xl" style="color: #ff0000"></i><span class="font-mono text-[10px]">YOUTUBE</span>
       </a>
-      <a href="https://youtube.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
+      <a href="https://discord.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 hud-corners">
         <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-youtube text-3xl" style="color: #ff0000"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">YOUTUBE</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel</span>
+        <i class="fab fa-discord text-3xl" style="color: #5865f2"></i><span class="font-mono text-[10px]">DISCORD</span>
       </a>
-      <a href="https://discord.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
-        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-discord text-3xl" style="color: #5865f2"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">DISCORD</span><span class="font-mono text-[9px]" style="color: var(--muted)">axel#0001</span>
-      </a>
-      <a href="https://instagram.com" target="_blank" rel="noopener" class="card p-5 flex flex-col items-center gap-3 group relative hud-corners">
-        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-instagram text-3xl" style="color: #e1306c"></i><span class="font-mono text-[10px]" style="color: var(--fg-dim)">INSTAGRAM</span><span class="font-mono text-[9px]" style="color: var(--muted)">@axel.dev</span>
-      </a>
-    </div>
-
-    <div class="mt-10 card p-8 md:p-10 reveal text-center relative hud-corners">
-      <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-      <div class="font-mono text-xs mb-3" style="color: var(--accent)">[OPEN_CHANNEL]</div>
-      <h3 class="font-display font-bold text-2xl md:text-3xl mb-3">¿Tienes un proyecto en mente?</h3>
-      <p class="mb-6 font-mono text-sm" style="color: var(--fg-dim)">&gt; Envíame un signal y lo hablamos.</p>
-      <a href="mailto:hola@lacompu_del_axel.dev" class="btn-primary inline-flex items-center gap-2"><i class="fas fa-paper-plane text-xs"></i> hola@lacompu_del_axel.dev</a>
     </div>
   </div>
 </section>
-
 </main>
 
-<!-- ============ FOOTER ============ -->
 <footer class="border-t py-8 px-6" style="border-color: var(--border-dim); background: rgba(0,0,0,0.4);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-    <div class="flex items-center gap-2.5">
-      <div class="w-7 h-7 flex items-center justify-center font-display font-bold text-xs" style="background: linear-gradient(135deg, var(--accent), var(--accent-cyan)); color: var(--bg); clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px));">A</div>
-      <span class="font-mono text-xs" style="color: var(--fg-dim)">LaCompuDelAxel.SYS // v2.4.1</span>
-    </div>
-    <p class="font-mono text-[10px]" style="color: var(--muted)">© 2025 — BUILT_WITH <span style="color: var(--accent-pink)">♥</span> AND <span style="color: var(--accent-amber)">COFFEE</span></p>
-    <a href="#hero" class="font-mono text-[10px] hover:text-[var(--accent)] transition" style="color: var(--fg-dim)">[↑ TOP]</a>
+    <span class="font-mono text-xs" style="color: var(--fg-dim)">LaCompuDelAxel.SYS // v2.4.1</span>
+    <p class="font-mono text-[10px]" style="color: var(--muted)">© 2025 — HECHO CON ♥</p>
+    <a href="#hero" class="font-mono text-[10px] hover:text-[var(--accent)]" style="color: var(--fg-dim)">[↑ TOP]</a>
   </div>
 </footer>
 
-<!-- ============ STATUS BAR ============ -->
 <div class="status-bar">
   <div class="flex items-center gap-4">
-    <span><span style="color: var(--accent)">●</span> BRANCH: main</span>
-    <span class="hidden sm:inline"><span style="color: var(--accent-cyan)">●</span> UTF-8</span>
-    <span class="hidden md:inline"><span style="color: var(--accent-pink)">●</span> LF</span>
+    <span><span style="color: var(--accent)">●</span> RAM: 42%</span>
   </div>
   <div class="flex items-center gap-4">
-    <span class="hidden sm:inline" id="clock">--:--:--</span>
-    <span><span style="color: var(--accent)">●</span> MEM: <span id="memUsage">42</span>%</span>
-    <span class="hidden md:inline"><span style="color: var(--accent-cyan)">●</span> CPU: 12%</span>
+    <span id="clock">--:--:--</span>
   </div>
 </div>
 
-<!-- ============ MODAL ============ -->
 <div id="modal" class="modal-backdrop">
   <div class="absolute inset-0" onclick="closeModal()"></div>
   <div class="relative glass max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
     <div class="sticky top-0 glass border-b px-6 py-4 flex items-center justify-between z-10" style="border-color: var(--border)">
-      <div class="flex items-center gap-3">
-        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span></div>
-        <h3 class="font-mono font-bold text-sm uppercase tracking-wider">// UPLOAD_MODULE</h3>
-      </div>
-      <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center hover:bg-white/5 font-mono text-sm" style="color: var(--fg-dim)">[X]</button>
+      <h3 class="font-mono font-bold text-sm uppercase">SUBIR CONTENIDO</h3>
+      <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center hover:bg-white/5 font-mono">[X]</button>
     </div>
-
     <div class="p-6">
       <div class="flex gap-2 mb-6 flex-wrap">
-        <button class="chip modal-tab active" data-tab="proyecto">PROJECT</button>
-        <button class="chip modal-tab" data-tab="foto">PHOTO</button>
-        <button class="chip modal-tab" data-tab="archivo">FILE</button>
-        <button class="chip modal-tab" data-tab="link">LINK</button>
+        <button class="chip modal-tab active" data-tab="proyecto">PROYECTO</button>
+        <button class="chip modal-tab" data-tab="foto">FOTO</button>
+        <button class="chip modal-tab" data-tab="archivo">ARCHIVO</button>
+        <button class="chip modal-tab" data-tab="link">ENLACE</button>
       </div>
 
       <form id="form-proyecto" class="modal-form space-y-4">
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// project_name *</label><input type="text" class="input" name="nombre" required placeholder="Ej: NeuralDesk AI"></div>
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// description *</label><textarea class="input" name="descripcion" rows="3" required placeholder="¿Qué hace tu proyecto?"></textarea></div>
+        <div><label class="block text-[10px] mb-1 font-mono">NOMBRE *</label><input type="text" class="input" name="nombre" required></div>
+        <div><label class="block text-[10px] mb-1 font-mono">DESCRIPCIÓN *</label><textarea class="input" name="descripcion" rows="3" required></textarea></div>
         <div class="grid grid-cols-2 gap-4">
-          <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// category</label><select class="input" name="categoria"><option value="web">WEB</option><option value="app">APP</option><option value="ia">AI</option><option value="hardware">HARDWARE</option><option value="otro">OTHER</option></select></div>
-          <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// url (optional)</label><input type="url" class="input" name="enlace" placeholder="https://..."></div>
+          <div><label class="block text-[10px] mb-1 font-mono">CATEGORÍA</label><select class="input" name="categoria"><option value="web">WEB</option><option value="app">APP</option><option value="ia">IA</option></select></div>
+          <div><label class="block text-[10px] mb-1 font-mono">URL</label><input type="url" class="input" name="enlace"></div>
         </div>
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// thumbnail_url</label><input type="url" class="input" name="imagen" placeholder="https://..."><p class="text-[10px] mt-1 font-mono" style="color: var(--muted)">&gt; Si está vacío, se genera una imagen aleatoria</p></div>
-        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-plus text-xs"></i> COMMIT_PROJECT</button>
+        <button type="submit" class="btn-primary w-full">SUBIR PROYECTO</button>
       </form>
 
       <form id="form-foto" class="modal-form space-y-4 hidden">
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// select_image *</label>
-          <div class="dropzone" id="photoDropzone"><input type="file" id="photoInput" accept="image/*" class="hidden"><i class="fas fa-image text-3xl mb-2" style="color: var(--accent)"></i><p class="font-mono text-sm">DROP IMAGE HERE OR <span style="color: var(--accent)">[CLICK]</span></p><p class="text-[10px] mt-1 font-mono" style="color: var(--muted)">JPG, PNG, GIF, WEBP — MAX 2MB</p></div>
-          <div id="photoPreview" class="hidden mt-3 overflow-hidden" style="border: 1px solid var(--border)"><img id="photoPreviewImg" class="w-full max-h-48 object-cover"></div>
-        </div>
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// title (optional)</label><input type="text" class="input" name="titulo" placeholder="Ej: Setup de trabajo"></div>
-        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-upload text-xs"></i> UPLOAD_PHOTO</button>
+        <div class="dropzone" id="photoDropzone"><input type="file" id="photoInput" accept="image/*" class="hidden"><i class="fas fa-image text-3xl mb-2" style="color: var(--accent)"></i><p>ARRASTRA O CLIC</p></div>
+        <div id="photoPreview" class="hidden mt-3"><img id="photoPreviewImg" class="w-full max-h-48 object-cover"></div>
+        <button type="submit" class="btn-primary w-full">SUBIR FOTO</button>
       </form>
 
       <form id="form-archivo" class="modal-form space-y-4 hidden">
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// select_file *</label>
-          <div class="dropzone" id="fileDropzone"><input type="file" id="fileInput" class="hidden"><i class="fas fa-file-arrow-up text-3xl mb-2" style="color: var(--accent)"></i><p class="font-mono text-sm">DROP FILE HERE OR <span style="color: var(--accent)">[CLICK]</span></p><p class="text-[10px] mt-1 font-mono" style="color: var(--muted)">ANY TYPE — MAX 5MB</p></div>
-          <div id="fileInfo" class="hidden mt-3 p-3" style="background: rgba(0,255,157,0.04); border: 1px solid var(--border);"><div class="flex items-center gap-3"><i id="fileIcon" class="fas fa-file text-2xl" style="color: var(--accent)"></i><div class="flex-1 min-w-0"><div id="fileName" class="font-mono text-xs truncate"></div><div id="fileSize" class="font-mono text-[10px]" style="color: var(--muted)"></div></div></div></div>
-        </div>
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// description (optional)</label><input type="text" class="input" name="descripcion" placeholder="Ej: Manual de usuario v2"></div>
-        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-file-arrow-up text-xs"></i> UPLOAD_FILE</button>
+        <div class="dropzone" id="fileDropzone"><input type="file" id="fileInput" class="hidden"><i class="fas fa-file-arrow-up text-3xl mb-2" style="color: var(--accent)"></i><p>ARRASTRA O CLIC</p></div>
+        <button type="submit" class="btn-primary w-full">SUBIR ARCHIVO</button>
       </form>
 
       <form id="form-link" class="modal-form space-y-4 hidden">
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// title *</label><input type="text" class="input" name="titulo" required placeholder="Ej: MDN Web Docs"></div>
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// url *</label><input type="url" class="input" name="url" required placeholder="https://..."></div>
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// description (optional)</label><input type="text" class="input" name="descripcion" placeholder="¿Para qué es útil?"></div>
-        <div><label class="block font-mono text-[10px] mb-1.5 uppercase" style="color: var(--fg-dim)">// category</label><select class="input" name="categoria"><option value="docs">DOCUMENTATION</option><option value="tool">TOOL</option><option value="tutorial">TUTORIAL</option><option value="inspiracion">INSPIRATION</option><option value="otro">OTHER</option></select></div>
-        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2"><i class="fas fa-link text-xs"></i> ADD_LINK</button>
+        <div><label class="block text-[10px] mb-1 font-mono">TÍTULO *</label><input type="text" class="input" name="titulo" required></div>
+        <div><label class="block text-[10px] mb-1 font-mono">URL *</label><input type="url" class="input" name="url" required></div>
+        <button type="submit" class="btn-primary w-full">AÑADIR ENLACE</button>
       </form>
     </div>
   </div>
 </div>
 
-<!-- ============ LIGHTBOX ============ -->
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <button class="absolute top-6 right-6 w-12 h-12 glass flex items-center justify-center text-xl font-mono" onclick="closeLightbox()">[X]</button>
+  <button class="absolute top-6 right-6 w-12 h-12 glass flex items-center justify-center text-xl" onclick="closeLightbox()">[X]</button>
   <img id="lightboxImg" class="max-w-full max-h-full">
-  <p id="lightboxCaption" class="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs" style="color: var(--fg-dim)"></p>
 </div>
 
-<!-- ============ TOAST ============ -->
 <div id="toast" class="toast"><i class="fas fa-check-circle" style="color: var(--accent)"></i><span id="toastMsg">OK</span></div>
 
 <script>
-/* ============================================
-   ESTADO Y PERSISTENCIA
-============================================ */
-const STORE_KEY = 'lacompu_del_axel_hub_v1';
+const STORE_KEY = 'lacompu_del_axel_v2';
 let state = { proyectos: [], fotos: [], archivos: [], links: [] };
 
-const seedData = {
+// Datos de ejemplo
+state = {
   proyectos: [
-    { id: 'p1', nombre: 'NeuralDesk', descripcion: 'Asistente de escritorio con IA local que organiza tareas y responde preguntas sin enviar datos a la nube.', categoria: 'ia', enlace: '#', imagen: 'https://picsum.photos/seed/neuraldesk/600/400.jpg', fecha: Date.now() - 86400000 * 5 },
-    { id: 'p2', nombre: 'PixelForge', descripcion: 'Editor de pixel art colaborativo en tiempo real con soporte para animaciones y exportación a múltiples formatos.', categoria: 'web', enlace: '#', imagen: 'https://picsum.photos/seed/pixelforge/600/400.jpg', fecha: Date.now() - 86400000 * 12 },
-    { id: 'p3', nombre: 'EcoSensor IoT', descripcion: 'Red de sensores ambientales ESP32 que miden calidad del aire, temperatura y humedad con dashboard en tiempo real.', categoria: 'hardware', enlace: '#', imagen: 'https://picsum.photos/seed/ecosensor/600/400.jpg', fecha: Date.now() - 86400000 * 20 }
+    { id: 'p1', nombre: 'NeuralDesk', descripcion: 'Asistente con IA local.', categoria: 'ia', enlace: '#', imagen: 'https://picsum.photos/seed/neuraldesk/600/400.jpg', fecha: Date.now() },
+    { id: 'p2', nombre: 'PixelForge', descripcion: 'Editor de pixel art.', categoria: 'web', enlace: '#', imagen: 'https://picsum.photos/seed/pixelforge/600/400.jpg', fecha: Date.now() }
   ],
-  fotos: [
-    { id: 'f1', src: 'https://picsum.photos/seed/photo1/800/800.jpg', titulo: 'Setup de trabajo', fecha: Date.now() - 86400000 * 2 },
-    { id: 'f2', src: 'https://picsum.photos/seed/photo2/800/800.jpg', titulo: 'Conferencia tech', fecha: Date.now() - 86400000 * 7 }
-  ],
-  archivos: [
-    { id: 'a1', nombre: 'guia-desarrollo.pdf', size: 245678, type: 'application/pdf', descripcion: 'Guía completa de buenas prácticas', fecha: Date.now() - 86400000 * 3, dataUrl: null },
-    { id: 'a2', nombre: 'config-vscode.json', size: 4521, type: 'application/json', descripcion: 'Mi configuración de VS Code', fecha: Date.now() - 86400000 * 8, dataUrl: null }
-  ],
-  links: [
-    { id: 'l1', titulo: 'MDN Web Docs', url: 'https://developer.mozilla.org', descripcion: 'La mejor referencia web', categoria: 'docs', fecha: Date.now() - 86400000 * 1 },
-    { id: 'l2', titulo: 'GitHub', url: 'https://github.com', descripcion: 'Donde vive mi código', categoria: 'tool', fecha: Date.now() - 86400000 * 2 }
-  ]
+  fotos: [{ id: 'f1', src: 'https://picsum.photos/seed/photo1/800/800.jpg', titulo: 'Setup', fecha: Date.now() }],
+  archivos: [{ id: 'a1', nombre: 'config.json', size: 4521, type: 'application/json', fecha: Date.now(), dataUrl: null }],
+  links: [{ id: 'l1', titulo: 'GitHub', url: 'https://github.com', categoria: 'tool', fecha: Date.now() }]
 };
 
-function loadState() {
-  try {
-    const saved = localStorage.getItem(STORE_KEY);
-    if (saved) {
-      state = { ...state, ...JSON.parse(saved) };
-      if (state.proyectos.length === 0 && state.fotos.length === 0 && state.archivos.length === 0 && state.links.length === 0) {
-        state = JSON.parse(JSON.stringify(seedData));
-      }
-    } else {
-      state = JSON.parse(JSON.stringify(seedData));
-    }
-  } catch (e) { state = JSON.parse(JSON.stringify(seedData)); }
-}
-function saveState() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { showToast('ERROR: storage full', 'error'); } }
-
-/* ============================================
-   TOAST
-============================================ */
 let toastTimer;
-function showToast(msg, type = 'success') {
-  const toast = document.getElementById('toast');
-  const msgEl = document.getElementById('toastMsg');
-  const icon = toast.querySelector('i');
-  msgEl.textContent = msg;
-  if (type === 'error') { icon.className = 'fas fa-exclamation-circle'; icon.style.color = 'var(--accent-pink)'; toast.style.borderColor = 'var(--accent-pink)'; }
-  else { icon.className = 'fas fa-check-circle'; icon.style.color = 'var(--accent)'; toast.style.borderColor = 'var(--accent)'; }
-  toast.classList.add('show');
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-/* ============================================
-   RENDER Y SISTEMA DE DETECCIÓN (FEEDBACK VISUAL)
-============================================ */
 let currentFilter = 'all';
-
 function triggerDetection(gridId, statId) {
-  const grid = document.getElementById(gridId);
-  const stat = document.getElementById(statId);
-  if (grid) {
-    grid.classList.remove('flash-alert');
-    void grid.offsetWidth; // Reflow para reiniciar la animación
-    grid.classList.add('flash-alert');
-  }
-  if (stat) {
-    stat.classList.remove('bounce-stat');
-    void stat.offsetWidth;
-    stat.classList.add('bounce-stat');
-  }
+  const g = document.getElementById(gridId), s = document.getElementById(statId);
+  if(g) { g.classList.remove('flash-alert'); void g.offsetWidth; g.classList.add('flash-alert'); }
+  if(s) { s.classList.remove('bounce-stat'); void s.offsetWidth; s.classList.add('bounce-stat'); }
 }
 
 function renderProjects() {
   const grid = document.getElementById('projectsGrid');
-  const empty = document.getElementById('projectsEmpty');
-  const filtered = currentFilter === 'all' ? state.proyectos : state.proyectos.filter(p => p.categoria === currentFilter);
-  if (filtered.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
-  empty.classList.add('hidden');
-
-  const catColors = { web: '#00ff9d', app: '#00e5ff', ia: '#ffb627', hardware: '#ff2e88', otro: '#8aa39a' };
-  const catLabels = { web: 'WEB', app: 'APP', ia: 'AI', hardware: 'HW', otro: 'OTHER' };
-
-  grid.innerHTML = filtered.map((p, i) => `
-    <article class="card group relative overflow-hidden">
+  const f = currentFilter === 'all' ? state.proyectos : state.proyectos.filter(p => p.categoria === currentFilter);
+  grid.innerHTML = f.map(p => `
+    <article class="card overflow-hidden">
       <div class="relative aspect-video overflow-hidden">
-        <img src="${p.imagen}" alt="${escapeHtml(p.nombre)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-        <div class="absolute top-3 left-3 px-2 py-0.5 font-mono text-[10px] font-bold" style="background: ${catColors[p.categoria]}; color: var(--bg); clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));">[${catLabels[p.categoria]}]</div>
-        <div class="absolute top-3 right-3 font-mono text-[10px]" style="color: var(--accent)">#${String(i+1).padStart(3,'0')}</div>
-        ${p.enlace && p.enlace !== '#' ? `<a href="${escapeHtml(p.enlace)}" target="_blank" rel="noopener" class="absolute bottom-3 right-3 w-9 h-9 glass flex items-center justify-center hover:bg-white/10 transition"><i class="fas fa-external-link-alt text-xs"></i></a>` : ''}
+        <img src="${p.imagen}" class="w-full h-full object-cover" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
+        <div class="absolute top-3 left-3 px-2 py-0.5 font-mono text-[10px]" style="background: var(--accent); color: var(--bg);">[${p.categoria.toUpperCase()}]</div>
       </div>
-      <div class="p-5 relative">
-        <h3 class="font-display font-bold text-xl mb-2">${escapeHtml(p.nombre)}</h3>
-        <p class="text-sm mb-4 font-mono" style="color: var(--fg-dim)">${escapeHtml(p.descripcion)}</p>
-        <div class="flex items-center justify-between font-mono text-[10px]" style="color: var(--muted)">
-          <span><i class="far fa-clock mr-1"></i> ${formatDate(p.fecha)}</span>
-          <button onclick="deleteItem('proyectos', '${p.id}')" class="hover:text-[var(--accent-pink)] transition" style="color: var(--fg-dim)">[DELETE]</button>
-        </div>
+      <div class="p-5">
+        <h3 class="font-display font-bold text-xl mb-2">${p.nombre}</h3>
+        <p class="text-sm mb-4 font-mono" style="color: var(--fg-dim)">${p.descripcion}</p>
+        <button onclick="deleteItem('proyectos', '${p.id}')" class="font-mono text-[10px] hover:text-red-400" style="color: var(--fg-dim)">[ELIMINAR]</button>
       </div>
     </article>
   `).join('');
 }
 
 function renderGallery() {
-  const grid = document.getElementById('galleryGrid');
-  const empty = document.getElementById('galleryEmpty');
-  if (state.fotos.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
-  empty.classList.add('hidden');
-
-  grid.innerHTML = state.fotos.map((f, i) => `
-    <div class="relative aspect-square overflow-hidden card group cursor-pointer" onclick="openLightbox('${f.id}')">
-      <img src="${f.src}" alt="${escapeHtml(f.titulo || '')}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
-        <div class="font-mono text-xs font-semibold" style="color: var(--accent)">&gt; ${escapeHtml(f.titulo || 'Sin título')}</div>
-        <div class="font-mono text-[10px]" style="color: var(--fg-dim)">${formatDate(f.fecha)}</div>
-      </div>
-      <div class="absolute top-2 left-2 font-mono text-[10px] px-1.5 py-0.5" style="background: rgba(0,0,0,0.7); color: var(--accent);">#${String(i+1).padStart(3,'0')}</div>
-      <button onclick="event.stopPropagation(); deleteItem('fotos', '${f.id}')" class="absolute top-2 right-2 w-7 h-7 glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 font-mono text-[10px]">[X]</button>
+  document.getElementById('galleryGrid').innerHTML = state.fotos.map(f => `
+    <div class="relative aspect-square overflow-hidden card cursor-pointer" onclick="openLightbox('${f.id}')">
+      <img src="${f.src}" class="w-full h-full object-cover" loading="lazy">
     </div>
   `).join('');
 }
 
 function renderFiles() {
-  const list = document.getElementById('filesList');
-  const empty = document.getElementById('filesEmpty');
-  if (state.archivos.length === 0) { list.innerHTML = ''; empty.classList.remove('hidden'); return; }
-  empty.classList.add('hidden');
-
-  list.innerHTML = state.archivos.map(a => `
-    <div class="grid grid-cols-12 gap-2 p-3 font-mono text-xs items-center" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-dim);">
-      <span class="col-span-1" style="color: var(--accent)">-rw-r--r--</span>
-      <span class="col-span-5 flex items-center gap-2 min-w-0"><i class="${getFileIcon(a.type, a.nombre)}" style="color: var(--accent)"></i><span class="truncate">${escapeHtml(a.nombre)}</span></span>
-      <span class="col-span-2" style="color: var(--fg-dim)">${formatSize(a.size)}</span>
-      <span class="col-span-3" style="color: var(--fg-dim)">${formatDate(a.fecha)}</span>
-      <span class="col-span-1 flex justify-end gap-1">
-        ${a.dataUrl ? `<button onclick="downloadFile('${a.id}')" class="hover:text-[var(--accent)] transition px-1" title="Download"><i class="fas fa-download"></i></button>` : `<span style="color: var(--muted)" title="Sample">[SAMPLE]</span>`}
-        <button onclick="deleteItem('archivos', '${a.id}')" class="hover:text-[var(--accent-pink)] transition px-1" title="Delete"><i class="fas fa-trash"></i></button>
-      </span>
+  document.getElementById('filesList').innerHTML = state.archivos.map(a => `
+    <div class="card p-3 flex items-center gap-3">
+      <i class="fas fa-file-code" style="color: var(--accent)"></i>
+      <span class="flex-1 font-mono text-xs truncate">${a.nombre}</span>
+      <button onclick="deleteItem('archivos', '${a.id}')" class="font-mono text-[10px] hover:text-red-400">[X]</button>
     </div>
   `).join('');
 }
 
 function renderLinks() {
-  const grid = document.getElementById('linksGrid');
-  const empty = document.getElementById('linksEmpty');
-  if (state.links.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
-  empty.classList.add('hidden');
-
-  const catIcons = { docs: 'fa-book', tool: 'fa-wrench', tutorial: 'fa-graduation-cap', inspiracion: 'fa-lightbulb', otro: 'fa-link' };
-  const catLabels = { docs: 'DOCS', tool: 'TOOL', tutorial: 'TUTORIAL', inspiracion: 'INSPIRATION', otro: 'LINK' };
-
-  grid.innerHTML = state.links.map(l => {
-    let domain = ''; try { domain = new URL(l.url).hostname.replace('www.', ''); } catch(e) {}
-    return `
-      <a href="${escapeHtml(l.url)}" target="_blank" rel="noopener" class="link-card card p-5 group flex flex-col relative">
-        <div class="flex items-start justify-between mb-3">
-          <div class="w-9 h-9 flex items-center justify-center" style="background: rgba(0,255,157,0.08); color: var(--accent); border: 1px solid var(--border);"><i class="fas ${catIcons[l.categoria] || 'fa-link'} text-sm"></i></div>
-          <i class="fas fa-arrow-up-right-from-square arrow text-xs" style="color: var(--muted)"></i>
-        </div>
-        <h3 class="font-display font-bold text-base mb-1">${escapeHtml(l.titulo)}</h3>
-        ${l.descripcion ? `<p class="text-xs mb-3 font-mono" style="color: var(--fg-dim)">${escapeHtml(l.descripcion)}</p>` : ''}
-        <div class="mt-auto pt-2 flex items-center justify-between">
-          <span class="font-mono text-[10px]" style="color: var(--muted)">${domain}</span>
-          <span class="font-mono text-[9px] px-1.5 py-0.5" style="background: rgba(0,255,157,0.08); color: var(--accent); border: 1px solid var(--border);">[${catLabels[l.categoria]}]</span>
-        </div>
-        <button onclick="event.preventDefault(); event.stopPropagation(); deleteItem('links', '${l.id}')" class="absolute top-2 right-2 w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 flex items-center justify-center font-mono text-[10px]">[X]</button>
-      </a>
-    `;
-  }).join('');
+  document.getElementById('linksGrid').innerHTML = state.links.map(l => `
+    <a href="${l.url}" target="_blank" class="link-card card p-5 flex flex-col">
+      <h3 class="font-display font-bold text-base mb-1">${l.titulo}</h3>
+      <span class="font-mono text-[10px]" style="color: var(--muted)">${l.url}</span>
+    </a>
+  `).join('');
 }
 
-function escapeHtml(str) { if (str == null) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
-function formatDate(ts) { if (!ts) return ''; const diff = Date.now() - ts; const days = Math.floor(diff / 86400000); if (days === 0) return 'today'; if (days === 1) return '1d ago'; if (days < 7) return `${days}d ago`; if (days < 30) return `${Math.floor(days/7)}w ago`; return new Date(ts).toLocaleDateString('en-EN', { day: 'numeric', month: 'short' }); }
-function formatSize(bytes) { if (bytes < 1024) return bytes + 'B'; if (bytes < 1048576) return (bytes / 1024).toFixed(1) + 'K'; return (bytes / 1048576).toFixed(1) + 'M'; }
-function getFileIcon(type, name) { const ext = name.split('.').pop().toLowerCase(); if (type.startsWith('image/')) return 'fas fa-image'; if (type.startsWith('video/')) return 'fas fa-video'; if (type.startsWith('audio/')) return 'fas fa-music'; if (type === 'application/pdf' || ext === 'pdf') return 'fas fa-file-pdf'; if (['zip','rar','7z','tar','gz'].includes(ext)) return 'fas fa-file-zipper'; if (['js','ts','jsx','tsx','py','java','cpp','c','go','rs','php'].includes(ext)) return 'fas fa-file-code'; if (['json','xml','yaml','yml','toml'].includes(ext)) return 'fas fa-file-code'; if (['doc','docx','txt','md'].includes(ext)) return 'fas fa-file-lines'; if (['xls','xlsx','csv'].includes(ext)) return 'fas fa-file-excel'; if (['ppt','pptx'].includes(ext)) return 'fas fa-file-powerpoint'; return 'fas fa-file'; }
-
-function deleteItem(type, id) {
-  state[type] = state[type].filter(item => item.id !== id);
-  saveState(); renderAll(); showToast('DELETED');
-}
-function downloadFile(id) {
-  const file = state.archivos.find(a => a.id === id);
-  if (!file || !file.dataUrl) return;
-  const a = document.createElement('a'); a.href = file.dataUrl; a.download = file.nombre; a.click();
-}
+function deleteItem(type, id) { state[type] = state[type].filter(i => i.id !== id); saveState(); renderAll(); showToast('ELIMINADO'); }
+function saveState() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
 function updateStats() {
   document.getElementById('stat-projects').textContent = String(state.proyectos.length).padStart(2,'0');
   document.getElementById('stat-photos').textContent = String(state.fotos.length).padStart(2,'0');
@@ -941,231 +638,106 @@ function updateStats() {
 }
 function renderAll() { renderProjects(); renderGallery(); renderFiles(); renderLinks(); updateStats(); }
 
-/* ============================================
-   MODAL
-============================================ */
-function openModal(tab = 'proyecto') { document.getElementById('modal').classList.add('show'); document.body.style.overflow = 'hidden'; switchTab(tab); }
-function closeModal() { document.getElementById('modal').classList.remove('show'); document.body.style.overflow = ''; document.querySelectorAll('.modal-form').forEach(f => f.reset()); document.getElementById('photoPreview').classList.add('hidden'); document.getElementById('fileInfo').classList.add('hidden'); pendingPhoto = null; pendingFile = null; }
-function switchTab(tab) { document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab)); document.querySelectorAll('.modal-form').forEach(f => f.classList.add('hidden')); document.getElementById('form-' + tab).classList.remove('hidden'); }
+function openModal(tab='proyecto') { document.getElementById('modal').classList.add('show'); switchTab(tab); }
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+function switchTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.modal-form').forEach(f => f.classList.add('hidden'));
+  document.getElementById('form-' + tab).classList.remove('hidden');
+}
 
-/* ============================================
-   FORMULARIOS Y DETECCIÓN AL SUBIR
-============================================ */
-let pendingPhoto = null; let pendingFile = null;
-
+let pendingPhoto=null, pendingFile=null;
 document.getElementById('form-proyecto').addEventListener('submit', e => {
   e.preventDefault();
   const fd = new FormData(e.target);
-  state.proyectos.unshift({ id: 'p' + Date.now(), nombre: fd.get('nombre'), descripcion: fd.get('descripcion'), categoria: fd.get('categoria'), enlace: fd.get('enlace') || '#', imagen: fd.get('imagen') || `https://picsum.photos/seed/${Date.now()}/600/400.jpg`, fecha: Date.now() });
-  saveState(); renderAll(); closeModal(); showToast('PROJECT_ADDED'); triggerDetection('projectsGrid', 'stat-projects');
+  state.proyectos.unshift({ id:'p'+Date.now(), nombre:fd.get('nombre'), descripcion:fd.get('descripcion'), categoria:fd.get('categoria'), enlace:fd.get('enlace')||'#', imagen:`https://picsum.photos/seed/${Date.now()}/600/400.jpg`, fecha:Date.now() });
+  saveState(); renderAll(); closeModal(); showToast('PROYECTO AÑADIDO'); triggerDetection('projectsGrid','stat-projects');
 });
+document.getElementById('photoDropzone').addEventListener('click', () => document.getElementById('photoInput').click());
+document.getElementById('photoInput').addEventListener('change', e => { if(e.target.files[0]) { const r=new FileReader(); r.onload=ev=>{pendingPhoto=ev.target.result; document.getElementById('photoPreviewImg').src=ev.target.result; document.getElementById('photoPreview').classList.remove('hidden');}; r.readAsDataURL(e.target.files[0]); }});
+document.getElementById('form-foto').addEventListener('submit', e => { e.preventDefault(); if(!pendingPhoto){showToast('ERROR: NO FOTO');return;} state.fotos.unshift({id:'f'+Date.now(), src:pendingPhoto, titulo:'', fecha:Date.now()}); saveState(); renderAll(); closeModal(); showToast('FOTO SUBIDA'); triggerDetection('galleryGrid','stat-photos'); });
+document.getElementById('fileDropzone').addEventListener('click', () => document.getElementById('fileInput').click());
+document.getElementById('fileInput').addEventListener('change', e => { if(e.target.files[0]) pendingFile=e.target.files[0]; });
+document.getElementById('form-archivo').addEventListener('submit', e => { e.preventDefault(); if(!pendingFile){showToast('ERROR: NO FILE');return;} const r=new FileReader(); r.onload=ev=>{ state.archivos.unshift({id:'a'+Date.now(), nombre:pendingFile.name, size:pendingFile.size, type:pendingFile.type, fecha:Date.now(), dataUrl:ev.target.result}); saveState(); renderAll(); closeModal(); showToast('ARCHIVO SUBIDO'); triggerDetection('filesList','stat-files'); }; r.readAsDataURL(pendingFile); });
+document.getElementById('form-link').addEventListener('submit', e => { e.preventDefault(); const fd=new FormData(e.target); state.links.unshift({id:'l'+Date.now(), titulo:fd.get('titulo'), url:fd.get('url'), categoria:'tool', fecha:Date.now()}); saveState(); renderAll(); closeModal(); showToast('ENLACE AÑADIDO'); });
 
-const photoDropzone = document.getElementById('photoDropzone'); const photoInput = document.getElementById('photoInput');
-photoDropzone.addEventListener('click', () => photoInput.click());
-photoDropzone.addEventListener('dragover', e => { e.preventDefault(); photoDropzone.classList.add('drag'); });
-photoDropzone.addEventListener('dragleave', () => photoDropzone.classList.remove('drag'));
-photoDropzone.addEventListener('drop', e => { e.preventDefault(); photoDropzone.classList.remove('drag'); if (e.dataTransfer.files[0]) handlePhotoFile(e.dataTransfer.files[0]); });
-photoInput.addEventListener('change', e => { if (e.target.files[0]) handlePhotoFile(e.target.files[0]); });
+function openLightbox(id) { const f=state.fotos.find(x=>x.id===id); if(!f)return; document.getElementById('lightboxImg').src=f.src; document.getElementById('lightbox').classList.add('show'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); }
 
-function handlePhotoFile(file) {
-  if (!file.type.startsWith('image/')) { showToast('ERROR: not an image', 'error'); return; }
-  if (file.size > 2 * 1024 * 1024) { showToast('ERROR: max 2MB', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => { pendingPhoto = e.target.result; document.getElementById('photoPreviewImg').src = e.target.result; document.getElementById('photoPreview').classList.remove('hidden'); };
-  reader.readAsDataURL(file);
-}
-document.getElementById('form-foto').addEventListener('submit', e => {
-  e.preventDefault();
-  if (!pendingPhoto) { showToast('ERROR: no image', 'error'); return; }
-  const fd = new FormData(e.target);
-  state.fotos.unshift({ id: 'f' + Date.now(), src: pendingPhoto, titulo: fd.get('titulo') || 'Sin título', fecha: Date.now() });
-  saveState(); renderAll(); closeModal(); showToast('PHOTO_UPLOADED'); triggerDetection('galleryGrid', 'stat-photos');
-});
+document.getElementById('projectFilters').addEventListener('click', e => { if(e.target.classList.contains('chip')){ document.querySelectorAll('#projectFilters .chip').forEach(c=>c.classList.remove('active')); e.target.classList.add('active'); currentFilter=e.target.dataset.filter; renderProjects(); }});
+document.querySelectorAll('.modal-tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
 
-const fileDropzone = document.getElementById('fileDropzone'); const fileInput = document.getElementById('fileInput');
-fileDropzone.addEventListener('click', () => fileInput.click());
-fileDropzone.addEventListener('dragover', e => { e.preventDefault(); fileDropzone.classList.add('drag'); });
-fileDropzone.addEventListener('dragleave', () => fileDropzone.classList.remove('drag'));
-fileDropzone.addEventListener('drop', e => { e.preventDefault(); fileDropzone.classList.remove('drag'); if (e.dataTransfer.files[0]) handleFileSelect(e.dataTransfer.files[0]); });
-fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFileSelect(e.target.files[0]); });
-
-function handleFileSelect(file) {
-  if (file.size > 5 * 1024 * 1024) { showToast('ERROR: max 5MB', 'error'); return; }
-  pendingFile = file;
-  document.getElementById('fileName').textContent = file.name;
-  document.getElementById('fileSize').textContent = formatSize(file.size);
-  document.getElementById('fileIcon').className = getFileIcon(file.type, file.name) + ' text-2xl';
-  document.getElementById('fileInfo').classList.remove('hidden');
-}
-document.getElementById('form-archivo').addEventListener('submit', e => {
-  e.preventDefault();
-  if (!pendingFile) { showToast('ERROR: no file', 'error'); return; }
-  const fd = new FormData(e.target);
-  const reader = new FileReader();
-  reader.onload = ev => {
-    state.archivos.unshift({ id: 'a' + Date.now(), nombre: pendingFile.name, size: pendingFile.size, type: pendingFile.type, descripcion: fd.get('descripcion') || '', fecha: Date.now(), dataUrl: ev.target.result });
-    saveState(); renderAll(); closeModal(); showToast('FILE_UPLOADED'); triggerDetection('filesList', 'stat-files');
-  };
-  reader.readAsDataURL(pendingFile);
-});
-
-document.getElementById('form-link').addEventListener('submit', e => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  state.links.unshift({ id: 'l' + Date.now(), titulo: fd.get('titulo'), url: fd.get('url'), descripcion: fd.get('descripcion') || '', categoria: fd.get('categoria'), fecha: Date.now() });
-  saveState(); renderAll(); closeModal(); showToast('LINK_ADDED'); triggerDetection('linksGrid', 'stat-projects'); // No hay stat de links, usamos projects
-});
-
-/* ============================================
-   LIGHTBOX
-============================================ */
-function openLightbox(id) { const foto = state.fotos.find(f => f.id === id); if (!foto) return; document.getElementById('lightboxImg').src = foto.src; document.getElementById('lightboxCaption').textContent = '> ' + (foto.titulo || ''); document.getElementById('lightbox').classList.add('show'); document.body.style.overflow = 'hidden'; }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); document.body.style.overflow = ''; }
-
-/* ============================================
-   FILTROS Y UI
-============================================ */
-document.getElementById('projectFilters').addEventListener('click', e => {
-  if (e.target.classList.contains('chip')) {
-    document.querySelectorAll('#projectFilters .chip').forEach(c => c.classList.remove('active'));
-    e.target.classList.add('active');
-    currentFilter = e.target.dataset.filter;
-    renderProjects();
-  }
-});
-document.querySelectorAll('.modal-tab').forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (document.getElementById('modal').classList.contains('show')) closeModal(); if (document.getElementById('lightbox').classList.contains('show')) closeLightbox(); } });
-
-/* ============================================
-   HERO CANVAS
-============================================ */
-const heroCanvas = document.getElementById('heroCanvas'); const heroCtx = heroCanvas.getContext('2d');
-let nodes = []; let mouse = { x: null, y: null };
+// CANVAS OPTIMIZADO
+const heroCanvas = document.getElementById('heroCanvas'); const ctx = heroCanvas.getContext('2d');
+let nodes = [], mouse = {x:null,y:null};
 function resizeHero() { heroCanvas.width = heroCanvas.offsetWidth; heroCanvas.height = heroCanvas.offsetHeight; }
-class Node {
-  constructor() { this.x = Math.random() * heroCanvas.width; this.y = Math.random() * heroCanvas.height; this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3; this.size = Math.random() * 1.5 + 0.5; this.pulse = Math.random() * Math.PI * 2; this.type = Math.random() > 0.7 ? 'square' : 'dot'; }
-  update() { this.x += this.vx; this.y += this.vy; this.pulse += 0.03; if (this.x < 0 || this.x > heroCanvas.width) this.vx *= -1; if (this.y < 0 || this.y > heroCanvas.height) this.vy *= -1; }
-  draw() { const opacity = 0.4 + Math.sin(this.pulse) * 0.3; heroCtx.fillStyle = `rgba(0, 255, 157, ${opacity})`; if (this.type === 'square') { const s = Math.max(2, this.size * 2); heroCtx.fillRect(this.x - s/2, this.y - s/2, s, s); } else { heroCtx.beginPath(); heroCtx.arc(this.x, this.y, Math.max(0.5, this.size), 0, Math.PI * 2); heroCtx.fill(); } heroCtx.fillStyle = `rgba(0, 255, 157, ${opacity * 0.2})`; heroCtx.beginPath(); heroCtx.arc(this.x, this.y, Math.max(1, this.size * 3), 0, Math.PI * 2); heroCtx.fill(); }
-}
-function initNodes() { nodes = []; const count = Math.min(70, Math.floor((heroCanvas.width * heroCanvas.height) / 22000)); for (let i = 0; i < count; i++) nodes.push(new Node()); }
-function connectNodes() {
-  const maxDist = 140;
-  for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-      const dx = nodes[i].x - nodes[j].x; const dy = nodes[i].y - nodes[j].y; const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < maxDist) { const opacity = (1 - dist / maxDist) * 0.2; heroCtx.strokeStyle = `rgba(0, 255, 157, ${opacity})`; heroCtx.lineWidth = 0.5; heroCtx.beginPath(); heroCtx.moveTo(nodes[i].x, nodes[i].y); heroCtx.lineTo(nodes[j].x, nodes[j].y); heroCtx.stroke(); }
-    }
-    if (mouse.x !== null) { const dx = nodes[i].x - mouse.x; const dy = nodes[i].y - mouse.y; const dist = Math.sqrt(dx * dx + dy * dy); if (dist < 180) { const opacity = (1 - dist / 180) * 0.5; heroCtx.strokeStyle = `rgba(0, 229, 255, ${opacity})`; heroCtx.lineWidth = 1; heroCtx.beginPath(); heroCtx.moveTo(nodes[i].x, nodes[i].y); heroCtx.lineTo(mouse.x, mouse.y); heroCtx.stroke(); } }
-  }
-}
-function animateHero() { heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height); nodes.forEach(n => { n.update(); n.draw(); }); connectNodes(); requestAnimationFrame(animateHero); }
-heroCanvas.addEventListener('mousemove', e => { const rect = heroCanvas.getBoundingClientRect(); mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; });
-heroCanvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+class Node { constructor(){ this.x=Math.random()*heroCanvas.width; this.y=Math.random()*heroCanvas.height; this.vx=(Math.random()-0.5)*0.2; this.vy=(Math.random()-0.5)*0.2; this.size=Math.random()*1.5+0.5; } update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>heroCanvas.width)this.vx*=-1; if(this.y<0||this.y>heroCanvas.height)this.vy*=-1; } draw(){ ctx.fillStyle='rgba(0,255,157,0.5)'; ctx.beginPath(); ctx.arc(this.x,this.y,Math.max(0.5,this.size),0,Math.PI*2); ctx.fill(); } }
+function initNodes() { nodes = []; const count = 30; /* Muy optimizado */ for(let i=0;i<count;i++) nodes.push(new Node()); }
+function connectNodes() { const maxDist=100; for(let i=0;i<nodes.length;i++){ for(let j=i+1;j<nodes.length;j++){ const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy); if(d<maxDist){ ctx.strokeStyle=`rgba(0,255,157,${(1-d/maxDist)*0.15})`; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke(); } } } }
+function animateHero() { ctx.clearRect(0,0,heroCanvas.width,heroCanvas.height); nodes.forEach(n=>{n.update();n.draw();}); connectNodes(); requestAnimationFrame(animateHero); }
 window.addEventListener('resize', () => { resizeHero(); initNodes(); });
 
-/* ============================================
-   SNAKE GAME
-============================================ */
+// SNAKE OPTIMIZADO
 class SnakeGame {
   constructor() {
     this.canvas = document.getElementById('snakeCanvas'); this.ctx = this.canvas.getContext('2d');
     this.gridSize = 20; this.tileCount = this.canvas.width / this.gridSize;
-    this.bestScore = parseInt(localStorage.getItem('axel_snake_best') || '0');
-    document.getElementById('snakeBest').textContent = String(this.bestScore).padStart(2,'0');
-    this.reset(); this.running = false; this.paused = false;
-    document.addEventListener('keydown', e => this.handleKey(e));
+    this.bestScore = 0; this.reset(); this.running = false;
     document.getElementById('snakeStart').addEventListener('click', () => this.start());
-    document.getElementById('btnUp').addEventListener('click', () => this.setDirection(0, -1));
-    document.getElementById('btnDown').addEventListener('click', () => this.setDirection(0, 1));
-    document.getElementById('btnLeft').addEventListener('click', () => this.setDirection(-1, 0));
-    document.getElementById('btnRight').addEventListener('click', () => this.setDirection(1, 0));
     this.draw();
   }
-  reset() { this.snake = [{ x: 10, y: 10 }]; this.velocity = { x: 0, y: 0 }; this.food = this.spawnFood(); this.score = 0; document.getElementById('snakeScore').textContent = '00'; }
-  spawnFood() { let food; do { food = { x: Math.floor(Math.random() * this.tileCount), y: Math.floor(Math.random() * this.tileCount) }; } while (this.snake.some(s => s.x === food.x && s.y === food.y)); return food; }
-  setDirection(x, y) { if (this.velocity.x === -x && x !== 0) return; if (this.velocity.y === -y && y !== 0) return; this.velocity = { x, y }; }
-  handleKey(e) {
-    if (!this.running) return; const key = e.key.toLowerCase();
-    if (key === 'p') { this.paused = !this.paused; return; }
-    if (key === 'arrowup' || key === 'w') { e.preventDefault(); this.setDirection(0, -1); }
-    else if (key === 'arrowdown' || key === 's') { e.preventDefault(); this.setDirection(0, 1); }
-    else if (key === 'arrowleft' || key === 'a') { e.preventDefault(); this.setDirection(-1, 0); }
-    else if (key === 'arrowright' || key === 'd') { e.preventDefault(); this.setDirection(1, 0); }
-  }
-  start() { document.getElementById('snakeOverlay').style.display = 'none'; this.reset(); this.running = true; this.paused = false; this.lastUpdate = 0; this.speed = 130; requestAnimationFrame(t => this.loop(t)); }
-  loop(timestamp) { if (!this.running) return; if (!this.paused && timestamp - this.lastUpdate > this.speed) { this.lastUpdate = timestamp; this.update(); } this.draw(); requestAnimationFrame(t => this.loop(t)); }
+  reset() { this.snake = [{x:10,y:10}]; this.vel = {x:0,y:0}; this.food = {x:5,y:5}; this.score = 0; document.getElementById('snakeScore').textContent = '00'; }
+  start() { document.getElementById('snakeOverlay').style.display = 'none'; this.reset(); this.running = true; this.lastUpdate = 0; this.speed = 130; requestAnimationFrame(t => this.loop(t)); }
+  loop(ts) { if(!this.running) return; if(ts - this.lastUpdate > this.speed) { this.lastUpdate = ts; this.update(); } this.draw(); requestAnimationFrame(t => this.loop(t)); }
   update() {
-    if (this.velocity.x === 0 && this.velocity.y === 0) return;
-    const head = { x: this.snake[0].x + this.velocity.x, y: this.snake[0].y + this.velocity.y };
-    if (head.x < 0 || head.x >= this.tileCount || head.y < 0 || head.y >= this.tileCount) { this.gameOver(); return; }
-    if (this.snake.some(s => s.x === head.x && s.y === head.y)) { this.gameOver(); return; }
+    if(this.vel.x===0 && this.vel.y===0) return;
+    const head = {x:this.snake[0].x+this.vel.x, y:this.snake[0].y+this.vel.y};
+    if(head.x<0||head.x>=this.tileCount||head.y<0||head.y>=this.tileCount) { this.gameOver(); return; }
     this.snake.unshift(head);
-    if (head.x === this.food.x && head.y === this.food.y) { this.score += 10; document.getElementById('snakeScore').textContent = String(this.score).padStart(2,'0'); this.food = this.spawnFood(); if (this.score % 50 === 0 && this.speed > 60) this.speed -= 10; } else { this.snake.pop(); }
+    if(head.x===this.food.x && head.y===this.food.y) { this.score+=10; document.getElementById('snakeScore').textContent=String(this.score).padStart(2,'0'); this.food={x:Math.floor(Math.random()*this.tileCount),y:Math.floor(Math.random()*this.tileCount)}; } else { this.snake.pop(); }
   }
   draw() {
-    this.ctx.fillStyle = '#03060a'; this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.strokeStyle = 'rgba(0, 255, 157, 0.05)'; this.ctx.lineWidth = 0.5;
-    for (let i = 0; i <= this.tileCount; i++) { this.ctx.beginPath(); this.ctx.moveTo(i * this.gridSize, 0); this.ctx.lineTo(i * this.gridSize, this.canvas.height); this.ctx.stroke(); this.ctx.beginPath(); this.ctx.moveTo(0, i * this.gridSize); this.ctx.lineTo(this.canvas.width, i * this.gridSize); this.ctx.stroke(); }
-    const fx = this.food.x * this.gridSize + this.gridSize / 2; const fy = this.food.y * this.gridSize + this.gridSize / 2;
-    this.ctx.fillStyle = '#ff2e88'; this.ctx.shadowColor = '#ff2e88'; this.ctx.shadowBlur = 15; this.ctx.beginPath(); this.ctx.arc(fx, fy, Math.max(0.5, this.gridSize / 2 - 2), 0, Math.PI * 2); this.ctx.fill(); this.ctx.shadowBlur = 0;
-    this.snake.forEach((seg, i) => { const isHead = i === 0; const opacity = 1 - (i / this.snake.length) * 0.5; this.ctx.fillStyle = isHead ? '#00ff9d' : `rgba(0, 255, 157, ${opacity})`; if (isHead) { this.ctx.shadowColor = '#00ff9d'; this.ctx.shadowBlur = 12; } const padding = isHead ? 1 : 2; this.ctx.fillRect(seg.x * this.gridSize + padding, seg.y * this.gridSize + padding, this.gridSize - padding * 2, this.gridSize - padding * 2); this.ctx.shadowBlur = 0; });
-    if (this.paused) { this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height); this.ctx.fillStyle = '#00ff9d'; this.ctx.font = 'bold 24px JetBrains Mono, monospace'; this.ctx.textAlign = 'center'; this.ctx.fillText('[PAUSED]', this.canvas.width / 2, this.canvas.height / 2); }
+    this.ctx.fillStyle = '#03060a'; this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+    this.ctx.fillStyle = '#ff2e88'; this.ctx.fillRect(this.food.x*this.gridSize, this.food.y*this.gridSize, this.gridSize-2, this.gridSize-2);
+    this.snake.forEach((s,i) => { this.ctx.fillStyle = i===0 ? '#00ff9d' : 'rgba(0,255,157,0.7)'; this.ctx.fillRect(s.x*this.gridSize, s.y*this.gridSize, this.gridSize-2, this.gridSize-2); });
   }
-  gameOver() {
-    this.running = false;
-    if (this.score > this.bestScore) { this.bestScore = this.score; localStorage.setItem('axel_snake_best', this.bestScore); document.getElementById('snakeBest').textContent = String(this.bestScore).padStart(2,'0'); }
-    const overlay = document.getElementById('snakeOverlay'); overlay.style.display = 'flex';
-    overlay.innerHTML = `<div class="font-mono text-xs mb-2" style="color: var(--accent-pink)">[PROCESS_TERMINATED]</div><i class="fas fa-skull text-5xl mb-4" style="color: var(--accent-pink)"></i><h3 class="font-display font-bold text-2xl mb-2 glitch" data-text="GAME OVER">GAME OVER</h3><p class="font-mono text-xs mb-1" style="color: var(--fg-dim)">SCORE: <span style="color: var(--accent)">${String(this.score).padStart(2,'0')}</span></p><p class="font-mono text-xs mb-5" style="color: var(--fg-dim)">BEST: <span style="color: var(--accent-pink)">${String(this.bestScore).padStart(2,'0')}</span></p><button id="snakeStart" class="btn-primary">▶ RETRY</button>`;
-    document.getElementById('snakeStart').addEventListener('click', () => this.start());
-  }
+  gameOver() { this.running = false; document.getElementById('snakeOverlay').style.display = 'flex'; document.getElementById('snakeScore').textContent = '00'; }
 }
+document.addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if(k==='arrowup'||k==='w') game.vel = {x:0,y:-1};
+  else if(k==='arrowdown'||k==='s') game.vel = {x:0,y:1};
+  else if(k==='arrowleft'||k==='a') game.vel = {x:-1,y:0};
+  else if(k==='arrowright'||k==='d') game.vel = {x:1,y:0};
+});
 
-/* ============================================
-   SCROLL REVEAL & UI
-============================================ */
-const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-function updateClock() { const now = new Date(); const h = String(now.getHours()).padStart(2, '0'); const m = String(now.getMinutes()).padStart(2, '0'); const s = String(now.getSeconds()).padStart(2, '0'); const clockEl = document.getElementById('clock'); if (clockEl) clockEl.textContent = `${h}:${m}:${s}`; const memEl = document.getElementById('memUsage'); if (memEl) memEl.textContent = Math.floor(40 + Math.random() * 15); }
-setInterval(updateClock, 1000); updateClock();
-
-const sections = document.querySelectorAll('section[id]'); const navLinks = document.querySelectorAll('.nav-link');
-window.addEventListener('scroll', () => { let current = ''; sections.forEach(section => { const top = section.offsetTop - 100; if (window.scrollY >= top) current = section.getAttribute('id'); }); navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === '#' + current) link.classList.add('active'); }); });
-
-/* ============================================
-   MÚSICA RELAJANTE (WEB AUDIO API - NO COPYRIGHT)
-============================================ */
-let audioCtx, ambientNodes = [], audioEnabled = false;
+// AUDIO
+let audioCtx, masterGain, audioEnabled = false;
 function initAudio() {
-  if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const masterGain = audioCtx.createGain(); masterGain.gain.value = 0; masterGain.connect(audioCtx.destination);
-  const filter = audioCtx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 500; filter.Q.value = 1; filter.connect(masterGain);
+  masterGain = audioCtx.createGain(); masterGain.gain.value = 0; masterGain.connect(audioCtx.destination);
+  const filter = audioCtx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 500; filter.connect(masterGain);
   const lfo = audioCtx.createOscillator(); const lfoGain = audioCtx.createGain(); lfo.frequency.value = 0.1; lfoGain.gain.value = 200; lfo.connect(lfoGain); lfoGain.connect(filter.frequency); lfo.start();
-  const freqs = [110, 164.81, 220, 329.63]; // A2, E3, A3, E4 (Acorde de La Mayor)
-  freqs.forEach((freq, i) => {
+  [110, 164.81, 220, 329.63].forEach((freq, i) => {
     const osc = audioCtx.createOscillator(); osc.type = i % 2 === 0 ? 'sine' : 'triangle'; osc.frequency.value = freq;
-    const oscGain = audioCtx.createGain(); oscGain.gain.value = 0.15; osc.connect(oscGain); oscGain.connect(filter); osc.start();
-    ambientNodes.push({ osc, oscGain });
+    const g = audioCtx.createGain(); g.gain.value = 0.15; osc.connect(g); g.connect(filter); osc.start();
   });
-  ambientNodes.masterGain = masterGain;
 }
 document.getElementById('musicToggle').addEventListener('click', () => {
   if (!audioCtx) initAudio();
   if (audioCtx.state === 'suspended') audioCtx.resume();
   audioEnabled = !audioEnabled;
-  const targetGain = audioEnabled ? 0.5 : 0.0;
-  ambientNodes.masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-  ambientNodes.masterGain.gain.setValueAtTime(ambientNodes.masterGain.gain.value, audioCtx.currentTime);
-  ambientNodes.masterGain.gain.linearRampToValueAtTime(targetGain, audioCtx.currentTime + 1.5);
+  masterGain.gain.linearRampToValueAtTime(audioEnabled ? 0.5 : 0.0, audioCtx.currentTime + 1.5);
   document.getElementById('musicIcon').className = audioEnabled ? 'fas fa-pause text-xs' : 'fas fa-music text-xs';
-  showToast(audioEnabled ? 'AMBIENT_MUSIC: ON' : 'AMBIENT_MUSIC: OFF');
 });
 
-/* ============================================
-   INIT
-============================================ */
-loadState(); renderAll(); resizeHero(); initNodes(); animateHero(); new SnakeGame();
+// RELOJ
+function updateClock() { const n=new Date(); document.getElementById('clock').textContent = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`; }
+setInterval(updateClock, 1000); updateClock();
+
+// INIT
+let game;
+resizeHero(); initNodes(); animateHero(); renderAll(); game = new SnakeGame();
 </script>
 </body>
 </html>
