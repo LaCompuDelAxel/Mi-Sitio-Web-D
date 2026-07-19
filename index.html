@@ -9,272 +9,119 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
 <style>
   :root {
-    --bg: #03060a;
-    --bg-2: #060c14;
-    --fg: #e8fff5;
-    --fg-dim: #a0b8b0;
-    --muted: #5a6d67;
-    --accent: #00ff9d;
-    --accent-cyan: #00e5ff;
-    --accent-pink: #ff2e88;
-    --accent-amber: #ffb627;
-    --border: rgba(0, 255, 157, 0.3);
-    --border-dim: rgba(0, 255, 157, 0.1);
-    --card: rgba(10, 19, 32, 0.8);
-    --glass: rgba(6, 12, 20, 0.9);
+    --bg: #020617; --bg-2: #0f172a; --fg: #f8fafc; --fg-dim: #94a3b8; --muted: #475569;
+    --accent: #0ea5e9; --accent-cyan: #06b6d4; --accent-pink: #f43f5e; --accent-amber: #f59e0b;
+    --border: rgba(14, 165, 233, 0.4); --border-dim: rgba(148, 163, 184, 0.1);
+    --card: rgba(15, 23, 42, 0.8); --glass: rgba(2, 6, 23, 0.95);
   }
-
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-
+  @media (pointer: fine) { body, a, button, input, textarea, select, canvas { cursor: none !important; } }
   body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Space Grotesk', sans-serif;
-    margin: 0;
-    overflow-x: hidden;
-    background-image:
-      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(0, 255, 157, 0.08), transparent 60%),
-      radial-gradient(ellipse 50% 40% at 90% 20%, rgba(0, 229, 255, 0.06), transparent 60%);
+    background: var(--bg); color: var(--fg); font-family: 'Space Grotesk', sans-serif;
+    margin: 0; overflow-x: hidden;
+    background-image: radial-gradient(ellipse 60% 40% at 20% 0%, rgba(14, 165, 233, 0.1), transparent 60%), radial-gradient(ellipse 50% 40% at 90% 20%, rgba(6, 182, 212, 0.08), transparent 60%);
   }
-
+  .cursor-dot { width: 8px; height: 8px; background: var(--accent-cyan); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: transform 0.1s ease; box-shadow: 0 0 10px var(--accent-cyan); }
+  .cursor-ring { width: 36px; height: 36px; border: 1.5px solid rgba(14, 165, 233, 0.6); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background 0.3s; }
+  .cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1); }
+  .cursor-hover .cursor-dot { transform: scale(0.5); background: #ffffff; }
   .font-display { font-family: 'Syne', sans-serif; letter-spacing: -0.02em; }
   .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0, 255, 157, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 255, 157, 0.02) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 1;
-  }
-
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 1; }
   main, nav, footer { position: relative; z-index: 3; }
-
-  /* HUD Corners */
   .hud-corners { position: relative; }
-  .hud-corners > .c {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: var(--accent);
-    border-style: solid;
-    pointer-events: none;
-    transition: all 0.3s;
-  }
+  .hud-corners > .c { position: absolute; width: 12px; height: 12px; border-color: var(--accent); border-style: solid; pointer-events: none; transition: all 0.3s; }
   .hud-corners > .c1 { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
   .hud-corners > .c2 { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
   .hud-corners > .c3 { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
   .hud-corners > .c4 { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
   .card:hover .hud-corners > .c { width: 18px; height: 18px; border-color: var(--accent-cyan); }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border-dim);
-    transition: all 0.3s ease;
-    position: relative;
-  }
-  .card:hover {
-    border-color: var(--border);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px -10px rgba(0, 255, 157, 0.1);
-  }
-
-  .glass {
-    background: var(--glass);
-    border: 1px solid var(--border);
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-    font-weight: 700;
-    padding: 0.6rem 1.2rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.2s;
-    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    border: none;
-    cursor: pointer;
-  }
+  .card { background: var(--card); border: 1px solid var(--border-dim); transition: all 0.3s ease; position: relative; }
+  .card:hover { border-color: var(--border); transform: translateY(-4px); box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.2); }
+  .glass { background: var(--glass); border: 1px solid var(--border-dim); }
+  .btn-primary { background: var(--accent); color: var(--bg); font-weight: 700; padding: 0.6rem 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.2s; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)); border: none; }
   .btn-primary:hover { background: var(--accent-cyan); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--fg);
-    border: 1px solid var(--border);
-    padding: 0.6rem 1.2rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.2s;
-    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    cursor: pointer;
-  }
-  .btn-ghost:hover { border-color: var(--accent); background: rgba(0, 255, 157, 0.06); color: var(--accent); }
-
-  .section-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--accent);
-    padding: 0.3rem 0.8rem;
-    border: 1px solid var(--border);
-    background: rgba(0, 255, 157, 0.04);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-  }
-  .section-tag::before {
-    content: '';
-    width: 5px;
-    height: 5px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--accent);
-  }
-
-  .chip {
-    padding: 0.3rem 0.9rem;
-    border: 1px solid var(--border-dim);
-    font-size: 0.7rem;
-    color: var(--fg-dim);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    background: rgba(0, 0, 0, 0.3);
-  }
+  .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.2s; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)); }
+  .btn-ghost:hover { border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); }
+  .section-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent-cyan); padding: 0.3rem 0.8rem; border: 1px solid var(--border); background: rgba(6, 182, 212, 0.05); text-transform: uppercase; letter-spacing: 0.15em; }
+  .section-tag::before { content: ''; width: 5px; height: 5px; background: var(--accent-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--accent-cyan); }
+  .chip { padding: 0.3rem 0.9rem; border: 1px solid var(--border-dim); font-size: 0.7rem; color: var(--fg-dim); transition: all 0.2s; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; background: rgba(255, 255, 255, 0.03); }
   .chip:hover { color: var(--fg); border-color: var(--border); }
-  .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
-
-  .input {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--border-dim);
-    color: var(--fg);
-    padding: 0.6rem 0.9rem;
-    width: 100%;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-  }
-  .input:focus { outline: none; border-color: var(--accent); }
-
-  .dropzone {
-    border: 1px dashed var(--border);
-    padding: 1.5rem;
-    text-align: center;
-    transition: all 0.2s;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.3);
-  }
-  .dropzone:hover, .dropzone.drag { border-color: var(--accent); }
-
+  .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .input { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-dim); color: var(--fg); padding: 0.6rem 0.9rem; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+  .input:focus { outline: none; border-color: var(--accent-cyan); }
+  .dropzone { border: 1px dashed var(--border); padding: 1.5rem; text-align: center; transition: all 0.2s; background: rgba(0, 0, 0, 0.3); }
+  .dropzone:hover, .dropzone.drag { border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.05); }
   @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
   @keyframes pulse-bar { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
   @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-  @keyframes flash-alert { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.5); border-color: var(--accent); } 100% { box-shadow: 0 0 0 20px rgba(0, 255, 157, 0); border-color: var(--border-dim); } }
+  @keyframes flash-alert { 0% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.5); border-color: var(--accent-cyan); } 100% { box-shadow: 0 0 0 20px rgba(6, 182, 212, 0); border-color: var(--border-dim); } }
   @keyframes bounce-stat { 0%, 100% { transform: scale(1); color: var(--accent); } 50% { transform: scale(1.3); color: var(--accent-cyan); } }
-  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 157, 0.1); } 50% { box-shadow: 0 0 20px rgba(0, 255, 157, 0.3); } }
-
-  .cursor-blink::after { content: '▊'; animation: blink 1s infinite; color: var(--accent); margin-left: 4px; }
-
+  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 5px rgba(14, 165, 233, 0.1); } 50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.3); } }
+  .cursor-blink::after { content: '▊'; animation: blink 1s infinite; color: var(--accent-cyan); margin-left: 4px; }
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
-
   .gradient-text { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-cyan) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-
-  .terminal { background: rgba(10, 19, 32, 0.95); border: 1px solid var(--border); position: relative; overflow: hidden; }
-  .terminal-header { background: rgba(0, 0, 0, 0.4); padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--fg-dim); }
+  .terminal { background: rgba(2, 6, 23, 0.9); border: 1px solid var(--border-dim); position: relative; overflow: hidden; }
+  .terminal-header { background: rgba(0, 0, 0, 0.4); padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border-dim); display: flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--fg-dim); }
   .terminal-dot { width: 9px; height: 9px; border-radius: 50%; }
-
   .nav-link { color: var(--fg-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.2s; position: relative; padding: 0.3rem 0; }
-  .nav-link:hover { color: var(--accent); }
-  .nav-link::before { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+  .nav-link:hover { color: var(--accent-cyan); }
+  .nav-link::before { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent-cyan); transition: width 0.3s; }
   .nav-link:hover::before { width: 100%; }
-
-  .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); border-top: 1px solid var(--border); padding: 0.4rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--fg-dim); z-index: 30; display: flex; justify-content: space-between; align-items: center; }
-
+  .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); border-top: 1px solid var(--border-dim); padding: 0.4rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--fg-dim); z-index: 30; display: flex; justify-content: space-between; align-items: center; }
   .audio-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
-  .audio-bars span { display: block; width: 2px; background: var(--accent); transform-origin: bottom; animation: pulse-bar 1s ease-in-out infinite; }
-  .audio-bars span:nth-child(1) { height: 40%; }
-  .audio-bars span:nth-child(2) { height: 80%; animation-delay: 0.15s; }
-  .audio-bars span:nth-child(3) { height: 60%; animation-delay: 0.3s; }
-  .audio-bars span:nth-child(4) { height: 100%; animation-delay: 0.45s; }
-  .audio-bars span:nth-child(5) { height: 50%; animation-delay: 0.6s; }
-
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg-2); }
-  ::-webkit-scrollbar-thumb { background: rgba(0, 255, 157, 0.2); }
-
-  .toast { position: fixed; bottom: 3rem; right: 2rem; z-index: 100; padding: 0.8rem 1.2rem; background: var(--glass); border: 1px solid var(--accent); color: var(--fg); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; transform: translateY(150%); transition: transform 0.4s; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
+  .audio-bars span { display: block; width: 2px; background: var(--accent-cyan); transform-origin: bottom; animation: pulse-bar 1s ease-in-out infinite; }
+  .audio-bars span:nth-child(1) { height: 40%; } .audio-bars span:nth-child(2) { height: 80%; animation-delay: 0.15s; } .audio-bars span:nth-child(3) { height: 60%; animation-delay: 0.3s; } .audio-bars span:nth-child(4) { height: 100%; animation-delay: 0.45s; } .audio-bars span:nth-child(5) { height: 50%; animation-delay: 0.6s; }
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg-2); } ::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.4); }
+  .toast { position: fixed; bottom: 4rem; right: 2rem; z-index: 100; padding: 0.8rem 1.2rem; background: var(--glass); border: 1px solid var(--accent-cyan); color: var(--fg); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; transform: translateY(150%); transition: transform 0.4s; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
   .toast.show { transform: translateY(0); }
-
   .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .modal-backdrop.show { opacity: 1; pointer-events: auto; }
-
-  .lightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; }
-  .lightbox.show { opacity: 1; pointer-events: auto; }
-
+  .snake-fullscreen { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.98); z-index: 70; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .snake-fullscreen.show { opacity: 1; pointer-events: auto; }
   #heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
-  #snakeCanvas { background: #03060a; border: 1px solid var(--border); }
-
+  #snakeCanvas { background: var(--bg); border: 1px solid var(--accent); }
   .link-card { position: relative; overflow: hidden; }
   .link-card .arrow { transition: transform 0.3s; }
-  .link-card:hover .arrow { transform: translate(4px, -4px); color: var(--accent); }
-
+  .link-card:hover .arrow { transform: translate(4px, -4px); color: var(--accent-cyan); }
   .ticker-wrap { overflow: hidden; white-space: nowrap; }
   .ticker { display: inline-block; animation: ticker 40s linear infinite; }
-
   .flash-alert { animation: flash-alert 1s ease-out; }
   .bounce-stat { animation: bounce-stat 0.6s ease-in-out; }
-
-  kbd { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border); padding: 0.2rem 0.4rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; }
-
+  kbd { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-dim); padding: 0.2rem 0.4rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; }
   .clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  
   .empty-state { border: 1px dashed var(--border-dim); padding: 2rem; text-align: center; }
 </style>
 </head>
 <body>
+<div class="cursor-dot"></div><div class="cursor-ring"></div>
 
 <nav class="glass fixed top-0 left-0 right-0 z-40 border-b" style="border-color: var(--border-dim)">
   <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-    <a href="#hero" class="flex items-center gap-2.5">
+    <a href="#hero" class="flex items-center gap-2.5 interactive">
       <div class="relative w-8 h-8 flex items-center justify-center font-display font-bold text-sm" style="background: linear-gradient(135deg, var(--accent), var(--accent-cyan)); color: var(--bg); clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px));">A</div>
       <div class="flex flex-col leading-none">
-        <span class="font-mono font-bold text-xs tracking-wider">LaCompuDelAxel<span style="color: var(--accent)">.</span>SYS</span>
-        <span class="font-mono text-[9px]" style="color: var(--muted)">v3.0 // online</span>
+        <span class="font-mono font-bold text-xs tracking-wider">LaCompuDelAxel<span style="color: var(--accent-cyan)">.</span>SYS</span>
+        <span class="font-mono text-[9px]" style="color: var(--muted)">v4.1 // CLOUD UNLIMITED</span>
       </div>
     </a>
     <div class="hidden md:flex items-center gap-6">
-      <a href="#proyectos" class="nav-link">[01] Proyectos</a>
-      <a href="#galeria" class="nav-link">[02] Galería</a>
-      <a href="#archivos" class="nav-link">[03] Archivos</a>
-      <a href="#links" class="nav-link">[04] Enlaces</a>
-      <a href="#juego" class="nav-link">[05] Juegos</a>
-      <a href="#redes" class="nav-link">[06] Redes</a>
+      <a href="#proyectos" class="nav-link interactive">[01] Proyectos</a><a href="#galeria" class="nav-link interactive">[02] Galería</a><a href="#archivos" class="nav-link interactive">[03] Archivos</a><a href="#links" class="nav-link interactive">[04] Enlaces</a><a href="#juego" class="nav-link interactive">[05] Juegos</a><a href="#redes" class="nav-link interactive">[06] Redes</a>
     </div>
     <div class="flex items-center gap-3">
-      <button id="musicToggle" class="btn-ghost flex items-center gap-2">
-        <i id="musicIcon" class="fas fa-music text-xs"></i>
-        <span class="hidden sm:inline">MÚSICA</span>
-      </button>
-      <button onclick="openModal()" class="btn-primary flex items-center gap-2">
-        <i class="fas fa-plus text-xs"></i>
-        <span class="hidden sm:inline">SUBIR</span>
-      </button>
+      <button id="musicToggle" class="btn-ghost flex items-center gap-2 interactive"><i id="musicIcon" class="fas fa-music text-xs"></i><span class="hidden sm:inline">MÚSICA</span></button>
+      <button onclick="openModal()" class="btn-primary flex items-center gap-2 interactive"><i class="fas fa-plus text-xs"></i><span class="hidden sm:inline">SUBIR</span></button>
     </div>
   </div>
 </nav>
@@ -283,65 +130,34 @@
 <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
   <canvas id="heroCanvas"></canvas>
   <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--bg)] z-10 pointer-events-none"></div>
-
   <div class="max-w-7xl mx-auto px-6 py-12 relative z-20 w-full">
     <div class="grid lg:grid-cols-12 gap-8 items-center">
       <div class="lg:col-span-7">
-        <div class="flex items-center gap-3 mb-5">
-          <div class="section-tag"><span>SITIO TECNOLÓGICO</span></div>
-        </div>
-        
-        <h1 class="font-display font-extrabold tracking-tight mb-5 text-4xl md:text-5xl lg:text-6xl">
-          <span class="block">Sitio Web de</span>
-          <span class="block gradient-text">Axel</span>
-        </h1>
-
-        <p class="text-sm md:text-base max-w-md mb-6 font-mono" style="color: var(--fg-dim)">
-          Bienvenido a mi sitio tecnológico. Explora mis proyectos, descarga archivos y juegos, y conoce mi trabajo en un solo lugar.
-        </p>
+        <div class="flex items-center gap-3 mb-5"><div class="section-tag"><span>SITIO TECNOLÓGICO</span></div></div>
+        <h1 class="font-display font-extrabold tracking-tight mb-5 text-4xl md:text-5xl lg:text-6xl"><span class="block">Sitio Web de</span><span class="block gradient-text">Axel</span></h1>
+        <p class="text-sm md:text-base max-w-md mb-6 font-mono" style="color: var(--fg-dim)">Bienvenido a mi sitio tecnológico. Explora mis proyectos, descarga archivos y juegos, y conoce mi trabajo en un solo lugar.</p>
         <div class="flex flex-wrap gap-3 mb-10">
-          <a href="#proyectos" class="btn-primary flex items-center gap-2"><i class="fas fa-terminal text-xs"></i> Ver proyectos</a>
-          <a href="#juego" class="btn-ghost flex items-center gap-2"><i class="fas fa-gamepad text-xs"></i> Jugar</a>
+          <a href="#proyectos" class="btn-primary flex items-center gap-2 interactive"><i class="fas fa-terminal text-xs"></i> Ver proyectos</a>
+          <a href="#juego" class="btn-ghost flex items-center gap-2 interactive"><i class="fas fa-gamepad text-xs"></i> Jugar</a>
         </div>
         <div class="grid grid-cols-4 gap-3 max-w-lg">
-          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);">
-            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-display text-2xl font-bold gradient-text" id="stat-projects">00</div>
-            <div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[PROYECTOS]</div>
-          </div>
-          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);">
-            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-display text-2xl font-bold" style="color: var(--accent-cyan)" id="stat-photos">00</div>
-            <div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[FOTOS]</div>
-          </div>
-          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);">
-            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-display text-2xl font-bold" style="color: var(--accent-pink)" id="stat-files">00</div>
-            <div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[ARCHIVOS]</div>
-          </div>
-          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);">
-            <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-            <div class="font-display text-2xl font-bold" style="color: var(--accent-amber)" id="stat-games">00</div>
-            <div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[JUEGOS]</div>
-          </div>
+          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><div class="font-display text-2xl font-bold gradient-text" id="stat-projects">00</div><div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[PROYECTOS]</div></div>
+          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><div class="font-display text-2xl font-bold" style="color: var(--accent-cyan)" id="stat-photos">00</div><div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[FOTOS]</div></div>
+          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><div class="font-display text-2xl font-bold" style="color: var(--accent-pink)" id="stat-files">00</div><div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[ARCHIVOS]</div></div>
+          <div class="hud-corners p-3" style="background: rgba(0, 0, 0, 0.3);"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><div class="font-display text-2xl font-bold" style="color: var(--accent-amber)" id="stat-games">00</div><div class="font-mono text-[9px] mt-1" style="color: var(--muted)">[JUEGOS]</div></div>
         </div>
       </div>
       <div class="lg:col-span-5 hidden lg:block">
         <div class="terminal" style="animation: glow-pulse 4s infinite;">
-          <div class="terminal-header">
-            <div class="terminal-dot" style="background: #ff5f57"></div>
-            <div class="terminal-dot" style="background: #febc2e"></div>
-            <div class="terminal-dot" style="background: #28c840"></div>
-            <span class="ml-2">~/axel/system.config</span>
-          </div>
+          <div class="terminal-header"><div class="terminal-dot" style="background: #ff5f57"></div><div class="terminal-dot" style="background: #febc2e"></div><div class="terminal-dot" style="background: #28c840"></div><span class="ml-2">~/axel/system.config</span></div>
           <pre class="p-4 font-mono text-xs leading-relaxed overflow-x-auto"><span style="color: var(--muted)">// init_system</span>
-<span style="color: var(--accent-pink)">[USER]</span>
-<span style="color: var(--accent)">name</span> = <span style="color: var(--accent-amber)">"Axel"</span>
-<span style="color: var(--accent)">role</span> = <span style="color: var(--accent-amber)">"Full Stack Dev"</span>
+<span style="color: var(--accent)">[USER]</span>
+<span style="color: #ffffff">name</span> = <span style="color: var(--accent-amber)">"Axel"</span>
+<span style="color: #ffffff">role</span> = <span style="color: var(--accent-amber)">"Full Stack Dev"</span>
 
-<span style="color: var(--accent-pink)">[STATUS]</span>
-<span style="color: var(--accent-cyan)">system</span> = <span style="color: var(--accent-amber)">"online"</span>
-<span style="color: var(--accent-cyan)">projects</span> = <span style="color: var(--accent-amber)">"ready"</span>
+<span style="color: var(--accent)">[STATUS]</span>
+<span style="color: #ffffff">database</span> = <span style="color: var(--accent-amber)">"firebase_connected"</span>
+<span style="color: #ffffff">storage</span> = <span style="color: var(--accent-amber)">"external_links"</span>
 
 <span style="color: var(--muted)">// EOF</span></pre>
         </div>
@@ -352,88 +168,55 @@
 
 <div class="border-y py-2 ticker-wrap" style="border-color: var(--border-dim); background: rgba(0, 0, 0, 0.3);">
   <div class="ticker font-mono text-xs" style="color: var(--fg-dim)">
-    <span class="mx-6"><span style="color: var(--accent)">●</span> SITIO_TECNOLÓGICO</span>
-    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> SYSTEM_READY</span>
-    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span>
-    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
-    <span class="mx-6"><span style="color: var(--accent)">●</span> SITIO_TECNOLÓGICO</span>
-    <span class="mx-6"><span style="color: var(--accent-cyan)">●</span> SYSTEM_READY</span>
-    <span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span>
-    <span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> CLOUD_DB_ACTIVE</span><span class="mx-6"><span style="color: var(--accent-cyan)">●</span> UNLIMITED_STORAGE</span><span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span><span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
+    <span class="mx-6"><span style="color: var(--accent)">●</span> CLOUD_DB_ACTIVE</span><span class="mx-6"><span style="color: var(--accent-cyan)">●</span> UNLIMITED_STORAGE</span><span class="mx-6"><span style="color: var(--accent-pink)">●</span> 0_BUGS</span><span class="mx-6"><span style="color: var(--accent-amber)">●</span> CAFÉ: 87%</span>
   </div>
 </div>
 
 <section id="proyectos" class="py-20 px-6">
   <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal">
-      <div>
-        <div class="section-tag mb-3"><span>01 // PROYECTOS</span></div>
-        <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Cosas que he <span class="gradient-text">construido</span></h2>
-      </div>
-      <button onclick="openModal('proyecto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-plus text-xs"></i> NUEVO</button>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 reveal">
+      <div><div class="section-tag mb-3"><span>01 // PROYECTOS</span></div><h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Cosas que he <span class="gradient-text">construido</span></h2></div>
+      <button onclick="openModal('proyecto')" class="btn-ghost flex items-center gap-2 interactive"><i class="fas fa-plus text-xs"></i> NUEVO PROYECTO</button>
     </div>
     <div class="flex flex-wrap gap-2 mb-8 reveal" id="projectFilters">
-      <button class="chip active" data-filter="all">TODOS</button>
-      <button class="chip" data-filter="web">WEB</button>
-      <button class="chip" data-filter="app">APP</button>
-      <button class="chip" data-filter="ia">IA</button>
+      <button class="chip interactive active" data-filter="all">TODOS</button><button class="chip interactive" data-filter="web">WEB</button><button class="chip interactive" data-filter="app">APP</button><button class="chip interactive" data-filter="ia">IA</button>
     </div>
     <div id="projectsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    <div id="projectsEmpty" class="empty-state hidden">
-      <i class="fas fa-folder-open text-3xl mb-2" style="color: var(--muted)"></i>
-      <p class="font-mono text-xs" style="color: var(--muted)">NO HAY PROYECTOS. ¡SUBE EL PRIMERO!</p>
-    </div>
+    <div id="projectsEmpty" class="empty-state hidden"><i class="fas fa-folder-open text-3xl mb-2" style="color: var(--muted)"></i><p class="font-mono text-xs" style="color: var(--muted)">NO HAY PROYECTOS. ¡SUBE EL PRIMERO!</p></div>
   </div>
 </section>
 
 <section id="galeria" class="py-20 px-6">
   <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal">
-      <div>
-        <div class="section-tag mb-3"><span>02 // GALERÍA</span></div>
-        <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Momentos <span class="gradient-text">capturados</span></h2>
-      </div>
-      <button onclick="openModal('foto')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-upload text-xs"></i> SUBIR FOTO</button>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 reveal">
+      <div><div class="section-tag mb-3"><span>02 // GALERÍA</span></div><h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Momentos <span class="gradient-text">capturados</span></h2></div>
+      <button onclick="openModal('foto')" class="btn-ghost flex items-center gap-2 interactive"><i class="fas fa-upload text-xs"></i> SUBIR FOTO</button>
     </div>
     <div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
-    <div id="galleryEmpty" class="empty-state hidden">
-      <i class="fas fa-image text-3xl mb-2" style="color: var(--muted)"></i>
-      <p class="font-mono text-xs" style="color: var(--muted)">NO HAY FOTOS. ¡SUBE LA PRIMERA!</p>
-    </div>
+    <div id="galleryEmpty" class="empty-state hidden"><i class="fas fa-image text-3xl mb-2" style="color: var(--muted)"></i><p class="font-mono text-xs" style="color: var(--muted)">NO HAY FOTOS. ¡SUBE LA PRIMERA!</p></div>
   </div>
 </section>
 
 <section id="archivos" class="py-20 px-6">
   <div class="max-w-5xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal">
-      <div>
-        <div class="section-tag mb-3"><span>03 // ARCHIVOS</span></div>
-        <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Recursos <span class="gradient-text">descargables</span></h2>
-      </div>
-      <button onclick="openModal('archivo')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-file-arrow-up text-xs"></i> SUBIR ARCHIVO</button>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 reveal">
+      <div><div class="section-tag mb-3"><span>03 // ARCHIVOS</span></div><h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Recursos <span class="gradient-text">descargables</span></h2></div>
+      <button onclick="openModal('archivo')" class="btn-ghost flex items-center gap-2 interactive"><i class="fas fa-link text-xs"></i> AÑADIR ENLACE</button>
     </div>
     <div id="filesList" class="space-y-2"></div>
-    <div id="filesEmpty" class="empty-state hidden">
-      <i class="fas fa-file text-3xl mb-2" style="color: var(--muted)"></i>
-      <p class="font-mono text-xs" style="color: var(--muted)">NO HAY ARCHIVOS. ¡SUBE EL PRIMERO!</p>
-    </div>
+    <div id="filesEmpty" class="empty-state hidden"><i class="fas fa-file text-3xl mb-2" style="color: var(--muted)"></i><p class="font-mono text-xs" style="color: var(--muted)">NO HAY ARCHIVOS. ¡AÑADE EL PRIMERO!</p></div>
   </div>
 </section>
 
 <section id="links" class="py-20 px-6">
   <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal">
-      <div>
-        <div class="section-tag mb-3"><span>04 // ENLACES</span></div>
-        <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Recursos <span class="gradient-text">favoritos</span></h2>
-      </div>
-      <button onclick="openModal('link')" class="btn-ghost flex items-center gap-2 self-start"><i class="fas fa-link text-xs"></i> AÑADIR ENLACE</button>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 reveal">
+      <div><div class="section-tag mb-3"><span>04 // ENLACES</span></div><h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">Recursos <span class="gradient-text">favoritos</span></h2></div>
+      <button onclick="openModal('link')" class="btn-ghost flex items-center gap-2 interactive"><i class="fas fa-link text-xs"></i> AÑADIR ENLACE</button>
     </div>
     <div id="linksGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-    <div id="linksEmpty" class="empty-state hidden">
-      <i class="fas fa-link text-3xl mb-2" style="color: var(--muted)"></i>
-      <p class="font-mono text-xs" style="color: var(--muted)">NO HAY ENLACES. ¡AÑADE EL PRIMERO!</p>
-    </div>
+    <div id="linksEmpty" class="empty-state hidden"><i class="fas fa-link text-3xl mb-2" style="color: var(--muted)"></i><p class="font-mono text-xs" style="color: var(--muted)">NO HAY ENLACES. ¡AÑADE EL PRIMERO!</p></div>
   </div>
 </section>
 
@@ -442,46 +225,19 @@
     <div class="text-center mb-10 reveal">
       <div class="section-tag mb-3 inline-flex"><span>05 // ZONA DE JUEGOS</span></div>
       <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-3">Arcade y <span class="gradient-text">Descargas</span></h2>
-      <p class="text-xs font-mono" style="color: var(--fg-dim)">Juega al Snake o descarga mis juegos creados.</p>
+      <p class="text-xs font-mono" style="color: var(--fg-dim)">Juega al Snake en pantalla completa o descarga mis juegos creados.</p>
     </div>
-
-    <!-- SNAKE GAME -->
-    <div class="card reveal p-4 md:p-6 mb-8 hud-corners">
+    <div class="card reveal p-6 md:p-8 mb-8 hud-corners text-center">
       <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-      <div class="flex justify-center mb-4">
-        <div class="relative">
-          <canvas id="snakeCanvas" width="400" height="400" class="max-w-full"></canvas>
-          <div id="snakeOverlay" class="absolute inset-0 flex flex-col items-center justify-center" style="background: rgba(3, 6, 10, 0.92);">
-            <i class="fas fa-gamepad text-4xl mb-3" style="color: var(--accent)"></i>
-            <h3 class="font-display font-bold text-2xl mb-2">SNAKE</h3>
-            <button id="snakeStart" class="btn-primary mt-2">▶ JUGAR</button>
-          </div>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto">
-        <div class="hud-corners p-2 text-center" style="background: rgba(0, 0, 0, 0.4);">
-          <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-          <div class="font-mono text-[9px] mb-1" style="color: var(--muted)">PUNTAJE</div>
-          <div class="font-display text-2xl font-bold gradient-text" id="snakeScore">00</div>
-        </div>
-        <div class="hud-corners p-2 text-center" style="background: rgba(0, 0, 0, 0.4);">
-          <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-          <div class="font-mono text-[9px] mb-1" style="color: var(--muted)">RÉCORD</div>
-          <div class="font-display text-2xl font-bold" style="color: var(--accent-pink)" id="snakeBest">00</div>
-        </div>
-      </div>
+      <i class="fas fa-gamepad text-4xl mb-3" style="color: var(--accent-cyan)"></i><h3 class="font-display font-bold text-2xl mb-2">SNAKE</h3><p class="text-xs font-mono mb-4" style="color: var(--fg-dim)">Haz clic para jugar en pantalla completa.</p>
+      <button id="snakeStart" class="btn-primary interactive">▶ JUGAR AHORA</button>
     </div>
-
-    <!-- DOWNLOADABLE GAMES -->
-    <div class="flex justify-between items-center mb-4 mt-10 reveal">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-4 mt-10 reveal">
       <h3 class="font-display font-bold text-xl md:text-2xl">Descargar Juegos</h3>
-      <button onclick="openModal('juego')" class="btn-ghost flex items-center gap-2"><i class="fas fa-plus text-xs"></i> SUBIR JUEGO</button>
+      <button onclick="openModal('juego')" class="btn-ghost flex items-center gap-2 interactive"><i class="fas fa-plus text-xs"></i> AÑADIR JUEGO</button>
     </div>
     <div id="gamesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-    <div id="gamesEmpty" class="empty-state hidden">
-      <i class="fas fa-gamepad text-3xl mb-2" style="color: var(--muted)"></i>
-      <p class="font-mono text-xs" style="color: var(--muted)">NO HAY JUEGOS PARA DESCARGAR. ¡SUBE EL PRIMERO!</p>
-    </div>
+    <div id="gamesEmpty" class="empty-state hidden"><i class="fas fa-gamepad text-3xl mb-2" style="color: var(--muted)"></i><p class="font-mono text-xs" style="color: var(--muted)">NO HAY JUEGOS PARA DESCARGAR. ¡AÑADE EL PRIMERO!</p></div>
   </div>
 </section>
 
@@ -492,22 +248,10 @@
       <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-3">Conecta <span class="gradient-text">conmigo</span></h2>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 reveal">
-      <a href="https://github.com" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners">
-        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-github text-2xl"></i><span class="font-mono text-[9px]">GITHUB</span>
-      </a>
-      <a href="https://twitter.com" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners">
-        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-x-twitter text-2xl"></i><span class="font-mono text-[9px]">TWITTER</span>
-      </a>
-      <a href="https://youtube.com" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners">
-        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-youtube text-2xl" style="color: #ff0000"></i><span class="font-mono text-[9px]">YOUTUBE</span>
-      </a>
-      <a href="https://discord.com" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners">
-        <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-        <i class="fab fa-discord text-2xl" style="color: #5865f2"></i><span class="font-mono text-[9px]">DISCORD</span>
-      </a>
+      <a href="https://github.com/LaCompuDelAxel" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners interactive"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><i class="fab fa-github text-2xl"></i><span class="font-mono text-[9px]">GITHUB</span></a>
+      <a href="https://twitter.com" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners interactive"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><i class="fab fa-x-twitter text-2xl"></i><span class="font-mono text-[9px]">TWITTER</span></a>
+      <a href="https://www.youtube.com/@AxelYT-j8v" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners interactive"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><i class="fab fa-youtube text-2xl" style="color: #ff0000"></i><span class="font-mono text-[9px]">YOUTUBE</span></a>
+      <a href="https://discord.com" target="_blank" class="card p-4 flex flex-col items-center gap-2 hud-corners interactive"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><i class="fab fa-discord text-2xl" style="color: #5865f2"></i><span class="font-mono text-[9px]">DISCORD</span></a>
     </div>
   </div>
 </section>
@@ -515,124 +259,350 @@
 
 <footer class="border-t py-6 px-6" style="border-color: var(--border-dim); background: rgba(0,0,0,0.4);">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
-    <span class="font-mono text-[10px]" style="color: var(--fg-dim)">LaCompuDelAxel.SYS // v3.0</span>
+    <span class="font-mono text-[10px]" style="color: var(--fg-dim)">LaCompuDelAxel.SYS // v4.1 // CLOUD UNLIMITED</span>
     <p class="font-mono text-[9px]" style="color: var(--muted)">© 2025 — SITIO WEB DE AXEL — HECHO CON ♥</p>
-    <a href="#hero" class="font-mono text-[9px] hover:text-[var(--accent)]" style="color: var(--fg-dim)">[↑ TOP]</a>
+    <a href="#hero" class="font-mono text-[9px] hover:text-[var(--accent-cyan)] interactive" style="color: var(--fg-dim)">[↑ TOP]</a>
   </div>
 </footer>
 
 <div class="status-bar">
-  <div class="flex items-center gap-4"><span><span style="color: var(--accent)">●</span> RAM: 42%</span></div>
+  <div class="flex items-center gap-4">
+    <span><span style="color: var(--accent-cyan)">●</span> RAM: 42%</span>
+    <span id="dbStat" style="color: var(--accent-cyan)">DB: CONECTANDO...</span>
+  </div>
   <div class="flex items-center gap-4"><span id="clock">--:--:--</span></div>
 </div>
 
+<!-- PROJECT EXPLORER -->
+<div id="projectOverlay" class="snake-fullscreen" style="z-index: 80; overflow-y: auto; justify-content: flex-start;">
+  <button id="projectClose" class="absolute top-6 right-6 w-12 h-12 glass flex items-center justify-center text-xl interactive z-50" style="border-color: var(--accent)">[X]</button>
+  <div class="w-full max-w-6xl mx-auto p-6 mt-10 mb-20">
+    <div id="projDetailHeader" class="mb-8"></div>
+    <div id="projBreadcrumb" class="font-mono text-xs mb-6" style="color: var(--fg-dim)"></div>
+    <div class="flex flex-wrap gap-3 mb-8">
+      <button onclick="promptAddProjectFile()" class="btn-primary flex items-center gap-2 interactive"><i class="fas fa-link text-xs"></i> AÑADIR ENLACE</button>
+      <button id="createFolderBtn" onclick="promptCreateFolder()" class="btn-ghost flex items-center gap-2 interactive"><i class="fas fa-folder-plus text-xs"></i> NUEVA CARPETA</button>
+      <button id="projBackBtn" class="btn-ghost hidden flex items-center gap-2 interactive" onclick="goBackToProjectRoot()"><i class="fas fa-arrow-left text-xs"></i> VOLVER</button>
+    </div>
+    <div id="projContentGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+  </div>
+</div>
+
+<!-- SNAKE OVERLAY -->
+<div id="snakeFullscreen" class="snake-fullscreen">
+  <button id="snakeClose" class="absolute top-6 right-6 w-12 h-12 glass flex items-center justify-center text-xl interactive" style="border-color: var(--accent)">[X]</button>
+  <div class="flex flex-col items-center gap-6 p-4">
+    <div class="flex gap-12">
+      <div class="text-center"><div class="font-mono text-[10px] mb-1" style="color: var(--fg-dim)">PUNTAJE</div><div class="font-display text-4xl font-bold gradient-text" id="snakeScore">00</div></div>
+      <div class="text-center"><div class="font-mono text-[10px] mb-1" style="color: var(--fg-dim)">RÉCORD</div><div class="font-display text-4xl font-bold" style="color: var(--accent-pink)" id="snakeBest">00</div></div>
+    </div>
+    <canvas id="snakeCanvas" width="440" height="440" class="max-w-full"></canvas>
+    <div class="text-xs font-mono text-center" style="color: var(--fg-dim)">USA <kbd>↑↓←→</kbd> O <kbd>WASD</kbd> PARA MOVERTE<br><span style="color: var(--accent-cyan)">[PRESIONA ESC O CIERRA PARA SALIR]</span></div>
+  </div>
+</div>
+
+<!-- MODAL -->
 <div id="modal" class="modal-backdrop">
   <div class="absolute inset-0" onclick="closeModal()"></div>
   <div class="relative glass max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-    <div class="sticky top-0 glass border-b px-6 py-3 flex items-center justify-between z-10" style="border-color: var(--border)">
-      <h3 class="font-mono font-bold text-xs uppercase">SUBIR CONTENIDO</h3>
-      <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center hover:bg-white/5 font-mono text-xs">[X]</button>
+    <div class="sticky top-0 glass border-b px-6 py-3 flex items-center justify-between z-10" style="border-color: var(--border-dim)">
+      <h3 class="font-mono font-bold text-xs uppercase">AÑADIR CONTENIDO</h3>
+      <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center hover:bg-white/5 font-mono text-xs interactive">[X]</button>
     </div>
     <div class="p-6">
       <div class="flex gap-2 mb-6 flex-wrap">
-        <button class="chip modal-tab active" data-tab="proyecto">PROYECTO</button>
-        <button class="chip modal-tab" data-tab="foto">FOTO</button>
-        <button class="chip modal-tab" data-tab="archivo">ARCHIVO</button>
-        <button class="chip modal-tab" data-tab="juego">JUEGO</button>
-        <button class="chip modal-tab" data-tab="link">ENLACE</button>
+        <button class="chip modal-tab interactive active" data-tab="proyecto">PROYECTO</button>
+        <button class="chip modal-tab interactive" data-tab="foto">FOTO</button>
+        <button class="chip modal-tab interactive" data-tab="archivo">ARCHIVO</button>
+        <button class="chip modal-tab interactive" data-tab="juego">JUEGO</button>
+        <button class="chip modal-tab interactive" data-tab="link">ENLACE</button>
       </div>
-
       <form id="form-proyecto" class="modal-form space-y-3">
         <div><label class="block text-[10px] mb-1 font-mono">NOMBRE *</label><input type="text" class="input" name="nombre" required></div>
         <div><label class="block text-[10px] mb-1 font-mono">DESCRIPCIÓN *</label><textarea class="input" name="descripcion" rows="3" required></textarea></div>
         <div class="grid grid-cols-2 gap-3">
           <div><label class="block text-[10px] mb-1 font-mono">CATEGORÍA</label><select class="input" name="categoria"><option value="web">WEB</option><option value="app">APP</option><option value="ia">IA</option></select></div>
-          <div><label class="block text-[10px] mb-1 font-mono">URL</label><input type="url" class="input" name="enlace"></div>
+          <div><label class="block text-[10px] mb-1 font-mono">URL DEL PROYECTO</label><input type="url" class="input" name="enlace"></div>
         </div>
-        <button type="submit" class="btn-primary w-full">SUBIR PROYECTO</button>
+        <button type="submit" class="btn-primary w-full interactive">CREAR PROYECTO</button>
       </form>
-
       <form id="form-foto" class="modal-form space-y-3 hidden">
-        <div class="dropzone" id="photoDropzone"><input type="file" id="photoInput" accept="image/*" class="hidden"><i class="fas fa-image text-3xl mb-2" style="color: var(--accent)"></i><p class="text-xs">ARRASTRA O CLIC</p></div>
-        <div id="photoPreview" class="hidden mt-3"><img id="photoPreviewImg" class="w-full max-h-48 object-cover"></div>
-        <button type="submit" class="btn-primary w-full">SUBIR FOTO</button>
+        <div class="dropzone interactive" id="photoDropzone"><input type="file" id="photoInput" accept="image/*" class="hidden"><i class="fas fa-image text-3xl mb-2" style="color: var(--accent-cyan)"></i><p class="text-xs">SELECCIONA UNA FOTO</p></div>
       </form>
-
       <form id="form-archivo" class="modal-form space-y-3 hidden">
-        <div class="dropzone" id="fileDropzone"><input type="file" id="fileInput" class="hidden"><i class="fas fa-file-arrow-up text-3xl mb-2" style="color: var(--accent)"></i><p class="text-xs">ARRASTRA O CLIC</p></div>
-        <button type="submit" class="btn-primary w-full">SUBIR ARCHIVO</button>
+        <div><label class="block text-[10px] mb-1 font-mono">NOMBRE DEL ARCHIVO *</label><input type="text" class="input" name="nombre" placeholder="Ej: Código Fuente ZIP" required></div>
+        <div><label class="block text-[10px] mb-1 font-mono">URL DE DESCARGA (DRIVE/MEDIAFIRE) *</label><input type="url" class="input" name="url" placeholder="https://..." required></div>
+        <button type="submit" class="btn-primary w-full interactive">AÑADIR ARCHIVO</button>
       </form>
-
       <form id="form-juego" class="modal-form space-y-3 hidden">
         <div><label class="block text-[10px] mb-1 font-mono">NOMBRE DEL JUEGO *</label><input type="text" class="input" name="nombre" required></div>
         <div><label class="block text-[10px] mb-1 font-mono">DESCRIPCIÓN *</label><textarea class="input" name="descripcion" rows="2" required></textarea></div>
-        <div><label class="block text-[10px] mb-1 font-mono">ARCHIVO DEL JUEGO (ZIP/EXE) *</label>
-          <div class="dropzone" id="gameDropzone"><input type="file" id="gameInput" class="hidden"><i class="fas fa-gamepad text-3xl mb-2" style="color: var(--accent)"></i><p class="text-xs">ARRASTRA O CLIC</p></div>
-          <div id="gameInfo" class="hidden mt-2 p-2 flex items-center gap-2" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border);">
-            <i class="fas fa-file-zipper text-xl" style="color: var(--accent)"></i>
-            <span id="gameName" class="font-mono text-xs truncate"></span>
-          </div>
-        </div>
-        <button type="submit" class="btn-primary w-full">SUBIR JUEGO</button>
+        <div><label class="block text-[10px] mb-1 font-mono">URL DE DESCARGA (DRIVE/MEDIAFIRE) *</label><input type="url" class="input" name="url" placeholder="https://..." required></div>
+        <button type="submit" class="btn-primary w-full interactive">AÑADIR JUEGO</button>
       </form>
-
       <form id="form-link" class="modal-form space-y-3 hidden">
         <div><label class="block text-[10px] mb-1 font-mono">TÍTULO *</label><input type="text" class="input" name="titulo" required></div>
         <div><label class="block text-[10px] mb-1 font-mono">URL *</label><input type="url" class="input" name="url" required></div>
-        <button type="submit" class="btn-primary w-full">AÑADIR ENLACE</button>
+        <button type="submit" class="btn-primary w-full interactive">AÑADIR ENLACE</button>
       </form>
     </div>
   </div>
 </div>
 
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <button class="absolute top-6 right-6 w-12 h-12 glass flex items-center justify-center text-xl" onclick="closeLightbox()">[X]</button>
+<div id="lightbox" class="modal-backdrop" onclick="closeLightbox()">
+  <button class="absolute top-6 right-6 w-12 h-12 glass flex items-center justify-center text-xl interactive" onclick="closeLightbox()">[X]</button>
   <img id="lightboxImg" class="max-w-full max-h-full">
 </div>
 
-<div id="toast" class="toast"><i class="fas fa-check-circle" style="color: var(--accent)"></i><span id="toastMsg">OK</span></div>
+<div id="toast" class="toast"><i class="fas fa-check-circle" style="color: var(--accent-cyan)"></i><span id="toastMsg">OK</span></div>
 
 <script>
-const STORE_KEY = 'lacompu_del_axel_v4';
-let state = { proyectos: [], fotos: [], archivos: [], juegos: [], links: [] };
+// ============================================
+// CONFIGURACIÓN FIREBASE
+// ============================================
+// === PEGA AQUÍ TU CONFIG DE FIREBASE ===
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROYECTO.firebaseapp.com",
+  projectId: "TU_PROYECTO",
+  storageBucket: "TU_PROYECTO.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
+};
 
-function loadState() {
-  try {
-    const saved = localStorage.getItem(STORE_KEY);
-    if (saved) {
-      state = JSON.parse(saved);
-      if(!state.proyectos) state.proyectos = [];
-      if(!state.fotos) state.fotos = [];
-      if(!state.archivos) state.archivos = [];
-      if(!state.juegos) state.juegos = [];
-      if(!state.links) state.links = [];
-    } else {
-      state = { proyectos: [], fotos: [], archivos: [], juegos: [], links: [] };
-    }
-  } catch (e) {
-    state = { proyectos: [], fotos: [], archivos: [], juegos: [], links: [] };
-  }
-}
-function saveState() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
+document.getElementById('dbStat').innerText = 'DB: ONLINE';
+
+// ============================================
+// ESTADO Y UTILIDADES
+// ============================================
+let state = { proyectos: [], fotos: [], archivos: [], juegos: [], links: [] };
+let currentProjData = { carpetas: [], archivos: [] };
+let currentProjectId = null;
+let currentFolderId = null;
+
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorRing = document.querySelector('.cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursorDot.style.left = mouseX + 'px'; cursorDot.style.top = mouseY + 'px'; });
+function animateCursor() { ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15; cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px'; requestAnimationFrame(animateCursor); }
+animateCursor();
+document.addEventListener('mouseover', e => { if (e.target.closest('.interactive, a, button, input, textarea, select, .card')) document.body.classList.add('cursor-hover'); });
+document.addEventListener('mouseout', e => { if (e.target.closest('.interactive, a, button, input, textarea, select, .card')) document.body.classList.remove('cursor-hover'); });
 
 let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
-}
-
-let currentFilter = 'all';
-function triggerDetection(gridId, statId) {
-  const g = document.getElementById(gridId), s = document.getElementById(statId);
-  if(g) { g.classList.remove('flash-alert'); void g.offsetWidth; g.classList.add('flash-alert'); }
-  if(s) { s.classList.remove('bounce-stat'); void s.offsetWidth; s.classList.add('bounce-stat'); }
-}
-
+function showToast(msg) { const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3000); }
 function escapeHtml(str) { if (str == null) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function triggerDetection(gridId, statId) { const g = document.getElementById(gridId), s = document.getElementById(statId); if(g) { g.classList.remove('flash-alert'); void g.offsetWidth; g.classList.add('flash-alert'); } if(s) { s.classList.remove('bounce-stat'); void s.offsetWidth; s.classList.add('bounce-stat'); } }
 
+// ============================================
+// SINCRONIZACIÓN EN TIEMPO REAL (FIRESTORE)
+// ============================================
+function initListeners() {
+  db.collection("proyectos").orderBy("fecha", "desc").onSnapshot(snap => { state.proyectos = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderProjects(); updateStats(); });
+  db.collection("fotos").orderBy("fecha", "desc").onSnapshot(snap => { state.fotos = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderGallery(); updateStats(); });
+  db.collection("archivos").orderBy("fecha", "desc").onSnapshot(snap => { state.archivos = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderFiles(); updateStats(); });
+  db.collection("juegos").orderBy("fecha", "desc").onSnapshot(snap => { state.juegos = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderJuegos(); updateStats(); });
+  db.collection("links").orderBy("fecha", "desc").onSnapshot(snap => { state.links = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderLinks(); updateStats(); });
+}
+
+// ============================================
+// COMPRESIÓN Y SUBIDA DE IMÁGENES (GALERÍA)
+// ============================================
+function compressImage(file, maxWidth, quality, callback) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width; let height = img.height;
+      if (width > maxWidth) { height = Math.round((height * maxWidth) / width); width = maxWidth; }
+      canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      callback(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+document.getElementById('photoDropzone').addEventListener('click', () => document.getElementById('photoInput').click());
+document.getElementById('photoInput').addEventListener('change', e => {
+  if(e.target.files[0]) {
+    const file = e.target.files[0];
+    showToast('PROCESANDO IMAGEN...');
+    compressImage(file, 1280, 0.8, (dataUrl) => {
+      const storageRef = storage.ref('fotos/' + Date.now() + '_' + file.name);
+      storageRef.putString(dataUrl, 'data_url').then(snap => storageRef.getDownloadURL()).then(url => {
+        return db.collection("fotos").add({ src: url, titulo: file.name, fecha: Date.now() });
+      }).then(() => { closeModal(); showToast('FOTO SUBIDA'); triggerDetection('galleryGrid','stat-photos'); })
+      .catch(err => showToast('ERROR: ' + err.message));
+    });
+  }
+});
+
+// ============================================
+// SUBIDA DE PROYECTOS, ARCHIVOS Y JUEGOS (URL EXTERNA)
+// ============================================
+document.getElementById('form-proyecto').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  db.collection("proyectos").add({ nombre: fd.get('nombre'), descripcion: fd.get('descripcion'), categoria: fd.get('categoria'), enlace: fd.get('enlace') || '#', imagen: `https://picsum.photos/seed/${Date.now()}/600/400.jpg`, fecha: Date.now() })
+  .then(() => { closeModal(); showToast('PROYECTO CREADO EN LA NUBE'); triggerDetection('projectsGrid','stat-projects'); })
+  .catch(err => showToast('ERROR: ' + err.message));
+});
+
+document.getElementById('form-archivo').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  db.collection("archivos").add({ nombre: fd.get('nombre'), fileUrl: fd.get('url'), fecha: Date.now() })
+  .then(() => { closeModal(); showToast('ARCHIVO AÑADIDO'); triggerDetection('filesList','stat-files'); })
+  .catch(err => showToast('ERROR: ' + err.message));
+});
+
+document.getElementById('form-juego').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  db.collection("juegos").add({ nombre: fd.get('nombre'), descripcion: fd.get('descripcion'), fileUrl: fd.get('url'), fecha: Date.now() })
+  .then(() => { closeModal(); showToast('JUEGO AÑADIDO'); triggerDetection('gamesGrid','stat-games'); })
+  .catch(err => showToast('ERROR: ' + err.message));
+});
+
+document.getElementById('form-link').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  db.collection("links").add({ titulo: fd.get('titulo'), url: fd.get('url'), fecha: Date.now() })
+  .then(() => { closeModal(); showToast('ENLACE AÑADIDO'); triggerDetection('linksGrid','stat-projects'); })
+  .catch(err => showToast('ERROR: ' + err.message));
+});
+
+// ============================================
+// ELIMINAR DATOS
+// ============================================
+function deleteItem(type, id) {
+  const item = state[type].find(i => i.id === id);
+  // Si es una foto subida a Firebase Storage, la borramos de ahí también
+  if(type === 'fotos' && item && item.src) {
+    storage.refFromURL(item.src).delete().catch(e => console.error("Error deleting photo", e));
+  }
+  db.collection(type).doc(id).delete().then(() => showToast('ELIMINADO')).catch(err => showToast('ERROR: ' + err.message));
+}
+
+// ============================================
+// EXPLORADOR DE PROYECTOS
+// ============================================
+function openProject(id) {
+  const p = state.proyectos.find(x => x.id === id);
+  if(!p) return;
+  currentProjectId = id;
+  currentFolderId = null;
+  
+  document.getElementById('projDetailHeader').innerHTML = `
+    <div class="section-tag mb-3"><span>PROYECTO: ${escapeHtml(p.categoria.toUpperCase())}</span></div>
+    <h2 class="font-display font-bold text-3xl md:text-4xl tracking-tight mb-2">${escapeHtml(p.nombre)}</h2>
+    <p class="text-xs font-mono" style="color: var(--fg-dim)">${escapeHtml(p.descripcion)}</p>
+  `;
+  document.getElementById('projectOverlay').classList.add('show');
+  loadProjectContent();
+}
+
+function loadProjectContent() {
+  db.collection("carpetas_proyecto").where("projectId", "==", currentProjectId).onSnapshot(snap => {
+    currentProjData.carpetas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderProjectContent();
+  });
+  db.collection("archivos_proyecto").where("projectId", "==", currentProjectId).onSnapshot(snap => {
+    let allFiles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (currentFolderId) {
+      currentProjData.archivos = allFiles.filter(f => f.folderId === currentFolderId);
+    } else {
+      currentProjData.archivos = allFiles.filter(f => !f.folderId || f.folderId === 'root');
+    }
+    renderProjectContent();
+  });
+}
+
+function closeProject() { document.getElementById('projectOverlay').classList.remove('show'); currentProjectId = null; currentFolderId = null; }
+document.getElementById('projectClose').addEventListener('click', closeProject);
+
+function renderProjectContent() {
+  const p = state.proyectos.find(x => x.id === currentProjectId);
+  if(!p) return;
+  const grid = document.getElementById('projContentGrid');
+  const backBtn = document.getElementById('projBackBtn');
+  const createFolderBtn = document.getElementById('createFolderBtn');
+  const breadcrumb = document.getElementById('projBreadcrumb');
+  
+  let items = [];
+  let path = `<span class="cursor-pointer" onclick="goBackToProjectRoot()">${escapeHtml(p.nombre)}</span>`;
+  
+  if(currentFolderId) {
+    backBtn.classList.remove('hidden');
+    createFolderBtn.classList.add('hidden');
+    const folder = currentProjData.carpetas.find(c => c.id === currentFolderId);
+    if(folder) {
+      items = currentProjData.archivos.map(f => ({...f, type: 'file'}));
+      path += ` <span style="color: var(--muted)">/</span> ${escapeHtml(folder.nombre)}`;
+    }
+  } else {
+    backBtn.classList.add('hidden');
+    createFolderBtn.classList.remove('hidden');
+    items = [...currentProjData.carpetas.map(c => ({...c, type: 'folder'})), ...currentProjData.archivos.map(f => ({...f, type: 'file'}))];
+  }
+  if(breadcrumb) breadcrumb.innerHTML = `<i class="fas fa-folder-open mr-2" style="color: var(--accent-amber)"></i> ${path}`;
+
+  if(items.length === 0) { grid.innerHTML = `<div class="col-span-full empty-state"><i class="fas fa-folder-open text-3xl mb-2" style="color: var(--muted)"></i><p class="font-mono text-xs" style="color: var(--muted)">VACÍO. AÑADE ENLACES O CREA CARPETAS.</p></div>`; return; }
+
+  grid.innerHTML = items.map(item => {
+    if(item.type === 'folder') {
+      return `<div class="card p-4 hud-corners flex flex-col items-center justify-center gap-2 interactive relative" onclick="openProjectFolder('${item.id}')"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><i class="fas fa-folder text-4xl" style="color: var(--accent-amber)"></i><span class="font-mono text-xs truncate w-full text-center">${escapeHtml(item.nombre)}</span><button onclick="event.stopPropagation(); deleteProjectFolder('${item.id}')" class="font-mono text-[9px] hover:text-red-400 absolute top-2 right-2">[X]</button></div>`;
+    } else {
+      return `<div class="card p-4 hud-corners flex flex-col items-center justify-center gap-2 interactive relative"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><i class="fas fa-file-code text-4xl" style="color: var(--accent-cyan)"></i><span class="font-mono text-[10px] truncate w-full text-center" title="${escapeHtml(item.nombre)}">${escapeHtml(item.nombre)}</span><a href="${item.fileUrl}" target="_blank" class="btn-primary text-[9px] mt-1">DESCARGAR</a><button onclick="deleteProjectFile('${item.id}')" class="font-mono text-[9px] hover:text-red-400 absolute top-2 right-2">[X]</button></div>`;
+    }
+  }).join('');
+}
+
+function openProjectFolder(folderId) { currentFolderId = folderId; loadProjectContent(); }
+function goBackToProjectRoot() { currentFolderId = null; loadProjectContent(); }
+
+function promptAddProjectFile() {
+  const name = prompt("Nombre del archivo (Ej: Juego v1.0):");
+  if(!name) return;
+  const url = prompt("Pega aquí el enlace de Drive/MediaFire:");
+  if(!url) return;
+  db.collection("archivos_proyecto").add({ 
+    projectId: currentProjectId, 
+    folderId: currentFolderId || 'root', 
+    nombre: name.trim(), 
+    fileUrl: url.trim(), 
+    fecha: Date.now() 
+  }).then(() => showToast('ENLACE AÑADIDO AL PROYECTO'))
+  .catch(err => showToast('ERROR: ' + err.message));
+}
+
+function promptCreateFolder() {
+  const name = prompt("Nombre de la nueva carpeta:");
+  if(name && name.trim() !== '') {
+    db.collection("carpetas_proyecto").add({ projectId: currentProjectId, nombre: name.trim(), fecha: Date.now() })
+    .then(() => showToast('CARPETA CREADA')).catch(err => showToast('ERROR: ' + err.message));
+  }
+}
+
+function deleteProjectFile(fileId) {
+  db.collection("archivos_proyecto").doc(fileId).delete().then(() => showToast('ENLACE ELIMINADO'));
+}
+
+function deleteProjectFolder(folderId) {
+  db.collection("carpetas_proyecto").doc(folderId).delete().then(() => showToast('CARPETA ELIMINADA'));
+}
+
+// ============================================
+// VISTAS PRINCIPALES
+// ============================================
+let currentFilter = 'all';
 function renderProjects() {
   const grid = document.getElementById('projectsGrid');
   const empty = document.getElementById('projectsEmpty');
@@ -640,18 +610,10 @@ function renderProjects() {
   if (f.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
   grid.innerHTML = f.map(p => `
-    <article class="card overflow-hidden hud-corners">
+    <article class="card overflow-hidden hud-corners interactive">
       <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-      <div class="relative aspect-video overflow-hidden">
-        <img src="${escapeHtml(p.imagen)}" class="w-full h-full object-cover" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
-        <div class="absolute top-3 left-3 px-2 py-0.5 font-mono text-[9px]" style="background: var(--accent); color: var(--bg);">[${escapeHtml(p.categoria.toUpperCase())}]</div>
-      </div>
-      <div class="p-4">
-        <h3 class="font-display font-bold text-lg mb-1 clamp-2">${escapeHtml(p.nombre)}</h3>
-        <p class="text-xs mb-3 font-mono clamp-3" style="color: var(--fg-dim)">${escapeHtml(p.descripcion)}</p>
-        <button onclick="deleteItem('proyectos', '${p.id}')" class="font-mono text-[9px] hover:text-red-400" style="color: var(--fg-dim)">[ELIMINAR]</button>
-      </div>
+      <div class="relative aspect-video overflow-hidden"><img src="${escapeHtml(p.imagen)}" class="w-full h-full object-cover" loading="lazy"><div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div><div class="absolute top-3 left-3 px-2 py-0.5 font-mono text-[9px]" style="background: var(--accent); color: var(--bg);">[${escapeHtml(p.categoria.toUpperCase())}]</div></div>
+      <div class="p-4"><h3 class="font-display font-bold text-lg mb-1 clamp-2">${escapeHtml(p.nombre)}</h3><p class="text-xs mb-3 font-mono clamp-3" style="color: var(--fg-dim)">${escapeHtml(p.descripcion)}</p><div class="flex justify-between items-center mt-2"><button onclick="openProject('${p.id}')" class="btn-primary text-[10px] interactive">ABRIR PROYECTO</button><button onclick="deleteItem('proyectos', '${p.id}')" class="font-mono text-[9px] hover:text-red-400 interactive" style="color: var(--fg-dim)">[ELIMINAR]</button></div></div>
     </article>
   `).join('');
 }
@@ -661,11 +623,7 @@ function renderGallery() {
   const empty = document.getElementById('galleryEmpty');
   if (state.fotos.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  grid.innerHTML = state.fotos.map(f => `
-    <div class="relative aspect-square overflow-hidden card cursor-pointer" onclick="openLightbox('${f.id}')">
-      <img src="${escapeHtml(f.src)}" class="w-full h-full object-cover" loading="lazy">
-    </div>
-  `).join('');
+  grid.innerHTML = state.fotos.map(f => `<div class="relative aspect-square overflow-hidden card cursor-pointer interactive" onclick="openLightbox('${f.id}')"><img src="${escapeHtml(f.src)}" class="w-full h-full object-cover" loading="lazy"></div>`).join('');
 }
 
 function renderFiles() {
@@ -673,13 +631,7 @@ function renderFiles() {
   const empty = document.getElementById('filesEmpty');
   if (state.archivos.length === 0) { list.innerHTML = ''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  list.innerHTML = state.archivos.map(a => `
-    <div class="card p-3 flex items-center gap-3">
-      <i class="fas fa-file-code" style="color: var(--accent)"></i>
-      <span class="flex-1 font-mono text-xs truncate">${escapeHtml(a.nombre)}</span>
-      <button onclick="deleteItem('archivos', '${a.id}')" class="font-mono text-[9px] hover:text-red-400">[X]</button>
-    </div>
-  `).join('');
+  list.innerHTML = state.archivos.map(a => `<div class="card p-3 flex items-center gap-3 interactive"><i class="fas fa-file-code" style="color: var(--accent-cyan)"></i><span class="flex-1 font-mono text-xs truncate">${escapeHtml(a.nombre)}</span><a href="${a.fileUrl}" target="_blank" class="btn-primary text-[10px] interactive">DESCARGAR</a><button onclick="deleteItem('archivos', '${a.id}')" class="font-mono text-[9px] hover:text-red-400 interactive">[X]</button></div>`).join('');
 }
 
 function renderJuegos() {
@@ -687,20 +639,7 @@ function renderJuegos() {
   const empty = document.getElementById('gamesEmpty');
   if (state.juegos.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  grid.innerHTML = state.juegos.map(j => `
-    <div class="card p-4 hud-corners">
-      <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-      <div class="flex items-center gap-3 mb-2">
-        <i class="fas fa-gamepad text-2xl" style="color: var(--accent-cyan)"></i>
-        <h3 class="font-display font-bold text-base clamp-2 flex-1">${escapeHtml(j.nombre)}</h3>
-      </div>
-      <p class="text-xs mb-3 font-mono clamp-2" style="color: var(--fg-dim)">${escapeHtml(j.descripcion)}</p>
-      <div class="flex justify-between items-center">
-        <a href="${escapeHtml(j.dataUrl)}" download="${escapeHtml(j.nombre)}" class="btn-primary text-[10px]">DESCARGAR</a>
-        <button onclick="deleteItem('juegos', '${j.id}')" class="font-mono text-[9px] hover:text-red-400" style="color: var(--fg-dim)">[X]</button>
-      </div>
-    </div>
-  `).join('');
+  grid.innerHTML = state.juegos.map(j => `<div class="card p-4 hud-corners interactive"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><div class="flex items-center gap-3 mb-2"><i class="fas fa-gamepad text-2xl" style="color: var(--accent-pink)"></i><h3 class="font-display font-bold text-base clamp-2 flex-1">${escapeHtml(j.nombre)}</h3></div><p class="text-xs mb-3 font-mono clamp-2" style="color: var(--fg-dim)">${escapeHtml(j.descripcion)}</p><div class="flex justify-between items-center"><a href="${j.fileUrl}" target="_blank" class="btn-primary text-[10px] interactive">DESCARGAR</a><button onclick="deleteItem('juegos', '${j.id}')" class="font-mono text-[9px] hover:text-red-400 interactive" style="color: var(--fg-dim)">[X]</button></div></div>`).join('');
 }
 
 function renderLinks() {
@@ -708,132 +647,97 @@ function renderLinks() {
   const empty = document.getElementById('linksEmpty');
   if (state.links.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  grid.innerHTML = state.links.map(l => `
-    <a href="${escapeHtml(l.url)}" target="_blank" class="link-card card p-4 flex flex-col hud-corners">
-      <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
-      <h3 class="font-display font-bold text-sm mb-1 clamp-2">${escapeHtml(l.titulo)}</h3>
-      <span class="font-mono text-[9px] truncate" style="color: var(--muted)">${escapeHtml(l.url)}</span>
-    </a>
-  `).join('');
+  grid.innerHTML = state.links.map(l => `<a href="${escapeHtml(l.url)}" target="_blank" class="link-card card p-4 flex flex-col hud-corners interactive"><span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><h3 class="font-display font-bold text-sm mb-1 clamp-2">${escapeHtml(l.titulo)}</h3><span class="font-mono text-[9px] truncate" style="color: var(--muted)">${escapeHtml(l.url)}</span></a>`).join('');
 }
 
-function deleteItem(type, id) { state[type] = state[type].filter(i => i.id !== id); saveState(); renderAll(); showToast('ELIMINADO'); }
 function updateStats() {
   document.getElementById('stat-projects').textContent = String(state.proyectos.length).padStart(2,'0');
   document.getElementById('stat-photos').textContent = String(state.fotos.length).padStart(2,'0');
   document.getElementById('stat-files').textContent = String(state.archivos.length).padStart(2,'0');
   document.getElementById('stat-games').textContent = String(state.juegos.length).padStart(2,'0');
 }
-function renderAll() { renderProjects(); renderGallery(); renderFiles(); renderJuegos(); renderLinks(); updateStats(); }
 
 function openModal(tab='proyecto') { document.getElementById('modal').classList.add('show'); switchTab(tab); }
-function closeModal() { document.getElementById('modal').classList.remove('show'); document.querySelectorAll('.modal-form').forEach(f => f.reset()); document.getElementById('photoPreview').classList.add('hidden'); document.getElementById('gameInfo').classList.add('hidden'); pendingPhoto=null; pendingFile=null; pendingGame=null; }
-function switchTab(tab) {
-  document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  document.querySelectorAll('.modal-form').forEach(f => f.classList.add('hidden'));
-  document.getElementById('form-' + tab).classList.remove('hidden');
-}
-
-let pendingPhoto=null, pendingFile=null, pendingGame=null;
-
-document.getElementById('form-proyecto').addEventListener('submit', e => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  state.proyectos.unshift({ id:'p'+Date.now(), nombre:fd.get('nombre'), descripcion:fd.get('descripcion'), categoria:fd.get('categoria'), enlace:fd.get('enlace')||'#', imagen:`https://picsum.photos/seed/${Date.now()}/600/400.jpg`, fecha:Date.now() });
-  saveState(); renderAll(); closeModal(); showToast('PROYECTO AÑADIDO'); triggerDetection('projectsGrid','stat-projects');
-});
-
-document.getElementById('photoDropzone').addEventListener('click', () => document.getElementById('photoInput').click());
-document.getElementById('photoInput').addEventListener('change', e => { if(e.target.files[0]) { const r=new FileReader(); r.onload=ev=>{pendingPhoto=ev.target.result; document.getElementById('photoPreviewImg').src=ev.target.result; document.getElementById('photoPreview').classList.remove('hidden');}; r.readAsDataURL(e.target.files[0]); }});
-document.getElementById('form-foto').addEventListener('submit', e => { e.preventDefault(); if(!pendingPhoto){showToast('ERROR: NO FOTO');return;} state.fotos.unshift({id:'f'+Date.now(), src:pendingPhoto, titulo:'', fecha:Date.now()}); saveState(); renderAll(); closeModal(); showToast('FOTO SUBIDA'); triggerDetection('galleryGrid','stat-photos'); });
-
-document.getElementById('fileDropzone').addEventListener('click', () => document.getElementById('fileInput').click());
-document.getElementById('fileInput').addEventListener('change', e => { if(e.target.files[0]) pendingFile=e.target.files[0]; });
-document.getElementById('form-archivo').addEventListener('submit', e => { e.preventDefault(); if(!pendingFile){showToast('ERROR: NO FILE');return;} const r=new FileReader(); r.onload=ev=>{ state.archivos.unshift({id:'a'+Date.now(), nombre:pendingFile.name, size:pendingFile.size, type:pendingFile.type, fecha:Date.now(), dataUrl:ev.target.result}); saveState(); renderAll(); closeModal(); showToast('ARCHIVO SUBIDO'); triggerDetection('filesList','stat-files'); }; r.readAsDataURL(pendingFile); });
-
-document.getElementById('gameDropzone').addEventListener('click', () => document.getElementById('gameInput').click());
-document.getElementById('gameInput').addEventListener('change', e => { if(e.target.files[0]) { pendingGame=e.target.files[0]; document.getElementById('gameName').textContent = pendingGame.name; document.getElementById('gameInfo').classList.remove('hidden'); }});
-document.getElementById('form-juego').addEventListener('submit', e => { e.preventDefault(); if(!pendingGame){showToast('ERROR: NO JUEGO');return;} const r=new FileReader(); r.onload=ev=>{ const fd=new FormData(e.target); state.juegos.unshift({id:'g'+Date.now(), nombre:fd.get('nombre'), descripcion:fd.get('descripcion'), archivo:pendingGame.name, fecha:Date.now(), dataUrl:ev.target.result}); saveState(); renderAll(); closeModal(); showToast('JUEGO SUBIDO'); triggerDetection('gamesGrid','stat-games'); }; r.readAsDataURL(pendingGame); });
-
-document.getElementById('form-link').addEventListener('submit', e => { e.preventDefault(); const fd=new FormData(e.target); state.links.unshift({id:'l'+Date.now(), titulo:fd.get('titulo'), url:fd.get('url'), categoria:'tool', fecha:Date.now()}); saveState(); renderAll(); closeModal(); showToast('ENLACE AÑADIDO'); triggerDetection('linksGrid','stat-projects'); });
+function closeModal() { document.getElementById('modal').classList.remove('show'); document.querySelectorAll('.modal-form').forEach(f => f.reset()); }
+function switchTab(tab) { document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab)); document.querySelectorAll('.modal-form').forEach(f => f.classList.add('hidden')); document.getElementById('form-' + tab).classList.remove('hidden'); }
+document.querySelectorAll('.modal-tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
 
 function openLightbox(id) { const f=state.fotos.find(x=>x.id===id); if(!f)return; document.getElementById('lightboxImg').src=f.src; document.getElementById('lightbox').classList.add('show'); }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); }
 
 document.getElementById('projectFilters').addEventListener('click', e => { if(e.target.classList.contains('chip')){ document.querySelectorAll('#projectFilters .chip').forEach(c=>c.classList.remove('active')); e.target.classList.add('active'); currentFilter=e.target.dataset.filter; renderProjects(); }});
-document.querySelectorAll('.modal-tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
 
+// ============================================
+// CANVAS Y JUEGO
+// ============================================
 const heroCanvas = document.getElementById('heroCanvas'); const ctx = heroCanvas.getContext('2d');
 let nodes = [];
 function resizeHero() { heroCanvas.width = heroCanvas.offsetWidth; heroCanvas.height = heroCanvas.offsetHeight; }
-class Node { constructor(){ this.x=Math.random()*heroCanvas.width; this.y=Math.random()*heroCanvas.height; this.vx=(Math.random()-0.5)*0.2; this.vy=(Math.random()-0.5)*0.2; this.size=Math.random()*1.5+0.5; } update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>heroCanvas.width)this.vx*=-1; if(this.y<0||this.y>heroCanvas.height)this.vy*=-1; } draw(){ ctx.fillStyle='rgba(0,255,157,0.5)'; ctx.beginPath(); ctx.arc(this.x,this.y,Math.max(0.5,this.size),0,Math.PI*2); ctx.fill(); } }
+class Node { constructor(){ this.x=Math.random()*heroCanvas.width; this.y=Math.random()*heroCanvas.height; this.vx=(Math.random()-0.5)*0.2; this.vy=(Math.random()-0.5)*0.2; this.size=Math.random()*1.5+0.5; } update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>heroCanvas.width)this.vx*=-1; if(this.y<0||this.y>heroCanvas.height)this.vy*=-1; } draw(){ ctx.fillStyle='rgba(6, 182, 212, 0.7)'; ctx.beginPath(); ctx.arc(this.x,this.y,Math.max(0.5,this.size),0,Math.PI*2); ctx.fill(); } }
 function initNodes() { nodes = []; const count = 30; for(let i=0;i<count;i++) nodes.push(new Node()); }
-function connectNodes() { const maxDist=100; for(let i=0;i<nodes.length;i++){ for(let j=i+1;j<nodes.length;j++){ const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy); if(d<maxDist){ ctx.strokeStyle=`rgba(0,255,157,${(1-d/maxDist)*0.15})`; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke(); } } } }
-function animateHero() { ctx.clearRect(0,0,heroCanvas.width,heroCanvas.height); nodes.forEach(n=>{n.update();n.draw();}); connectNodes(); requestAnimationFrame(animateHero); }
+function connectNodes() { const maxDist=100; for(let i=0;i<nodes.length;i++){ for(let j=i+1;j<nodes.length;j++){ const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy); if(d<maxDist){ ctx.strokeStyle=`rgba(14, 165, 233, ${(1-d/maxDist)*0.2})`; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke(); } } } }
+function animateHero() {
+  const isSnakeOpen = document.getElementById('snakeFullscreen').classList.contains('show');
+  const isProjOpen = document.getElementById('projectOverlay').classList.contains('show');
+  if (!isSnakeOpen && !isProjOpen) { ctx.clearRect(0,0,heroCanvas.width,heroCanvas.height); nodes.forEach(n=>{n.update();n.draw();}); connectNodes(); }
+  requestAnimationFrame(animateHero);
+}
 window.addEventListener('resize', () => { resizeHero(); initNodes(); });
 
 class SnakeGame {
   constructor() {
-    this.canvas = document.getElementById('snakeCanvas'); this.ctx = this.canvas.getContext('2d');
-    this.gridSize = 20; this.tileCount = this.canvas.width / this.gridSize;
-    this.bestScore = 0; this.reset(); this.running = false;
-    document.getElementById('snakeStart').addEventListener('click', () => this.start());
-    this.draw();
+    this.canvas = document.getElementById('snakeCanvas'); this.ctx = this.canvas.getContext('2d'); this.gridSize = 20; this.tileCount = this.canvas.width / this.gridSize; this.bestScore = 0; this.running = false; this.snakeOverlay = document.getElementById('snakeFullscreen');
+    document.getElementById('snakeStart').addEventListener('click', () => { this.snakeOverlay.classList.add('show'); this.start(); });
+    document.getElementById('snakeClose').addEventListener('click', () => { this.snakeOverlay.classList.remove('show'); this.stop(); });
+    this.reset(); this.draw();
   }
   reset() { this.snake = [{x:10,y:10}]; this.vel = {x:0,y:0}; this.food = {x:5,y:5}; this.score = 0; document.getElementById('snakeScore').textContent = '00'; }
-  start() { document.getElementById('snakeOverlay').style.display = 'none'; this.reset(); this.running = true; this.lastUpdate = 0; this.speed = 130; requestAnimationFrame(t => this.loop(t)); }
+  start() { this.reset(); this.running = true; this.lastUpdate = 0; this.speed = 130; requestAnimationFrame(t => this.loop(t)); }
+  stop() { this.running = false; this.vel = {x:0, y:0}; }
   loop(ts) { if(!this.running) return; if(ts - this.lastUpdate > this.speed) { this.lastUpdate = ts; this.update(); } this.draw(); requestAnimationFrame(t => this.loop(t)); }
   update() {
-    if(this.vel.x===0 && this.vel.y===0) return;
-    const head = {x:this.snake[0].x+this.vel.x, y:this.snake[0].y+this.vel.y};
-    if(head.x<0||head.x>=this.tileCount||head.y<0||head.y>=this.tileCount) { this.gameOver(); return; }
-    this.snake.unshift(head);
+    if(this.vel.x===0 && this.vel.y===0) return; const head = {x:this.snake[0].x+this.vel.x, y:this.snake[0].y+this.vel.y};
+    if(head.x<0||head.x>=this.tileCount||head.y<0||head.y>=this.tileCount) { this.gameOver(); return; } this.snake.unshift(head);
     if(head.x===this.food.x && head.y===this.food.y) { this.score+=10; document.getElementById('snakeScore').textContent=String(this.score).padStart(2,'0'); this.food={x:Math.floor(Math.random()*this.tileCount),y:Math.floor(Math.random()*this.tileCount)}; } else { this.snake.pop(); }
   }
   draw() {
-    this.ctx.fillStyle = '#03060a'; this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-    this.ctx.fillStyle = '#ff2e88'; this.ctx.fillRect(this.food.x*this.gridSize, this.food.y*this.gridSize, this.gridSize-2, this.gridSize-2);
-    this.snake.forEach((s,i) => { this.ctx.fillStyle = i===0 ? '#00ff9d' : 'rgba(0,255,157,0.7)'; this.ctx.fillRect(s.x*this.gridSize, s.y*this.gridSize, this.gridSize-2, this.gridSize-2); });
+    this.ctx.fillStyle = '#020617'; this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height); this.ctx.strokeStyle = 'rgba(14, 165, 233, 0.1)'; this.ctx.lineWidth = 0.5;
+    for(let i=0; i<=this.tileCount; i++) { this.ctx.beginPath(); this.ctx.moveTo(i * this.gridSize, 0); this.ctx.lineTo(i * this.gridSize, this.canvas.height); this.ctx.stroke(); this.ctx.beginPath(); this.ctx.moveTo(0, i * this.gridSize); this.ctx.lineTo(this.canvas.width, i * this.gridSize); this.ctx.stroke(); }
+    this.ctx.fillStyle = '#f43f5e'; this.ctx.fillRect(this.food.x*this.gridSize+2, this.food.y*this.gridSize+2, this.gridSize-4, this.gridSize-4);
+    this.snake.forEach((s,i) => { this.ctx.fillStyle = i===0 ? '#06b6d4' : '#0ea5e9'; this.ctx.fillRect(s.x*this.gridSize+1, s.y*this.gridSize+1, this.gridSize-2, this.gridSize-2); });
   }
-  gameOver() { this.running = false; document.getElementById('snakeOverlay').style.display = 'flex'; document.getElementById('snakeScore').textContent = '00'; }
+  gameOver() { this.running = false; showToast('GAME OVER'); if(this.score > this.bestScore) { this.bestScore = this.score; document.getElementById('snakeBest').textContent = String(this.bestScore).padStart(2,'0'); } this.reset(); this.draw(); }
 }
 document.addEventListener('keydown', e => {
-  if(!game) return;
-  const k = e.key.toLowerCase();
-  if(k==='arrowup'||k==='w') game.vel = {x:0,y:-1};
-  else if(k==='arrowdown'||k==='s') game.vel = {x:0,y:1};
-  else if(k==='arrowleft'||k==='a') game.vel = {x:-1,y:0};
-  else if(k==='arrowright'||k==='d') game.vel = {x:1,y:0};
+  if (!game || !game.running) return; const k = e.key.toLowerCase(); const keys = ['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'];
+  if (keys.includes(k)) { e.preventDefault(); }
+  if(k==='arrowup'||k==='w') game.vel = {x:0,y:-1}; else if(k==='arrowdown'||k==='s') game.vel = {x:0,y:1}; else if(k==='arrowleft'||k==='a') game.vel = {x:-1,y:0}; else if(k==='arrowright'||k==='d') game.vel = {x:1,y:0};
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const pOverlay = document.getElementById('projectOverlay');
+    if (pOverlay.classList.contains('show')) { pOverlay.classList.remove('show'); return; }
+    const fs = document.getElementById('snakeFullscreen'); if (fs.classList.contains('show')) { fs.classList.remove('show'); if(game) game.stop(); }
+  }
 });
 
 let audioCtx, masterGain, audioEnabled = false;
 function initAudio() {
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  masterGain = audioCtx.createGain(); masterGain.gain.value = 0; masterGain.connect(audioCtx.destination);
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)(); masterGain = audioCtx.createGain(); masterGain.gain.value = 0; masterGain.connect(audioCtx.destination);
   const filter = audioCtx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 500; filter.connect(masterGain);
   const lfo = audioCtx.createOscillator(); const lfoGain = audioCtx.createGain(); lfo.frequency.value = 0.1; lfoGain.gain.value = 200; lfo.connect(lfoGain); lfoGain.connect(filter.frequency); lfo.start();
-  [110, 164.81, 220, 329.63].forEach((freq, i) => {
-    const osc = audioCtx.createOscillator(); osc.type = i % 2 === 0 ? 'sine' : 'triangle'; osc.frequency.value = freq;
-    const g = audioCtx.createGain(); g.gain.value = 0.15; osc.connect(g); g.connect(filter); osc.start();
-  });
+  [146.83, 220, 293.66, 369.99].forEach((freq, i) => { const osc = audioCtx.createOscillator(); osc.type = i % 2 === 0 ? 'sine' : 'triangle'; osc.frequency.value = freq; const g = audioCtx.createGain(); g.gain.value = 0.15; osc.connect(g); g.connect(filter); osc.start(); });
 }
 document.getElementById('musicToggle').addEventListener('click', () => {
-  if (!audioCtx) initAudio();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  audioEnabled = !audioEnabled;
-  masterGain.gain.linearRampToValueAtTime(audioEnabled ? 0.5 : 0.0, audioCtx.currentTime + 1.5);
-  document.getElementById('musicIcon').className = audioEnabled ? 'fas fa-pause text-xs' : 'fas fa-music text-xs';
+  if (!audioCtx) initAudio(); if (audioCtx.state === 'suspended') audioCtx.resume(); audioEnabled = !audioEnabled; masterGain.gain.linearRampToValueAtTime(audioEnabled ? 0.5 : 0.0, audioCtx.currentTime + 1.5); document.getElementById('musicIcon').className = audioEnabled ? 'fas fa-pause text-xs' : 'fas fa-music text-xs';
 });
-
 function updateClock() { const n=new Date(); document.getElementById('clock').textContent = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`; }
 setInterval(updateClock, 1000); updateClock();
-
 const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 let game;
-loadState(); 
-resizeHero(); initNodes(); animateHero(); renderAll(); game = new SnakeGame();
+resizeHero(); initNodes(); animateHero(); initListeners(); game = new SnakeGame();
 </script>
 </body>
 </html>
